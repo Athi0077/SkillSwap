@@ -59,3 +59,15 @@
 .glow-card-wrapper:hover {
   box-shadow: 0 4px 20px rgba(46, 24, 78, 0.2), 0 0 30px rgba(var(--glow-color), 0.1);
 }
+
+.no-top-glow { border-top: none !important; }
+.no-top-glow::after { padding-top: 0 !important; }
+
+.no-bottom-glow { border-bottom: none !important; }
+.no-bottom-glow::after { padding-bottom: 0 !important; }
+
+.no-left-glow { border-left: none !important; }
+.no-left-glow::after { padding-left: 0 !important; }
+
+.no-right-glow { border-right: none !important; }
+.no-right-glow::after { padding-right: 0 !important; }

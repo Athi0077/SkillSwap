@@ -32,7 +32,7 @@ function Sidebar() {
     }`;
 
   return (
-    <aside className="hidden md:block w-60 h-[calc(100vh-64px)] sticky top-16 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] glow-card-wrapper bg-[#120F17] !rounded-none !border-t-0 !border-l-0 !border-b-0 border-r border-[#2F293A] shadow-sm">
+    <aside className="hidden md:block w-60 h-[calc(100vh-64px)] sticky top-16 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] glow-card-wrapper bg-[#120F17] !rounded-none no-top-glow no-left-glow no-bottom-glow border-r border-[#2F293A] shadow-sm">
       <nav className="flex flex-col p-4 space-y-2 relative z-10">
 
         <NavLink to="/dashboard" className={linkClass}>

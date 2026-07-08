@@ -27,7 +27,7 @@ function Navbar() {
     }`;
 
   return (
-    <nav className="glow-card-wrapper bg-[#120F17] !rounded-none !border-t-0 !border-l-0 !border-r-0 border-b border-[#2F293A] shadow-md sticky top-0 z-50">
+    <nav className="glow-card-wrapper bg-[#120F17] !rounded-none no-top-glow no-left-glow no-right-glow border-b border-[#2F293A] shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
