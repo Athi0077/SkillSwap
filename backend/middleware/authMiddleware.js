@@ -15,6 +15,13 @@ const protect = async (req, res, next) => {
 
       req.user = await User.findById(decoded.id).select("-password");
 
+      if (!req.user) {
+        return res.status(401).json({
+          success: false,
+          message: "Not authorized, user not found",
+        });
+      }
+
       next();
     } catch (error) {
       return res.status(401).json({

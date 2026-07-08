@@ -18,9 +18,9 @@ const createOrder = async (req, res) => {
     }
 
     const options = {
-      amount: amount * 100, // Razorpay works in paise
+      amount: Math.round(amount * 100), // Razorpay works in paise and expects an integer
       currency: "INR",
-      receipt: `receipt_${req.user._id}_${Date.now()}`,
+      receipt: `rcpt_${Date.now()}`,
     };
 
     const order = await razorpay.orders.create(options);
