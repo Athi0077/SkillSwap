@@ -6,6 +6,7 @@ import {
   MessageCircle,
   CalendarDays,
   Star,
+  Coins,
 } from "lucide-react";
 
 import Navbar from "../components/Navbar";
@@ -117,7 +118,7 @@ function Dashboard() {
           </div>
 
           {/* Stats */}
-          <div className="grid gap-6 md:grid-cols-3 xl:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
 
             <div className="bg-white rounded-2xl shadow p-6">
               <MessageCircle
@@ -155,6 +156,19 @@ function Dashboard() {
               </h2>
               <p className="text-gray-500">
                 Your Rating
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow p-6">
+              <Coins
+                className="text-blue-500 mb-4"
+                size={32}
+              />
+              <h2 className="text-3xl font-bold">
+                {user?.credits || 0}
+              </h2>
+              <p className="text-gray-500">
+                Available Credits
               </p>
             </div>
 

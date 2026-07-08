@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Menu, X, Search } from "lucide-react";
+import { Menu, X, Search, Coins } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
@@ -135,6 +135,10 @@ function Navbar() {
 
                 <NavLink to="/schedule" className={mobileLinkClass} onClick={closeMenu}>
                   Schedule
+                </NavLink>
+
+                <NavLink to="/credits" className={mobileLinkClass} onClick={closeMenu}>
+                  Credits
                 </NavLink>
 
                 <NavLink to="/reviews" className={mobileLinkClass} onClick={closeMenu}>
