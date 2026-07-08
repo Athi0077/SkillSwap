@@ -27,6 +27,7 @@ function VideoCall() {
 
   const localVideoRef = useRef(null);
   const remoteVideoRef = useRef(null);
+  const iceCandidateQueue = useRef([]);
 
   const [status, setStatus] = useState("Waiting for other user to join…");
   const [micOn, setMicOn] = useState(true);
@@ -61,6 +62,7 @@ function VideoCall() {
 
       // 3. When a peer joins → we are the caller → send offer
       socket.on("peer-joined", async () => {
+        if (pcRef.current) return; // Prevent double creation
         setPeerJoined(true);
         setStatus("Connected! Starting video…");
         const pc = createPC(socket, stream);
@@ -71,10 +73,17 @@ function VideoCall() {
 
       // 4. Receive offer → we are the callee → send answer
       socket.on("offer", async ({ offer }) => {
+        if (pcRef.current) return;
         setPeerJoined(true);
         setStatus("Connected! Starting video…");
         const pc = createPC(socket, stream);
         await pc.setRemoteDescription(new RTCSessionDescription(offer));
+        
+        // Process queued ICE candidates
+        while (iceCandidateQueue.current.length > 0) {
+          await pc.addIceCandidate(new RTCIceCandidate(iceCandidateQueue.current.shift()));
+        }
+
         const answer = await pc.createAnswer();
         await pc.setLocalDescription(answer);
         socket.emit("answer", { sessionId, answer });
@@ -82,20 +91,28 @@ function VideoCall() {
 
       // 5. Receive answer
       socket.on("answer", async ({ answer }) => {
-        if (pcRef.current) {
+        if (pcRef.current && !pcRef.current.currentRemoteDescription) {
           await pcRef.current.setRemoteDescription(
             new RTCSessionDescription(answer)
           );
+          // Process queued ICE candidates
+          while (iceCandidateQueue.current.length > 0) {
+            await pcRef.current.addIceCandidate(new RTCIceCandidate(iceCandidateQueue.current.shift()));
+          }
         }
       });
 
       // 6. ICE candidates
       socket.on("ice-candidate", async ({ candidate }) => {
         try {
-          if (pcRef.current && candidate) {
+          if (pcRef.current && pcRef.current.remoteDescription) {
             await pcRef.current.addIceCandidate(new RTCIceCandidate(candidate));
+          } else {
+            iceCandidateQueue.current.push(candidate);
           }
-        } catch {}
+        } catch (e) {
+          console.error("Error adding ICE candidate", e);
+        }
       });
 
       // 7. Peer left
@@ -125,9 +142,11 @@ function VideoCall() {
     };
 
     // Receive remote stream
-    pc.ontrack = ({ streams }) => {
-      if (remoteVideoRef.current && streams[0]) {
-        remoteVideoRef.current.srcObject = streams[0];
+    pc.ontrack = (event) => {
+      if (remoteVideoRef.current && event.streams[0]) {
+        if (remoteVideoRef.current.srcObject !== event.streams[0]) {
+          remoteVideoRef.current.srcObject = event.streams[0];
+        }
       }
     };
 
