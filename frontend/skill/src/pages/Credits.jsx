@@ -29,7 +29,7 @@ function Credits() {
       if (!orderData.success) throw new Error("Failed to create order");
 
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_placeholder",
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_TAwmU8DgG4NUPu",
         amount: orderData.order.amount,
         currency: orderData.order.currency,
         name: "Skill Swap",
@@ -73,7 +73,8 @@ function Credits() {
       rzp.open();
 
     } catch (error) {
-      toast.error(error.message || "Failed to initiate payment");
+      const backendMessage = error.response?.data?.message;
+      toast.error(backendMessage || error.message || "Failed to initiate payment");
     } finally {
       setLoading(false);
     }

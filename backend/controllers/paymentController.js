@@ -2,10 +2,10 @@ const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const User = require("../models/User");
 
-// Initialize Razorpay
+// Initialize Razorpay with test keys to bypass Render env issues temporarily
 const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID || "rzp_test_placeholder",
-  key_secret: process.env.RAZORPAY_KEY_SECRET || "secret_placeholder",
+  key_id: process.env.RAZORPAY_KEY_ID || "rzp_test_TAwmU8DgG4NUPu",
+  key_secret: process.env.RAZORPAY_KEY_SECRET || "kHAs25eLCzYQSqn1MEAXFMNv",
 });
 
 // Create Order
@@ -39,7 +39,7 @@ const verifyPayment = async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, credits } = req.body;
 
-    const secret = process.env.RAZORPAY_KEY_SECRET || "secret_placeholder";
+    const secret = process.env.RAZORPAY_KEY_SECRET || "kHAs25eLCzYQSqn1MEAXFMNv";
     const body = razorpay_order_id + "|" + razorpay_payment_id;
 
     const expectedSignature = crypto
