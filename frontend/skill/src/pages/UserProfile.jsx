@@ -9,6 +9,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import EmptyState from "../components/EmptyState";
 import ReviewCard from "../components/ReviewCard";
 import Lanyard from "../components/Lanyard";
+import SkillAnalytics from "../components/SkillAnalytics";
 import { toast } from "react-hot-toast";
 
 import { getUserById } from "../services/userService";
@@ -251,6 +252,8 @@ function UserProfile() {
             </div>
 
           </div>
+
+          <SkillAnalytics user={user} />
 
           {/* Reviews */}
           <section className="mt-12 relative z-10">

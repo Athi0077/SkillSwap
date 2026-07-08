@@ -16,6 +16,7 @@ import Loader from "../components/Loader";
 import ReviewCard from "../components/ReviewCard";
 import Lanyard from "../components/Lanyard";
 import AchievementBadge from "../components/AchievementBadge";
+import SkillAnalytics from "../components/SkillAnalytics";
 
 import { getMyProfile } from "../services/userService";
 import { getUserReviews } from "../services/reviewService";
@@ -234,6 +235,8 @@ function Profile() {
             </div>
 
           </div>
+
+          <SkillAnalytics user={user} />
 
           {/* Reviews */}
           <section className="mt-12 relative z-10">
