@@ -40,11 +40,6 @@ function Sidebar() {
 
       <nav className="flex flex-col p-4 space-y-2">
 
-        {/* <NavLink to="/search" className={linkClass}>
-          <Search size={20} />
-          <span>Search Users</span>
-        </NavLink> */}
-
         <NavLink to="/dashboard" className={linkClass}>
           <LayoutDashboard size={20} />
           <span>Dashboard</span>

@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { MessageCircle } from "lucide-react";
 import { io } from "socket.io-client";
 
-const SOCKET_URL = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace("/api", "") : "http://localhost:5000";
+const SOCKET_URL = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace("/api", "") : "https://skillswap-cuf7.onrender.com";
 
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";

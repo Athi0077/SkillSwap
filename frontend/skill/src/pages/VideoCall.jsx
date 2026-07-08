@@ -7,7 +7,7 @@ import { useAuth } from "../context/AuthContext";
 
 const SOCKET_URL = import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL.replace("/api", "")
-  : "http://localhost:5000";
+  : "https://skillswap-cuf7.onrender.com";
 
 const ICE_SERVERS = {
   iceServers: [
