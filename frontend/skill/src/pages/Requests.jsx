@@ -29,6 +29,7 @@ import {
 function Requests() {
   const [loading, setLoading] = useState(true);
   const [requests, setRequests] = useState([]);
+  const [filterStatus, setFilterStatus] = useState("all");
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -128,6 +129,12 @@ function Requests() {
     });
   };
 
+  const filteredRequests = requests.filter((req) => {
+    if (filterStatus === "all") return true;
+    if (filterStatus === "cancelled") return req.status === "cancelled" || req.status === "rejected";
+    return req.status === filterStatus;
+  });
+
   if (loading) return <LoadingSpinner fullScreen message="Loading requests..." />;
 
   return (
@@ -139,20 +146,32 @@ function Requests() {
 
         <main className="flex-1 p-8">
 
-          <h1 className="text-3xl font-bold mb-8">
-            Skill Swap Requests
-          </h1>
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 gap-4">
+            <h1 className="text-3xl font-bold">
+              Skill Swap Requests
+            </h1>
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="px-4 py-2.5 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium text-gray-700 max-w-xs cursor-pointer"
+            >
+              <option value="all">All Requests</option>
+              <option value="pending">Pending</option>
+              <option value="accepted">Accepted</option>
+              <option value="cancelled">Cancelled & Rejected</option>
+            </select>
+          </div>
 
-          {requests.length === 0 ? (
+          {filteredRequests.length === 0 ? (
             <EmptyState 
               title="No Requests Found" 
-              message="Your incoming and outgoing requests will appear here." 
+              message={requests.length === 0 ? "Your incoming and outgoing requests will appear here." : "No requests match this filter."} 
               icon={Clock} 
             />
           ) : (
             <div className="space-y-6">
 
-              {requests.map((request) => (
+              {filteredRequests.map((request) => (
                 <div
                   key={request._id}
                   className="bg-white rounded-2xl shadow p-6"
