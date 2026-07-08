@@ -1,0 +1,17 @@
+export const skillOptions = [
+  "Graphic Designing",
+  "UI/UX",
+  "Fullstack",
+  "Backend",
+  "Photoshop",
+  "React",
+  "Node.js",
+  "MongoDB",
+  "Python",
+  "JavaScript",
+  "Figma",
+  "Video Editing",
+  "Content Writing",
+  "Data Analysis",
+  "AWS",
+];
