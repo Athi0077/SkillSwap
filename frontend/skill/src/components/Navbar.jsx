@@ -137,13 +137,6 @@ function Navbar() {
                   Schedule
                 </NavLink>
 
-                <NavLink 
-                  to="/credits" 
-                  className="col-span-3 bg-yellow-500 hover:bg-yellow-600 text-white py-2 mt-2 rounded-xl transition font-medium flex items-center justify-center gap-2" 
-                  onClick={closeMenu}
-                >
-                  <Coins size={18} /> Get Credits
-                </NavLink>
 
                 <NavLink to="/reviews" className={mobileLinkClass} onClick={closeMenu}>
                   Reviews
@@ -153,6 +146,14 @@ function Navbar() {
                   {user?.name || "Profile"}
                 </NavLink>
 
+                <NavLink 
+                  to="/credits" 
+                  className="col-span-3 bg-yellow-500 hover:bg-yellow-600 text-white py-2 mt-2 rounded-xl transition font-medium flex items-center justify-center gap-2" 
+                  onClick={closeMenu}
+                >
+                  <Coins size={18} /> Get Credits
+                </NavLink>
+                
                 <button
                   onClick={handleLogout}
                   className="col-span-3 bg-red-500 hover:bg-red-600 text-white py-2 mt-2 rounded-xl transition font-medium"
