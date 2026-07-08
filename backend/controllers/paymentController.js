@@ -30,7 +30,7 @@ const createOrder = async (req, res) => {
       order,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message || "Razorpay Error", errorDetails: error });
   }
 };
 
