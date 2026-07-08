@@ -19,12 +19,14 @@ import VideoCall from "./pages/VideoCall";
 import Credits from "./pages/Credits";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ClickSpark from "./components/ClickSpark";
 
 import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <>
+      <ClickSpark />
       <Toaster position="top-right" />
       <Routes>
         {/* Public Routes */}
