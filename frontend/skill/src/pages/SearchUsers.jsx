@@ -93,27 +93,27 @@ function SearchUsers() {
     <>
       <Navbar />
 
-      <div className="flex min-h-screen bg-slate-100">
+      <div className="flex min-h-screen dark-bento-page">
         <Sidebar />
 
         <main className="flex-1 p-8">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-slate-800">Search Friends</h1>
-            <p className="text-slate-500 mt-2">
+          <div className="mb-8 relative z-10">
+            <h1 className="text-3xl font-bold text-white">Search Friends</h1>
+            <p className="text-gray-400 mt-2">
               Find users by name or @username to make skill swaps.
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl shadow-sm mb-8">
+          <div className="glow-card-wrapper bg-[#120F17] p-6 mb-8 border border-[#2F293A] relative z-10">
             <div className="flex gap-4">
               <div className="flex-1 relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
                 <input
                   type="text"
                   placeholder="Search by name or username (e.g. authour)..."
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 transition-all"
+                  className="w-full pl-12 pr-4 py-3 bg-[#0B090F] border border-[#2F293A] text-white rounded-xl focus:ring-2 focus:ring-purple-500 transition-all placeholder-gray-500 outline-none"
                 />
               </div>
             </div>

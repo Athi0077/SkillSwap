@@ -150,20 +150,20 @@ function Chat() {
     <>
       <Navbar />
 
-      <div className="flex min-h-screen bg-slate-100">
+      <div className="flex min-h-screen dark-bento-page">
         <Sidebar />
 
         <main className="flex-1 p-6">
 
-          <div className="bg-white rounded-3xl shadow overflow-hidden h-[85vh]">
+          <div className="glow-card-wrapper bg-[#120F17] rounded-3xl overflow-hidden h-[85vh] border border-[#2F293A]">
 
-            <div className="grid lg:grid-cols-3 h-full">
+            <div className="grid lg:grid-cols-3 h-full relative z-10">
 
               {/* Conversation List */}
-              <div className={`border-r overflow-y-auto ${selectedChat ? "hidden lg:block" : "block"}`}>
+              <div className={`border-r border-[#2F293A] overflow-y-auto ${selectedChat ? "hidden lg:block" : "block"}`}>
 
-                <div className="p-5 border-b">
-                  <h2 className="text-2xl font-bold">
+                <div className="p-5 border-b border-[#2F293A]">
+                  <h2 className="text-2xl font-bold text-white">
                     Conversations
                   </h2>
                 </div>
@@ -179,24 +179,24 @@ function Chat() {
                       <button
                         key={chat._id}
                         onClick={() => selectChat(chat)}
-                        className={`w-full text-left p-4 border-b hover:bg-slate-50 transition ${
+                        className={`w-full text-left p-4 border-b border-[#2F293A] hover:bg-[#1E1A29] transition ${
                           selectedChat?._id === chat._id
-                            ? "bg-blue-50"
+                            ? "bg-[#1E1A29] border-l-4 border-l-purple-500"
                             : ""
                         }`}
                       >
-                        <div className="font-semibold">
+                        <div className="font-semibold text-white">
                           {otherUser?.name}
                         </div>
 
-                        <p className="text-sm text-gray-500 truncate">
+                        <p className="text-sm text-gray-400 truncate">
                           {chat.lastMessage || "No messages yet"}
                         </p>
                       </button>
                     );
                   })
                 ) : (
-                  <div className="flex flex-col items-center justify-center h-full text-gray-500">
+                  <div className="flex flex-col items-center justify-center h-full text-gray-400">
                     <MessageCircle size={50} />
                     <p className="mt-4">
                       No conversations yet.
@@ -207,7 +207,7 @@ function Chat() {
               </div>
 
               {/* Chat Window */}
-              <div className={`lg:col-span-2 ${selectedChat ? "block" : "hidden lg:block"}`}>
+              <div className={`lg:col-span-2 h-full ${selectedChat ? "block" : "hidden lg:block"}`}>
 
                 {selectedChat ? (
                   <ChatBox
@@ -220,7 +220,7 @@ function Chat() {
                     onBack={() => setSelectedChat(null)}
                   />
                 ) : (
-                  <div className="flex items-center justify-center h-full text-gray-500">
+                  <div className="flex items-center justify-center h-full text-gray-400">
                     Select a conversation
                   </div>
                 )}

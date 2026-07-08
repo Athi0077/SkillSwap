@@ -58,19 +58,19 @@ function ChatBox({
   };
 
   return (
-    <div className="flex flex-col h-[80vh] bg-white rounded-2xl shadow-lg relative">
+    <div className="flex flex-col h-full bg-transparent relative z-10">
 
       {/* Header */}
-      <div className="flex items-center justify-between gap-4 p-4 border-b">
+      <div className="flex items-center justify-between gap-4 p-4 border-b border-[#2F293A]">
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
-            className="lg:hidden p-2 -ml-2 rounded-full hover:bg-gray-100 text-gray-600 transition"
+            className="lg:hidden p-2 -ml-2 rounded-full hover:bg-[#1E1A29] text-gray-400 transition"
           >
             <ArrowLeft size={22} />
           </button>
 
-          <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden">
+          <div className="w-12 h-12 rounded-full bg-indigo-900/50 flex items-center justify-center overflow-hidden border border-indigo-500/30">
             {chatUser?.profileImage ? (
               <img
                 src={chatUser.profileImage}
@@ -78,20 +78,20 @@ function ChatBox({
                 className="w-full h-full object-cover"
               />
             ) : (
-              <User className="text-blue-600" />
+              <User className="text-indigo-400" />
             )}
           </div>
 
           <div>
-            <h2 className="font-semibold text-lg">{chatUser?.name}</h2>
-            <p className="text-sm text-green-600">Online</p>
+            <h2 className="font-semibold text-lg text-white">{chatUser?.name}</h2>
+            <p className="text-sm text-green-400">Online</p>
           </div>
         </div>
 
         {/* Schedule button */}
         <button
           onClick={() => setShowScheduleModal(true)}
-          className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-all shadow-sm hover:shadow-md"
+          className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-all shadow-sm hover:shadow-md"
         >
           <CalendarDays size={16} />
           Schedule
@@ -99,10 +99,10 @@ function ChatBox({
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-slate-50">
+      <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-transparent">
 
         {messages.length === 0 && (
-          <div className="text-center text-gray-500 mt-10">
+          <div className="text-center text-gray-400 mt-10">
             Start your conversation 👋
           </div>
         )}
@@ -120,14 +120,14 @@ function ChatBox({
               <div
                 className={`max-w-[75%] px-4 py-3 rounded-2xl ${
                   isMe
-                    ? "bg-blue-600 text-white rounded-br-md"
-                    : "bg-white shadow rounded-bl-md"
+                    ? "bg-purple-600 text-white rounded-br-md shadow-md"
+                    : "bg-[#1E1A29] text-gray-200 shadow rounded-bl-md border border-[#2F293A]"
                 }`}
               >
                 <p>{msg.message}</p>
                 <p
                   className={`text-xs mt-2 ${
-                    isMe ? "text-blue-100" : "text-gray-500"
+                    isMe ? "text-purple-200" : "text-gray-400"
                   }`}
                 >
                   {new Date(msg.createdAt).toLocaleTimeString([], {
@@ -143,8 +143,8 @@ function ChatBox({
         {/* Schedule success toast inside chat */}
         {scheduleSuccess && (
           <div className="flex justify-center">
-            <div className="flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-4 py-2.5 rounded-xl text-sm font-medium shadow-sm">
-              <CheckCircle size={16} className="text-green-500" />
+            <div className="flex items-center gap-2 bg-green-900/30 border border-green-700/50 text-green-400 px-4 py-2.5 rounded-xl text-sm font-medium shadow-sm">
+              <CheckCircle size={16} className="text-green-400" />
               {scheduleSuccess} — check Schedule page
             </div>
           </div>
@@ -154,17 +154,17 @@ function ChatBox({
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="border-t p-4 flex gap-3">
+      <form onSubmit={handleSubmit} className="border-t border-[#2F293A] p-4 flex gap-3">
         <input
           type="text"
           placeholder="Type your message..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="flex-1 border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 border border-[#2F293A] bg-[#0B090F] text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-gray-500"
         />
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-xl transition"
+          className="bg-purple-600 hover:bg-purple-700 text-white px-5 rounded-xl transition"
         >
           <Send size={20} />
         </button>
