@@ -6,6 +6,8 @@ import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 
+import { processPayment } from "../utils/payment";
+
 const CREDIT_PACKAGES = [
   { id: "pkg_1", credits: 50, priceRs: 50, icon: Coins, color: "text-blue-500", bg: "bg-blue-100" },
   { id: "pkg_2", credits: 100, priceRs: 100, icon: Zap, color: "text-yellow-500", bg: "bg-yellow-100" },
@@ -20,57 +22,19 @@ function Credits() {
   const handlePayment = async (pkg) => {
     try {
       setLoading(true);
-      // 1. Create order on backend
-      const { data: orderData } = await api.post("/payments/create-order", {
+      
+      const result = await processPayment({
         amount: pkg.priceRs,
         credits: pkg.credits,
+        userName: user?.name,
+        userEmail: user?.email
       });
 
-      if (!orderData.success) throw new Error("Failed to create order");
-
-      const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_TAwmU8DgG4NUPu",
-        amount: orderData.order.amount,
-        currency: orderData.order.currency,
-        name: "Skill Swap",
-        description: `Purchase ${pkg.credits} Credits`,
-        order_id: orderData.order.id,
-        handler: async function (response) {
-          try {
-            // 2. Verify payment on backend
-            const { data: verifyData } = await api.post("/payments/verify-payment", {
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-              credits: pkg.credits,
-            });
-
-            if (verifyData.success) {
-              toast.success(`Success! Added ${pkg.credits} credits to your account.`);
-              // Update user state
-              setUser(verifyData.user);
-              localStorage.setItem("user", JSON.stringify(verifyData.user));
-            } else {
-              toast.error("Payment verification failed.");
-            }
-          } catch (error) {
-            toast.error("Error verifying payment.");
-          }
-        },
-        prefill: {
-          name: user?.name,
-          email: user?.email,
-        },
-        theme: {
-          color: "#4f46e5", // Indigo-600
-        },
-      };
-
-      const rzp = new window.Razorpay(options);
-      rzp.on("payment.failed", function (response) {
-        toast.error("Payment failed. Please try again.");
-      });
-      rzp.open();
+      if (result.success) {
+        toast.success(`Success! Added ${pkg.credits} credits to your account.`);
+        setUser(result.user);
+        localStorage.setItem("user", JSON.stringify(result.user));
+      }
 
     } catch (error) {
       const backendMessage = error.response?.data?.message;
