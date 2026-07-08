@@ -16,14 +16,14 @@ function Loader({
         className={`
           ${sizes[size]}
           rounded-full
-          border-blue-600
+          border-purple-500
           border-t-transparent
           animate-spin
         `}
       />
 
       {text && (
-        <p className="text-gray-600 font-medium">
+        <p className="text-gray-300 font-medium">
           {text}
         </p>
       )}
@@ -32,7 +32,7 @@ function Loader({
 
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-white">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B090F]">
         {loader}
       </div>
     );
