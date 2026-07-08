@@ -26,14 +26,14 @@ function Sidebar() {
   };
 
   const linkClass = ({ isActive }) =>
-    `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive
+    `flex items-center gap-3 px-4 py-2 rounded-xl transition-all text-sm font-medium ${isActive
       ? "bg-purple-600 text-white shadow-md"
       : "text-gray-400 hover:bg-[#2F293A] hover:text-white"
     }`;
 
   return (
     <aside className="hidden md:block w-60 h-[calc(100vh-64px)] sticky top-16 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] glow-card-wrapper bg-[#120F17] !rounded-none no-top-glow no-left-glow no-bottom-glow border-r border-[#2F293A] shadow-sm">
-      <nav className="flex flex-col p-4 space-y-2 relative z-10">
+      <nav className="flex flex-col p-4 space-y-1 relative z-10 h-full">
 
         <NavLink to="/dashboard" className={linkClass}>
           <LayoutDashboard size={20} />
@@ -94,7 +94,7 @@ function Sidebar() {
 
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:bg-red-900/20 hover:text-red-300 transition-all"
+          className="flex items-center gap-3 px-4 py-2 mt-auto rounded-xl text-sm font-medium text-red-400 hover:bg-red-900/20 hover:text-red-300 transition-all"
         >
           <LogOut size={20} />
           <span>Logout</span>
