@@ -20,12 +20,14 @@ import Credits from "./pages/Credits";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ClickSpark from "./components/ClickSpark";
+import MouseGlow from "./components/MouseGlow";
 
 import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <>
+      <MouseGlow />
       <ClickSpark />
       <Toaster position="top-right" />
       <Routes>
