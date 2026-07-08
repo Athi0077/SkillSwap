@@ -33,29 +33,29 @@ function SessionCard({ session, onAccept, onComplete, onCancel }) {
     session.guest === currentUser?._id;
 
   return (
-    <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition p-6">
+    <div className="glow-card-wrapper bg-[#120F17] hover:shadow-lg transition p-6 relative">
 
       {/* Header */}
-      <div className="flex justify-between items-start mb-4">
+      <div className="flex justify-between items-start mb-4 relative z-10">
         <div>
           {session.topic ? (
             <div className="flex items-center gap-2 mb-1">
-              <BookOpen size={16} className="text-indigo-500" />
-              <h2 className="text-lg font-bold text-slate-800">
+              <BookOpen size={16} className="text-indigo-400" />
+              <h2 className="text-lg font-bold text-white">
                 {session.topic}
               </h2>
             </div>
           ) : (
-            <h2 className="text-lg font-bold text-slate-800">
+            <h2 className="text-lg font-bold text-white">
               Skill Exchange Session
             </h2>
           )}
-          <p className="text-sm text-slate-500">Learning session</p>
+          <p className="text-sm text-gray-400">Learning session</p>
         </div>
 
         <span
           className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${
-            statusStyles[session.status] || "bg-gray-100 text-gray-700"
+            statusStyles[session.status] || "bg-gray-800 text-gray-300"
           }`}
         >
           {session.status}
@@ -63,28 +63,28 @@ function SessionCard({ session, onAccept, onComplete, onCancel }) {
       </div>
 
       {/* Details */}
-      <div className="space-y-3">
+      <div className="space-y-3 relative z-10">
 
-        <div className="flex items-center gap-3 text-slate-600">
-          <User size={16} className="text-indigo-500 flex-shrink-0" />
+        <div className="flex items-center gap-3 text-gray-300">
+          <User size={16} className="text-indigo-400 flex-shrink-0" />
           <span className="text-sm">
-            <span className="font-medium">Host:</span>{" "}
+            <span className="font-medium text-gray-100">Host:</span>{" "}
             {session.host?.name || "Unknown"}
           </span>
         </div>
 
-        <div className="flex items-center gap-3 text-slate-600">
-          <User size={16} className="text-violet-500 flex-shrink-0" />
+        <div className="flex items-center gap-3 text-gray-300">
+          <User size={16} className="text-violet-400 flex-shrink-0" />
           <span className="text-sm">
-            <span className="font-medium">Guest:</span>{" "}
+            <span className="font-medium text-gray-100">Guest:</span>{" "}
             {session.guest?.name || "Unknown"}
           </span>
         </div>
 
         {scheduledDate && (
           <>
-            <div className="flex items-center gap-3 text-slate-600">
-              <Calendar size={16} className="text-purple-500 flex-shrink-0" />
+            <div className="flex items-center gap-3 text-gray-300">
+              <Calendar size={16} className="text-purple-400 flex-shrink-0" />
               <span className="text-sm">
                 {scheduledDate.toLocaleDateString([], {
                   weekday: "long",
@@ -95,8 +95,8 @@ function SessionCard({ session, onAccept, onComplete, onCancel }) {
               </span>
             </div>
 
-            <div className="flex items-center gap-3 text-slate-600">
-              <Clock size={16} className="text-orange-500 flex-shrink-0" />
+            <div className="flex items-center gap-3 text-gray-300">
+              <Clock size={16} className="text-orange-400 flex-shrink-0" />
               <span className="text-sm">
                 {scheduledDate.toLocaleTimeString([], {
                   hour: "2-digit",
@@ -111,7 +111,7 @@ function SessionCard({ session, onAccept, onComplete, onCancel }) {
       </div>
 
       {/* Action Buttons */}
-      <div className="mt-6 space-y-3">
+      <div className="mt-6 space-y-3 relative z-10">
 
         {/* Pending — guest sees Accept + both see Cancel */}
         {session.status === "pending" && (
@@ -128,7 +128,7 @@ function SessionCard({ session, onAccept, onComplete, onCancel }) {
             {onCancel && (
               <button
                 onClick={() => onCancel(session._id)}
-                className="flex-1 flex items-center justify-center gap-2 border border-red-200 text-red-500 hover:bg-red-50 py-2.5 rounded-xl text-sm font-semibold transition"
+                className="flex-1 flex items-center justify-center gap-2 border border-red-500/50 text-red-400 hover:bg-red-500/10 py-2.5 rounded-xl text-sm font-semibold transition"
               >
                 <XCircle size={16} />
                 Decline
@@ -150,7 +150,7 @@ function SessionCard({ session, onAccept, onComplete, onCancel }) {
             {onComplete && (
               <button
                 onClick={() => onComplete(session._id)}
-                className="flex items-center justify-center gap-2 border border-slate-200 text-slate-500 hover:bg-slate-50 px-4 py-2.5 rounded-xl text-sm transition"
+                className="flex items-center justify-center gap-2 border border-[#2F293A] text-gray-400 hover:bg-[#1E1A29] hover:text-white px-4 py-2.5 rounded-xl text-sm transition"
               >
                 <CheckCircle size={16} />
                 Done

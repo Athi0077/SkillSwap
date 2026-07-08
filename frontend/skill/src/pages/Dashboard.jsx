@@ -96,88 +96,96 @@ function Dashboard() {
     <>
       <Navbar />
 
-      <div className="flex bg-slate-100 min-h-screen">
+      <div className="flex dark-bento-page min-h-screen">
 
         <Sidebar />
 
         <main className="flex-1 p-8">
 
           {/* Welcome */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold">
+          <div className="mb-8 relative z-10">
+            <h1 className="text-3xl font-bold text-white">
               Welcome,
-              <span className="text-blue-600">
+              <span className="text-indigo-400">
                 {" "}
                 {user?.name}
               </span>
             </h1>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-400 mt-2">
               Manage your learning journey from here.
             </p>
           </div>
 
           {/* Stats */}
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4 relative z-10">
 
-            <div className="bg-white rounded-2xl shadow p-6">
-              <MessageCircle
-                className="text-green-600 mb-4"
-                size={32}
-              />
-              <h2 className="text-3xl font-bold">
-                {pendingRequests.length}
-              </h2>
-              <p className="text-gray-500">
-                New Requests
-              </p>
+            <div className="glow-card-wrapper bg-[#120F17] p-6 relative">
+              <div className="relative z-10">
+                <MessageCircle
+                  className="text-green-500 mb-4"
+                  size={32}
+                />
+                <h2 className="text-3xl font-bold text-white">
+                  {pendingRequests.length}
+                </h2>
+                <p className="text-gray-400">
+                  New Requests
+                </p>
+              </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow p-6">
-              <CalendarDays
-                className="text-purple-600 mb-4"
-                size={32}
-              />
-              <h2 className="text-3xl font-bold">
-                {activeSessions.length}
-              </h2>
-              <p className="text-gray-500">
-                Upcoming Sessions
-              </p>
+            <div className="glow-card-wrapper bg-[#120F17] p-6 relative">
+              <div className="relative z-10">
+                <CalendarDays
+                  className="text-purple-500 mb-4"
+                  size={32}
+                />
+                <h2 className="text-3xl font-bold text-white">
+                  {activeSessions.length}
+                </h2>
+                <p className="text-gray-400">
+                  Upcoming Sessions
+                </p>
+              </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow p-6">
-              <Star
-                className="text-yellow-500 mb-4"
-                size={32}
-              />
-              <h2 className="text-3xl font-bold">
-                {user?.rating || "0.0"}
-              </h2>
-              <p className="text-gray-500">
-                Your Rating
-              </p>
+            <div className="glow-card-wrapper bg-[#120F17] p-6 relative">
+              <div className="relative z-10">
+                <Star
+                  className="text-yellow-500 mb-4"
+                  size={32}
+                />
+                <h2 className="text-3xl font-bold text-white">
+                  {user?.rating || "0.0"}
+                </h2>
+                <p className="text-gray-400">
+                  Your Rating
+                </p>
+              </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow p-6">
-              <Coins
-                className="text-blue-500 mb-4"
-                size={32}
-              />
-              <h2 className="text-3xl font-bold">
-                {user?.credits || 0}
-              </h2>
-              <p className="text-gray-500">
-                Available Credits
-              </p>
+            <div className="glow-card-wrapper bg-[#120F17] p-6 relative">
+              <div className="relative z-10">
+                <Coins
+                  className="text-blue-500 mb-4"
+                  size={32}
+                />
+                <h2 className="text-3xl font-bold text-white">
+                  {user?.credits || 0}
+                </h2>
+                <p className="text-gray-400">
+                  Available Credits
+                </p>
+              </div>
             </div>
 
           </div>
 
           {/* Recommended Users */}
-          <section className="mt-12">
+          <section className="mt-12 relative z-10">
 
-            <h2 className="text-2xl font-bold mb-6">
+            <h2 className="text-2xl font-bold mb-6 text-white">
               Recommended Users
             </h2>
 
@@ -200,9 +208,9 @@ function Dashboard() {
           </section>
 
           {/* Upcoming Sessions */}
-          <section className="mt-12">
+          <section className="mt-12 relative z-10">
 
-            <h2 className="text-2xl font-bold mb-6">
+            <h2 className="text-2xl font-bold mb-6 text-white">
               Upcoming Sessions
             </h2>
 
