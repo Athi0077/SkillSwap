@@ -165,7 +165,7 @@ function Profile() {
             <Lanyard
               position={[0, 0, 24]}
               gravity={[0, -40, 0]}
-              frontImage={user?.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=3B82F6&color=fff&size=512`}
+              frontImage={user?.profileImage || null}
               imageFit="cover"
             />
           </div>
