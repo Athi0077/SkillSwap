@@ -99,7 +99,7 @@ function UserProfile() {
                   user?.profileImage ||
                   `https://ui-avatars.com/api/?name=${encodeURIComponent(
                     user?.name || "User"
-                  )}&background=120F17&color=fff`
+                  )}&background=3B82F6&color=fff`
                 }
                 alt={user?.name}
                 className="w-40 h-40 rounded-full object-cover border-4 border-[#2F293A]"

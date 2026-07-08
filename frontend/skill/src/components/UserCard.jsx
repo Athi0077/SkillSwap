@@ -21,7 +21,7 @@ function UserCard({
             user?.profileImage ||
             `https://ui-avatars.com/api/?name=${encodeURIComponent(
               user?.name || "User"
-            )}&background=120F17&color=fff`
+            )}&background=3B82F6&color=fff`
           }
           alt={user?.name}
           className="w-24 h-24 rounded-full border-4 border-[#120F17] object-cover relative z-10"
