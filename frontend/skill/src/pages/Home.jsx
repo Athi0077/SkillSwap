@@ -11,7 +11,6 @@ import {
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import MagicBento from "../components/MagicBento";
 
 function Home() {
   const features = [
@@ -121,19 +120,7 @@ function Home() {
           <h2 className="text-4xl font-bold text-center text-white mb-14">
             Powerful Analytics
           </h2>
-          <MagicBento 
-            textAutoHide={true}
-            enableStars
-            enableSpotlight
-            enableBorderGlow={true}
-            enableTilt={false}
-            enableMagnetism={false}
-            clickEffect
-            spotlightRadius={400}
-            particleCount={12}
-            glowColor="132, 0, 255"
-            disableAnimations={false}
-          />
+       
         </div>
       </section>
 
