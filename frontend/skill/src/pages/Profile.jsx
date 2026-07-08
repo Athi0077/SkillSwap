@@ -167,6 +167,8 @@ function Profile() {
               gravity={[0, -40, 0]}
               frontImage={user?.profileImage || null}
               imageFit="cover"
+              userName={user?.name || 'User'}
+              userUsername={user?.username ? `@${user.username}` : ''}
             />
           </div>
 

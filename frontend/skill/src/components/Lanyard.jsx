@@ -28,7 +28,9 @@ export default function Lanyard({
   backImage = null,
   imageFit = 'cover',
   lanyardImage = null,
-  lanyardWidth = 1
+  lanyardWidth = 1,
+  userName = 'User Name',
+  userUsername = '@username'
 }) {
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
 
@@ -55,6 +57,8 @@ export default function Lanyard({
             imageFit={imageFit}
             lanyardImage={lanyardImage}
             lanyardWidth={lanyardWidth}
+            userName={userName}
+            userUsername={userUsername}
           />
         </Physics>
         <Environment blur={0.75}>
@@ -100,7 +104,9 @@ function Band({
   backImage = null,
   imageFit = 'cover',
   lanyardImage = null,
-  lanyardWidth = 1
+  lanyardWidth = 1,
+  userName = '',
+  userUsername = ''
 }) {
   const band = useRef(),
     fixed = useRef(),
@@ -154,13 +160,39 @@ function Band({
     if (frontImage && frontTex.image) drawFitted(frontTex.image, FRONT_UV_RECT);
     if (backImage && backTex.image) drawFitted(backTex.image, BACK_UV_RECT);
 
+    // Overlay user details at the bottom of the front card
+    const rx = FRONT_UV_RECT.x * W;
+    const ry = FRONT_UV_RECT.y * H;
+    const rw = FRONT_UV_RECT.w * W;
+    const rh = FRONT_UV_RECT.h * H;
+    
+    // Draw background for the label
+    const labelHeight = rh * 0.18; 
+    const labelY = ry + rh - labelHeight;
+    ctx.fillStyle = '#120F17'; // Match our dark bento theme
+    ctx.fillRect(rx, labelY, rw, labelHeight);
+    
+    // Write User Name
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const nameFontSize = Math.max(16, Math.floor(rh * 0.055));
+    ctx.font = `bold ${nameFontSize}px sans-serif`;
+    ctx.fillText(userName, rx + rw / 2, labelY + labelHeight * 0.4);
+    
+    // Write Username
+    const userFontSize = Math.max(12, Math.floor(rh * 0.035));
+    ctx.fillStyle = '#A78BFA'; // Purple-400
+    ctx.font = `${userFontSize}px sans-serif`;
+    ctx.fillText(userUsername, rx + rw / 2, labelY + labelHeight * 0.75);
+
     const composite = new THREE.CanvasTexture(canvas);
     composite.colorSpace = THREE.SRGBColorSpace;
     composite.flipY = baseMap.flipY;
     composite.anisotropy = 16;
     composite.needsUpdate = true;
     return composite;
-  }, [frontImage, backImage, imageFit, frontTex, backTex, materials.base.map]);
+  }, [frontImage, backImage, imageFit, frontTex, backTex, materials.base.map, userName, userUsername]);
 
   const [curve] = useState(
     () =>
