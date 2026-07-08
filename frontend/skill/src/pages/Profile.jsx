@@ -53,25 +53,25 @@ function Profile() {
     <>
       <Navbar />
 
-      <div className="flex min-h-screen bg-slate-100">
+      <div className="flex min-h-screen dark-bento-page">
         <Sidebar />
 
         <main className="flex-1 p-8">
 
           {/* Profile Header */}
-          <div className="bg-white rounded-3xl shadow p-8">
+          <div className="glow-card-wrapper bg-[#120F17] p-8 relative">
 
-            <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="flex flex-col md:flex-row items-center gap-8 relative z-10">
 
               <img
                 src={
                   user?.profileImage ||
                   `https://ui-avatars.com/api/?name=${encodeURIComponent(
                     user?.name || "User"
-                  )}&background=2563eb&color=fff`
+                  )}&background=120F17&color=fff`
                 }
                 alt={user?.name}
-                className="w-36 h-36 rounded-full object-cover border-4 border-blue-600"
+                className="w-36 h-36 rounded-full object-cover border-4 border-[#2F293A]"
               />
 
               <div className="flex-1">
@@ -79,22 +79,22 @@ function Profile() {
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
 
                   <div>
-                    <h1 className="text-4xl font-bold">
+                    <h1 className="text-4xl font-bold text-white">
                       {user?.name}
                     </h1>
                     {user?.username && (
-                      <p className="text-gray-500 mt-1 font-semibold text-green-500">
+                      <p className="mt-1 font-semibold text-green-400">
                         @{user.username}
                       </p>
                     )}
 
-                    <div className="flex items-center gap-2 text-gray-500 mt-2">
+                    <div className="flex items-center gap-2 text-gray-400 mt-2">
                       <Mail size={18} />
                       {user?.email}
                     </div>
 
                     {user?.location && (
-                      <div className="flex items-center gap-2 text-gray-500 mt-2">
+                      <div className="flex items-center gap-2 text-gray-400 mt-2">
                         <MapPin size={18} />
                         {user.location}
                       </div>
@@ -103,7 +103,7 @@ function Profile() {
 
                   <Link
                     to="/profile/edit"
-                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl transition"
+                    className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl transition shadow-md"
                   >
                     <Edit size={18} />
                     Edit Profile
@@ -111,7 +111,7 @@ function Profile() {
 
                 </div>
 
-                <p className="mt-6 text-gray-700">
+                <p className="mt-6 text-gray-300">
                   {user?.bio || "No bio available."}
                 </p>
 
@@ -122,93 +122,103 @@ function Profile() {
           </div>
 
           {/* Stats */}
-          <div className="grid md:grid-cols-3 gap-6 mt-8">
+          <div className="grid md:grid-cols-3 gap-6 mt-8 relative z-10">
 
-            <div className="bg-white rounded-2xl shadow p-6 text-center">
-              <Star className="mx-auto text-yellow-500" size={34} />
-              <h2 className="text-3xl font-bold mt-3">
-                {user?.rating || "0.0"}
-              </h2>
-              <p className="text-gray-500">Rating</p>
+            <div className="glow-card-wrapper bg-[#120F17] p-6 text-center relative">
+              <div className="relative z-10">
+                <Star className="mx-auto text-yellow-500" size={34} />
+                <h2 className="text-3xl font-bold mt-3 text-white">
+                  {user?.rating || "0.0"}
+                </h2>
+                <p className="text-gray-400">Rating</p>
+              </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow p-6 text-center">
-              <BookOpen className="mx-auto text-blue-600" size={34} />
-              <h2 className="text-3xl font-bold mt-3">
-                {user?.skillsOffered?.length || 0}
-              </h2>
-              <p className="text-gray-500">
-                Skills Offered
-              </p>
+            <div className="glow-card-wrapper bg-[#120F17] p-6 text-center relative">
+              <div className="relative z-10">
+                <BookOpen className="mx-auto text-indigo-400" size={34} />
+                <h2 className="text-3xl font-bold mt-3 text-white">
+                  {user?.skillsOffered?.length || 0}
+                </h2>
+                <p className="text-gray-400">
+                  Skills Offered
+                </p>
+              </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow p-6 text-center">
-              <Award className="mx-auto text-green-600" size={34} />
-              <h2 className="text-3xl font-bold mt-3">
-                {reviews.length}
-              </h2>
-              <p className="text-gray-500">
-                Reviews
-              </p>
+            <div className="glow-card-wrapper bg-[#120F17] p-6 text-center relative">
+              <div className="relative z-10">
+                <Award className="mx-auto text-green-400" size={34} />
+                <h2 className="text-3xl font-bold mt-3 text-white">
+                  {reviews.length}
+                </h2>
+                <p className="text-gray-400">
+                  Reviews
+                </p>
+              </div>
             </div>
 
           </div>
 
           {/* Skills */}
-          <div className="grid lg:grid-cols-2 gap-8 mt-10">
+          <div className="grid lg:grid-cols-2 gap-8 mt-10 relative z-10">
 
-            <div className="bg-white rounded-2xl shadow p-6">
-              <h2 className="text-2xl font-bold mb-5">
-                Skills Offered
-              </h2>
+            <div className="glow-card-wrapper bg-[#120F17] p-6 relative">
+              <div className="relative z-10">
+                <h2 className="text-2xl font-bold mb-5 text-white">
+                  Skills Offered
+                </h2>
 
-              <div className="flex flex-wrap gap-3">
-                {user?.skillsOffered?.length ? (
-                  user.skillsOffered.map((skill) => (
-                    <span
-                      key={skill}
-                      className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full"
-                    >
-                      {skill}
-                    </span>
-                  ))
-                ) : (
-                  <p className="text-gray-500">
-                    No skills added.
-                  </p>
-                )}
+                <div className="flex flex-wrap gap-3">
+                  {user?.skillsOffered?.length ? (
+                    user.skillsOffered.map((skill) => (
+                      <span
+                        key={skill}
+                        className="bg-indigo-900/50 text-indigo-300 border border-indigo-500/30 px-4 py-2 rounded-full"
+                      >
+                        {skill}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">
+                      No skills added.
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow p-6">
-              <h2 className="text-2xl font-bold mb-5">
-                Skills Wanted
-              </h2>
+            <div className="glow-card-wrapper bg-[#120F17] p-6 relative">
+              <div className="relative z-10">
+                <h2 className="text-2xl font-bold mb-5 text-white">
+                  Skills Wanted
+                </h2>
 
-              <div className="flex flex-wrap gap-3">
-                {user?.skillsWanted?.length ? (
-                  user.skillsWanted.map((skill) => (
-                    <span
-                      key={skill}
-                      className="bg-green-100 text-green-700 px-4 py-2 rounded-full"
-                    >
-                      {skill}
-                    </span>
-                  ))
-                ) : (
-                  <p className="text-gray-500">
-                    No skills added.
-                  </p>
-                )}
+                <div className="flex flex-wrap gap-3">
+                  {user?.skillsWanted?.length ? (
+                    user.skillsWanted.map((skill) => (
+                      <span
+                        key={skill}
+                        className="bg-purple-900/50 text-purple-300 border border-purple-500/30 px-4 py-2 rounded-full"
+                      >
+                        {skill}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">
+                      No skills added.
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
 
           </div>
 
           {/* Reviews */}
-          <section className="mt-12">
+          <section className="mt-12 relative z-10">
 
-            <h2 className="text-3xl font-bold mb-6">
+            <h2 className="text-3xl font-bold mb-6 text-white">
               Reviews
             </h2>
 
@@ -223,8 +233,8 @@ function Profile() {
                   />
                 ))
               ) : (
-                <div className="bg-white rounded-2xl shadow p-8 text-center text-gray-500">
-                  No reviews yet.
+                <div className="glow-card-wrapper bg-[#120F17] p-8 text-center text-gray-400 relative">
+                  <span className="relative z-10">No reviews yet.</span>
                 </div>
               )}
 

@@ -81,28 +81,30 @@ function Matches() {
     <>
       <Navbar />
 
-      <div className="flex bg-slate-100 min-h-screen">
+      <div className="flex min-h-screen dark-bento-page">
         <Sidebar />
 
         <main className="flex-1 p-8">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold flex items-center gap-3">
-              <Handshake className="text-blue-600" size={32} />
+          <div className="mb-8 relative z-10">
+            <h1 className="text-3xl font-bold flex items-center gap-3 text-white">
+              <Handshake className="text-purple-500" size={32} />
               Your Matches
             </h1>
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-400 mt-2">
               Users who offer the skills you want to learn.
             </p>
           </div>
 
           {matches.length === 0 ? (
-            <EmptyState 
-              title="No matches found yet" 
-              message="We couldn't find anyone currently offering the skills you want to learn. Try updating your 'Skills Wanted' in your profile!" 
-              icon={Users} 
-            />
+            <div className="relative z-10">
+              <EmptyState 
+                title="No matches found yet" 
+                message="We couldn't find anyone currently offering the skills you want to learn. Try updating your 'Skills Wanted' in your profile!" 
+                icon={Users} 
+              />
+            </div>
           ) : (
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 relative z-10">
               {matches.map((matchUser) => (
                 <UserCard 
                   key={matchUser._id} 

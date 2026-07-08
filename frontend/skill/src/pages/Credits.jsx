@@ -47,61 +47,65 @@ function Credits() {
   return (
     <>
       <Navbar />
-      <div className="flex min-h-screen bg-slate-100">
+      <div className="flex min-h-screen dark-bento-page">
         <Sidebar />
         <main className="flex-1 p-8">
           
-          <div className="bg-white rounded-3xl shadow p-8 mb-8">
-            <h1 className="text-3xl font-bold mb-2">Buy Credits</h1>
-            <p className="text-gray-600 mb-6">
-              Credits are used to send swap requests (5 credits) and attend live video sessions (5 credits).
-            </p>
-            
-            <div className="inline-flex items-center gap-3 bg-indigo-50 border border-indigo-100 px-6 py-3 rounded-2xl">
-              <div className="bg-indigo-600 text-white p-2 rounded-full">
-                <Coins size={20} />
-              </div>
-              <div>
-                <p className="text-sm text-indigo-900 font-medium opacity-80">Current Balance</p>
-                <p className="text-2xl font-bold text-indigo-900">{user?.credits || 0}</p>
+          <div className="glow-card-wrapper bg-[#120F17] p-8 mb-8 relative">
+            <div className="relative z-10">
+              <h1 className="text-3xl font-bold mb-2 text-white">Buy Credits</h1>
+              <p className="text-gray-400 mb-6">
+                Credits are used to send swap requests (5 credits) and attend live video sessions (5 credits).
+              </p>
+              
+              <div className="inline-flex items-center gap-3 bg-[#1E1A29] border border-[#2F293A] px-6 py-3 rounded-2xl">
+                <div className="bg-indigo-600 text-white p-2 rounded-full">
+                  <Coins size={20} />
+                </div>
+                <div>
+                  <p className="text-sm text-indigo-200 font-medium opacity-80">Current Balance</p>
+                  <p className="text-2xl font-bold text-white">{user?.credits || 0}</p>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
             {CREDIT_PACKAGES.map((pkg) => (
               <div 
                 key={pkg.id} 
-                className={`bg-white rounded-3xl shadow-sm border-2 transition-all relative overflow-hidden flex flex-col ${
-                  pkg.popular ? "border-purple-500 shadow-md transform -translate-y-1" : "border-transparent hover:border-gray-200"
+                className={`glow-card-wrapper bg-[#120F17] rounded-3xl transition-all relative overflow-hidden flex flex-col border border-[#2F293A] ${
+                  pkg.popular ? "shadow-[0_0_15px_rgba(168,85,247,0.3)] transform -translate-y-1 border-purple-500/50" : "hover:border-gray-700"
                 }`}
               >
-                {pkg.popular && (
-                  <div className="bg-purple-500 text-white text-xs font-bold uppercase tracking-wider text-center py-1 absolute top-0 w-full">
-                    Most Popular
-                  </div>
-                )}
-                
-                <div className={`p-6 flex flex-col items-center text-center flex-1 ${pkg.popular ? "pt-10" : ""}`}>
-                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-4 ${pkg.bg} ${pkg.color}`}>
-                    <pkg.icon size={32} />
-                  </div>
+                <div className="relative z-10 h-full flex flex-col">
+                  {pkg.popular && (
+                    <div className="bg-purple-600 text-white text-xs font-bold uppercase tracking-wider text-center py-1 absolute top-0 w-full">
+                      Most Popular
+                    </div>
+                  )}
                   
-                  <h3 className="text-2xl font-bold mb-1">{pkg.credits}</h3>
-                  <p className="text-gray-500 font-medium mb-6">Credits</p>
-                  
-                  <div className="mt-auto w-full">
-                    <button
-                      onClick={() => handlePayment(pkg)}
-                      disabled={loading}
-                      className={`w-full py-3 rounded-xl font-semibold transition ${
-                        pkg.popular 
-                          ? "bg-purple-600 hover:bg-purple-700 text-white" 
-                          : "bg-gray-100 hover:bg-gray-200 text-gray-800"
-                      }`}
-                    >
-                      Buy for ₹{pkg.priceRs}
-                    </button>
+                  <div className={`p-6 flex flex-col items-center text-center flex-1 ${pkg.popular ? "pt-10" : ""}`}>
+                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-4 ${pkg.bg} ${pkg.color}`}>
+                      <pkg.icon size={32} />
+                    </div>
+                    
+                    <h3 className="text-2xl font-bold mb-1 text-white">{pkg.credits}</h3>
+                    <p className="text-gray-400 font-medium mb-6">Credits</p>
+                    
+                    <div className="mt-auto w-full">
+                      <button
+                        onClick={() => handlePayment(pkg)}
+                        disabled={loading}
+                        className={`w-full py-3 rounded-xl font-semibold transition ${
+                          pkg.popular 
+                            ? "bg-purple-600 hover:bg-purple-700 text-white shadow-md" 
+                            : "bg-[#2F293A] hover:bg-[#3F374A] text-gray-200"
+                        }`}
+                      >
+                        Buy for ₹{pkg.priceRs}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

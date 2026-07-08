@@ -14,7 +14,9 @@ const MouseGlow = ({ glowColor = '132, 0, 255' }) => {
     '/friends',
     '/schedule',
     '/reviews',
-    '/profile'
+    '/profile',
+    '/matches',
+    '/credits'
   ];
 
   // Check if current path matches exact paths or starts with /user/ (for UserDashboard/Profile)

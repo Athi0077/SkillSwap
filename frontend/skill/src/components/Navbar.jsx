@@ -17,23 +17,23 @@ function Navbar() {
   const closeMenu = () => setMenuOpen(false);
 
   const desktopLinkClass = ({ isActive }) =>
-    `transition-colors font-medium hover:text-blue-600 ${isActive ? "text-blue-600" : "text-gray-600"
+    `transition-colors font-medium hover:text-purple-400 ${isActive ? "text-purple-500" : "text-gray-400"
     }`;
 
   const mobileLinkClass = ({ isActive }) =>
     `flex items-center justify-center p-2 text-sm rounded-xl transition-all font-medium ${isActive
-      ? "bg-blue-600 text-white"
-      : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+      ? "bg-purple-600 text-white"
+      : "text-gray-400 hover:bg-[#2F293A] hover:text-white"
     }`;
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6">
+    <nav className="glow-card-wrapper bg-[#120F17] !rounded-none !border-t-0 !border-l-0 !border-r-0 border-b border-[#2F293A] shadow-md sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link
             to="/"
-            className="text-2xl font-bold text-blue-600"
+            className="text-2xl font-bold text-purple-500"
           >
             SkillSwap
           </Link>
@@ -42,7 +42,7 @@ function Navbar() {
           <div className="hidden md:flex items-center gap-6">
             {isAuthenticated ? (
               <>
-                <NavLink to="/search" className="flex items-center text-gray-600 hover:text-blue-600 transition-colors">
+                <NavLink to="/search" className="flex items-center text-gray-400 hover:text-purple-400 transition-colors">
                   <Search size={20} />
                 </NavLink>
 
@@ -83,7 +83,7 @@ function Navbar() {
 
                 <NavLink
                   to="/register"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition font-medium"
+                  className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition font-medium"
                 >
                   Register
                 </NavLink>
@@ -93,7 +93,7 @@ function Navbar() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden"
+            className="md:hidden text-white"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             {menuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -105,11 +105,11 @@ function Navbar() {
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? "max-h-[800px] opacity-100 py-4" : "max-h-0 opacity-0 py-0"
             }`}
         >
-          <div className="grid grid-cols-3 gap-3 px-2 pb-2 text-center">
+          <div className="grid grid-cols-3 gap-3 px-2 pb-2 text-center relative z-10">
             {isAuthenticated ? (
               <>
                 {/* search icon only */}
-                <NavLink to="/search" className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-gray-700 hover:text-blue-600" onClick={closeMenu}>
+                <NavLink to="/search" className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-gray-400 hover:text-purple-400" onClick={closeMenu}>
                   <Search size={24} />
                 </NavLink>
 

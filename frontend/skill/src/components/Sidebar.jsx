@@ -27,19 +27,19 @@ function Sidebar() {
 
   const linkClass = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive
-      ? "bg-blue-600 text-white"
-      : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+      ? "bg-purple-600 text-white shadow-md"
+      : "text-gray-400 hover:bg-[#2F293A] hover:text-white"
     }`;
 
   return (
-    <aside className="hidden md:block w-64 h-[calc(100vh-64px)] sticky top-16 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] bg-white border-r shadow-sm">
-      <div className="p-6 border-b">
-        <h1 className="text-2xl font-bold text-blue-600">
+    <aside className="hidden md:block w-64 h-[calc(100vh-64px)] sticky top-16 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] glow-card-wrapper bg-[#120F17] !rounded-none !border-t-0 !border-l-0 !border-b-0 border-r border-[#2F293A] shadow-sm">
+      <div className="p-6 border-b border-[#2F293A] relative z-10">
+        <h1 className="text-2xl font-bold text-purple-500">
           SkillSwap
         </h1>
       </div>
 
-      <nav className="flex flex-col p-4 space-y-2">
+      <nav className="flex flex-col p-4 space-y-2 relative z-10">
 
         <NavLink to="/dashboard" className={linkClass}>
           <LayoutDashboard size={20} />
@@ -86,11 +86,11 @@ function Sidebar() {
           <span>Reviews</span>
         </NavLink>
 
-        <div className="pt-4 mt-2 border-t">
+        <div className="pt-4 mt-2 border-t border-[#2F293A]">
           <NavLink to="/credits" className={linkClass}>
             <Coins size={20} className="text-yellow-500" />
             <span className="flex-1">Credits</span>
-            <span className="bg-yellow-100 text-yellow-700 text-xs font-bold px-2 py-1 rounded-full">
+            <span className="bg-yellow-900/30 text-yellow-500 border border-yellow-700/50 text-xs font-bold px-2 py-1 rounded-full">
               {user?.credits || 0}
             </span>
           </NavLink>
@@ -100,7 +100,7 @@ function Sidebar() {
 
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-100 transition-all"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:bg-red-900/20 hover:text-red-300 transition-all"
         >
           <LogOut size={20} />
           <span>Logout</span>
