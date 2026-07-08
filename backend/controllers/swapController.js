@@ -1,4 +1,5 @@
 const Swap = require("../models/Swap");
+const User = require("../models/User");
 
 // Send swap request
 const sendSwapRequest = async (req, res) => {
@@ -21,6 +22,17 @@ const sendSwapRequest = async (req, res) => {
             : "A swap request is already pending between you and this user.",
       });
     }
+
+    const user = await User.findById(req.user._id);
+    if (!user || user.credits < 5) {
+      return res.status(400).json({
+        success: false,
+        message: "Insufficient credits. You need 5 credits to send a request.",
+      });
+    }
+
+    user.credits -= 5;
+    await user.save();
 
     const swap = await Swap.create({
       sender: req.user._id,

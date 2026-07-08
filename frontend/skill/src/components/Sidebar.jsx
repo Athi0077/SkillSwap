@@ -10,13 +10,14 @@ import {
   LogOut,
   Handshake,
   Users,
+  Coins,
 } from "lucide-react";
 
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function Sidebar() {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -84,6 +85,16 @@ function Sidebar() {
           <Star size={20} />
           <span>Reviews</span>
         </NavLink>
+
+        <div className="pt-4 mt-2 border-t">
+          <NavLink to="/credits" className={linkClass}>
+            <Coins size={20} className="text-yellow-500" />
+            <span className="flex-1">Credits</span>
+            <span className="bg-yellow-100 text-yellow-700 text-xs font-bold px-2 py-1 rounded-full">
+              {user?.credits || 0}
+            </span>
+          </NavLink>
+        </div>
 
 
 

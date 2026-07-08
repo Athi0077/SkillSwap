@@ -6,6 +6,7 @@ const {
   getProfile,
   updateProfile,
   searchUsers,
+  deductVideoCredits,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -13,6 +14,8 @@ const router = express.Router();
 router.get("/profile", protect, getProfile);
 
 router.put("/profile", protect, updateProfile);
+
+router.post("/deduct-video-credits", protect, deductVideoCredits);
 
 router.get("/search", protect, searchUsers);
 

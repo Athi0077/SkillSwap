@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { Mic, MicOff, Video, VideoOff, PhoneOff, Users } from "lucide-react";
+import { toast } from "react-hot-toast";
+import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 
 const SOCKET_URL = import.meta.env.VITE_API_URL
@@ -18,7 +20,7 @@ const ICE_SERVERS = {
 
 function VideoCall() {
   const { sessionId } = useParams();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
 
   const socketRef = useRef(null);
@@ -42,6 +44,19 @@ function VideoCall() {
 
   const startCall = async () => {
     try {
+      // 0. Check and deduct credits first
+      try {
+        const { data } = await api.post("/users/deduct-video-credits");
+        if (data.success) {
+          setUser({ ...user, credits: data.credits });
+          localStorage.setItem("user", JSON.stringify({ ...user, credits: data.credits }));
+        }
+      } catch (err) {
+        toast.error(err.response?.data?.message || "Not enough credits to join video call.");
+        navigate("/credits");
+        return; // Stop execution, don't request camera or join socket
+      }
+
       // 1. Get local media
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,

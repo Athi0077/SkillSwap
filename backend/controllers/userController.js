@@ -134,10 +134,38 @@ const searchUsers = async (req, res) => {
   }
 };
 
+// Deduct credits for video call
+const deductVideoCredits = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user || user.credits < 5) {
+      return res.status(400).json({
+        success: false,
+        message: "Insufficient credits to join the video call.",
+      });
+    }
+
+    user.credits -= 5;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "5 credits deducted",
+      credits: user.credits,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
   getProfile,
   updateProfile,
   searchUsers,
+  deductVideoCredits,
 };

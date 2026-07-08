@@ -16,6 +16,7 @@ import Reviews from "./pages/Reviews";
 import SwapFriends from "./pages/SwapFriends";
 import SearchUsers from "./pages/SearchUsers";
 import VideoCall from "./pages/VideoCall";
+import Credits from "./pages/Credits";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -127,6 +128,15 @@ function App() {
         element={
           <ProtectedRoute>
             <Schedule />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/credits"
+        element={
+          <ProtectedRoute>
+            <Credits />
           </ProtectedRoute>
         }
       />
