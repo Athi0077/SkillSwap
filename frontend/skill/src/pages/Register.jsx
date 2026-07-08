@@ -14,7 +14,10 @@ import { skillOptions } from "../constants/skillOptions";
 const registerSchema = z
   .object({
     name: z.string().min(3, "Name must be at least 3 characters"),
-    username: z.string().min(3, "Username must be at least 3 characters"),
+    username: z.string()
+      .min(3, "Username must be at least 3 characters")
+      .regex(/^[a-z0-9]+$/, "Username can only contain lowercase letters and numbers")
+      .refine((val) => (val.match(/[0-9]/g) || []).length === 3, "Username must contain exactly 3 numbers"),
     email: z.string().email("Enter a valid email"),
     password: z.string().min(6, "Password must be at least 6 characters"),
     confirmPassword: z.string(),
