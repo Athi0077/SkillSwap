@@ -493,13 +493,13 @@ const MagicBento = ({
   return (
     <>
       <style>
-        {\`
+        {`
           .bento-section {
             --glow-x: 50%;
             --glow-y: 50%;
             --glow-intensity: 0;
             --glow-radius: 200px;
-            --glow-color: \${glowColor};
+            --glow-color: ${glowColor};
             --border-color: #2F293A;
             --background-dark: #120F17;
             --white: hsl(0, 0%, 100%);
@@ -548,8 +548,8 @@ const MagicBento = ({
             inset: 0;
             padding: 6px;
             background: radial-gradient(var(--glow-radius) circle at var(--glow-x) var(--glow-y),
-                rgba(\${glowColor}, calc(var(--glow-intensity) * 0.8)) 0%,
-                rgba(\${glowColor}, calc(var(--glow-intensity) * 0.4)) 30%,
+                rgba(${glowColor}, calc(var(--glow-intensity) * 0.8)) 0%,
+                rgba(${glowColor}, calc(var(--glow-intensity) * 0.4)) 30%,
                 transparent 60%);
             border-radius: inherit;
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -567,7 +567,7 @@ const MagicBento = ({
           }
           
           .card--border-glow:hover {
-            box-shadow: 0 4px 20px rgba(46, 24, 78, 0.4), 0 0 30px rgba(\${glowColor}, 0.2);
+            box-shadow: 0 4px 20px rgba(46, 24, 78, 0.4), 0 0 30px rgba(${glowColor}, 0.2);
           }
           
           .particle::before {
@@ -577,13 +577,13 @@ const MagicBento = ({
             left: -2px;
             right: -2px;
             bottom: -2px;
-            background: rgba(\${glowColor}, 0.2);
+            background: rgba(${glowColor}, 0.2);
             border-radius: 50%;
             z-index: -1;
           }
           
           .particle-container:hover {
-            box-shadow: 0 4px 20px rgba(46, 24, 78, 0.2), 0 0 30px rgba(\${glowColor}, 0.2);
+            box-shadow: 0 4px 20px rgba(46, 24, 78, 0.2), 0 0 30px rgba(${glowColor}, 0.2);
           }
           
           .text-clamp-1 {
@@ -617,7 +617,7 @@ const MagicBento = ({
               min-height: 180px;
             }
           }
-        \`}
+        `}
       </style>
 
       {enableSpotlight && (
@@ -633,9 +633,9 @@ const MagicBento = ({
       <BentoCardGrid gridRef={gridRef}>
         <div className="card-responsive grid gap-2">
           {cardData.map((card, index) => {
-            const baseClassName = \`card flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-hidden transition-colors duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] \${
+            const baseClassName = `card flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-hidden transition-colors duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
               enableBorderGlow ? 'card--border-glow' : ''
-            }\`;
+            }`;
 
             const cardStyle = {
               backgroundColor: card.color || 'var(--background-dark)',
@@ -664,11 +664,11 @@ const MagicBento = ({
                     <span className="card__label text-base">{card.label}</span>
                   </div>
                   <div className="card__content flex flex-col relative text-white">
-                    <h3 className={\`card__title font-normal text-base m-0 mb-1 \${textAutoHide ? 'text-clamp-1' : ''}\`}>
+                    <h3 className={`card__title font-normal text-base m-0 mb-1 ${textAutoHide ? 'text-clamp-1' : ''}`}>
                       {card.title}
                     </h3>
                     <p
-                      className={\`card__description text-xs leading-5 opacity-90 \${textAutoHide ? 'text-clamp-2' : ''}\`}
+                      className={`card__description text-xs leading-5 opacity-90 ${textAutoHide ? 'text-clamp-2' : ''}`}
                     >
                       {card.description}
                     </p>
@@ -757,17 +757,17 @@ const MagicBento = ({
                     );
 
                     const ripple = document.createElement('div');
-                    ripple.style.cssText = \`
+                    ripple.style.cssText = `
                       position: absolute;
-                      width: \${maxDistance * 2}px;
-                      height: \${maxDistance * 2}px;
+                      width: ${maxDistance * 2}px;
+                      height: ${maxDistance * 2}px;
                       border-radius: 50%;
-                      background: radial-gradient(circle, rgba(\${glowColor}, 0.4) 0%, rgba(\${glowColor}, 0.2) 30%, transparent 70%);
-                      left: \${x - maxDistance}px;
-                      top: \${y - maxDistance}px;
+                      background: radial-gradient(circle, rgba(${glowColor}, 0.4) 0%, rgba(${glowColor}, 0.2) 30%, transparent 70%);
+                      left: ${x - maxDistance}px;
+                      top: ${y - maxDistance}px;
                       pointer-events: none;
                       z-index: 1000;
-                    \`;
+                    `;
 
                     el.appendChild(ripple);
 
@@ -796,10 +796,10 @@ const MagicBento = ({
                   <span className="card__label text-base">{card.label}</span>
                 </div>
                 <div className="card__content flex flex-col relative text-white">
-                  <h3 className={\`card__title font-normal text-base m-0 mb-1 \${textAutoHide ? 'text-clamp-1' : ''}\`}>
+                  <h3 className={`card__title font-normal text-base m-0 mb-1 ${textAutoHide ? 'text-clamp-1' : ''}`}>
                     {card.title}
                   </h3>
-                  <p className={\`card__description text-xs leading-5 opacity-90 \${textAutoHide ? 'text-clamp-2' : ''}\`}>
+                  <p className={`card__description text-xs leading-5 opacity-90 ${textAutoHide ? 'text-clamp-2' : ''}`}>
                     {card.description}
                   </p>
                 </div>
