@@ -14,6 +14,7 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Loader from "../components/Loader";
 import ReviewCard from "../components/ReviewCard";
+import Lanyard from "../components/Lanyard";
 
 import { getMyProfile } from "../services/userService";
 import { getUserReviews } from "../services/reviewService";
@@ -157,7 +158,16 @@ function Profile() {
                 </p>
               </div>
             </div>
+          </div>
 
+          {/* 3D Lanyard ID Card */}
+          <div className="mt-8 relative z-10 w-full flex justify-center bg-[#120F17] rounded-3xl overflow-hidden border border-[#2F293A] shadow-lg">
+            <Lanyard
+              position={[0, 0, 24]}
+              gravity={[0, -40, 0]}
+              frontImage={user?.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=3B82F6&color=fff&size=512`}
+              imageFit="cover"
+            />
           </div>
 
           {/* Skills */}
