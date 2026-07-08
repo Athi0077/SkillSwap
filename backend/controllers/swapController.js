@@ -97,6 +97,19 @@ const updateSwapStatus = async (req, res) => {
       });
     }
 
+    // Refund credits to the sender if request is rejected or cancelled
+    if (
+      (req.body.status === "rejected" || req.body.status === "cancelled") &&
+      swap.status !== "rejected" &&
+      swap.status !== "cancelled"
+    ) {
+      const sender = await User.findById(swap.sender);
+      if (sender) {
+        sender.credits += 5;
+        await sender.save();
+      }
+    }
+
     swap.status = req.body.status;
 
     await swap.save();
@@ -135,6 +148,15 @@ const deleteSwapRequest = async (req, res) => {
         success: false,
         message: "Not authorized to delete this request",
       });
+    }
+
+    // Refund credits if a pending request is deleted
+    if (swap.status === "pending") {
+      const sender = await User.findById(swap.sender);
+      if (sender) {
+        sender.credits += 5;
+        await sender.save();
+      }
     }
 
     await Swap.findByIdAndDelete(req.params.id);
