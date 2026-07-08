@@ -9,6 +9,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import EmptyState from "../components/EmptyState";
 import ReviewCard from "../components/ReviewCard";
 import Lanyard from "../components/Lanyard";
+import AchievementBadge from "../components/AchievementBadge";
 import SkillAnalytics from "../components/SkillAnalytics";
 import { toast } from "react-hot-toast";
 
