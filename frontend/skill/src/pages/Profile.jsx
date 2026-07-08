@@ -15,9 +15,11 @@ import Sidebar from "../components/Sidebar";
 import Loader from "../components/Loader";
 import ReviewCard from "../components/ReviewCard";
 import Lanyard from "../components/Lanyard";
+import AchievementBadge from "../components/AchievementBadge";
 
 import { getMyProfile } from "../services/userService";
 import { getUserReviews } from "../services/reviewService";
+import { useAuth } from "../context/AuthContext";
 
 function Profile() {
   const [loading, setLoading] = useState(true);
@@ -102,15 +104,21 @@ function Profile() {
                     )}
                   </div>
 
-                  <Link
-                    to="/profile/edit"
-                    className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl transition shadow-md"
+                  <button
+                    onClick={() => navigate("/profile/edit")}
+                    className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-xl transition-all shadow-md"
                   >
-                    <Edit size={18} />
                     Edit Profile
-                  </Link>
-
+                  </button>
+                  <button
+                    onClick={() => {}}
+                    className="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all shadow-md"
+                  >
+                    Add Skills
+                  </button>
                 </div>
+                
+                <AchievementBadge user={user} />
 
                 <p className="mt-6 text-gray-300">
                   {user?.bio || "No bio available."}

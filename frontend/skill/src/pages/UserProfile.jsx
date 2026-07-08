@@ -168,6 +168,8 @@ function UserProfile() {
                       : "Send Skill Swap Request"}
                   </button>
                 )}
+                
+                <AchievementBadge user={user} />
 
               </div>
 

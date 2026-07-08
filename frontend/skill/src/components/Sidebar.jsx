@@ -11,6 +11,7 @@ import {
   Handshake,
   Users,
   Coins,
+  Trophy,
 } from "lucide-react";
 
 import { NavLink, useNavigate } from "react-router-dom";
@@ -43,6 +44,11 @@ function Sidebar() {
         <NavLink to="/profile" className={linkClass}>
           <User size={20} />
           <span>Profile</span>
+        </NavLink>
+
+        <NavLink to="/leaderboard" className={linkClass}>
+          <Trophy size={20} className="text-yellow-400" />
+          <span className="flex-1 font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-amber-500">Leaderboard</span>
         </NavLink>
 
         <NavLink to="/find-skills" className={linkClass}>

@@ -7,6 +7,7 @@ const {
   updateProfile,
   searchUsers,
   deductVideoCredits,
+  getLeaderboard,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -18,6 +19,8 @@ router.put("/profile", protect, updateProfile);
 router.post("/deduct-video-credits", protect, deductVideoCredits);
 
 router.get("/search", protect, searchUsers);
+
+router.get("/leaderboard", protect, getLeaderboard);
 
 router.get("/", getAllUsers);
 

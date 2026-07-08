@@ -94,3 +94,18 @@ export const getAllUsers = async () => {
     );
   }
 };
+
+// Get leaderboard
+export const getLeaderboard = async () => {
+  try {
+    const { data } = await api.get("/users/leaderboard");
+    return data;
+  } catch (error) {
+    throw (
+      error.response?.data || {
+        success: false,
+        message: "Failed to fetch leaderboard",
+      }
+    );
+  }
+};

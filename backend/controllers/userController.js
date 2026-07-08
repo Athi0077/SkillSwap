@@ -161,6 +161,28 @@ const deductVideoCredits = async (req, res) => {
   }
 };
 
+// Get leaderboard
+const getLeaderboard = async (req, res) => {
+  try {
+    // Sort users by credits descending, then by rating descending.
+    // Limit to top 50 users.
+    const users = await User.find()
+      .select("name username profileImage credits rating skillsOffered")
+      .sort({ credits: -1, rating: -1 })
+      .limit(50);
+
+    res.json({
+      success: true,
+      users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
@@ -168,4 +190,5 @@ module.exports = {
   updateProfile,
   searchUsers,
   deductVideoCredits,
+  getLeaderboard,
 };

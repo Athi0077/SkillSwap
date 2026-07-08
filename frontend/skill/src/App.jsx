@@ -17,6 +17,7 @@ import SwapFriends from "./pages/SwapFriends";
 import SearchUsers from "./pages/SearchUsers";
 import VideoCall from "./pages/VideoCall";
 import Credits from "./pages/Credits";
+import Leaderboard from "./pages/Leaderboard";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ClickSpark from "./components/ClickSpark";
@@ -141,6 +142,15 @@ function App() {
         element={
           <ProtectedRoute>
             <Credits />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/leaderboard"
+        element={
+          <ProtectedRoute>
+            <Leaderboard />
           </ProtectedRoute>
         }
       />
