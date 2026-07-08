@@ -12,7 +12,7 @@ import { toast } from "react-hot-toast";
 
 import { getUserById } from "../services/userService";
 import { getUserReviews } from "../services/reviewService";
-import { sendRequest } from "../services/requestService";
+import { sendRequest, getMyRequests } from "../services/requestService";
 import { useAuth } from "../context/AuthContext";
 
 function UserProfile() {
@@ -23,6 +23,9 @@ function UserProfile() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
+  const [requestStatus, setRequestStatus] = useState(null);
+  const [isFriendMode, setIsFriendMode] = useState(false);
+  const navigate = require("react-router-dom").useNavigate();
 
   useEffect(() => {
     loadUserProfile();
@@ -37,6 +40,18 @@ function UserProfile() {
 
       const reviewRes = await getUserReviews(id);
       setReviews(reviewRes.reviews || []);
+
+      if (currentUser && currentUser._id !== id) {
+        const reqRes = await getMyRequests();
+        const existingReq = reqRes.requests.find(
+          r => (r.sender?._id === id && r.receiver?._id === currentUser._id) || 
+               (r.sender?._id === currentUser._id && r.receiver?._id === id)
+        );
+        if (existingReq) {
+          setRequestStatus(existingReq.status);
+          if (existingReq.status === 'accepted') setIsFriendMode(true);
+        }
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -53,6 +68,7 @@ function UserProfile() {
       });
 
       toast.success("Skill swap request sent successfully.");
+      setRequestStatus("pending");
     } catch (error) {
       toast.error(error.message || "Unable to send request.");
     } finally {
@@ -128,12 +144,26 @@ function UserProfile() {
 
                 {currentUser?._id !== user?._id && (
                   <button
-                    onClick={handleSwapRequest}
-                    disabled={sending}
-                    className="mt-8 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl disabled:opacity-60"
+                    onClick={() => {
+                      if (isFriendMode) {
+                        navigate(`/chat?userId=${user._id}`);
+                      } else if (!requestStatus || requestStatus === 'cancelled' || requestStatus === 'rejected') {
+                        handleSwapRequest();
+                      }
+                    }}
+                    disabled={sending || requestStatus === 'pending'}
+                    className={`mt-8 px-8 py-3 rounded-xl disabled:opacity-60 text-white font-semibold transition-all ${
+                       isFriendMode ? "bg-indigo-600 hover:bg-indigo-700 shadow-md"
+                       : requestStatus === "pending" ? "bg-amber-500 cursor-not-allowed opacity-90 shadow-md"
+                       : "bg-blue-600 hover:bg-blue-700 shadow-md"
+                    }`}
                   >
                     {sending
                       ? "Sending..."
+                      : isFriendMode
+                      ? "Message"
+                      : requestStatus === "pending"
+                      ? "Request Pending"
                       : "Send Skill Swap Request"}
                   </button>
                 )}
