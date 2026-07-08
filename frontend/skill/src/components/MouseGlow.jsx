@@ -27,15 +27,16 @@ const MouseGlow = ({ glowColor = '132, 0, 255' }) => {
     spotlight.className = 'mouse-glow-spotlight';
     spotlight.style.cssText = `
       position: fixed;
-      width: 600px;
-      height: 600px;
+      width: 800px;
+      height: 800px;
       border-radius: 50%;
       pointer-events: none;
       background: radial-gradient(circle,
-        rgba(${glowColor}, 0.1) 0%,
-        rgba(${glowColor}, 0.05) 20%,
-        rgba(${glowColor}, 0.02) 40%,
-        transparent 60%
+        rgba(${glowColor}, 0.25) 0%,
+        rgba(${glowColor}, 0.15) 20%,
+        rgba(${glowColor}, 0.08) 40%,
+        rgba(${glowColor}, 0.04) 60%,
+        transparent 80%
       );
       z-index: 9998;
       opacity: 0;
