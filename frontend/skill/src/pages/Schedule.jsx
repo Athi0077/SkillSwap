@@ -83,19 +83,19 @@ function Schedule() {
     <>
       <Navbar />
 
-      <div className="flex min-h-screen bg-slate-100">
+      <div className="flex min-h-screen dark-bento-page">
         <Sidebar />
 
         <main className="flex-1 p-8">
 
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8 relative z-10">
 
             <div>
-              <h1 className="text-3xl font-bold">
+              <h1 className="text-3xl font-bold text-white">
                 Learning Sessions
               </h1>
 
-              <p className="text-gray-500 mt-2">
+              <p className="text-gray-400 mt-2">
                 Manage your scheduled skill exchange sessions.
               </p>
             </div>
@@ -103,7 +103,7 @@ function Schedule() {
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="border rounded-xl px-4 py-3 bg-white"
+              className="border border-[#2F293A] rounded-xl px-4 py-3 bg-[#1E1A29] text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="all">All Sessions</option>
               <option value="pending">Pending</option>
@@ -115,7 +115,7 @@ function Schedule() {
           </div>
 
           {filteredSessions.length ? (
-            <div className="space-y-6">
+            <div className="space-y-6 relative z-10">
 
               {filteredSessions.map((session) => (
                 <SessionCard
@@ -129,11 +129,13 @@ function Schedule() {
 
             </div>
           ) : (
-            <EmptyState 
-              title="No Sessions Found" 
-              message="Your scheduled learning sessions will appear here." 
-              icon={CalendarDays} 
-            />
+            <div className="relative z-10">
+              <EmptyState 
+                title="No Sessions Found" 
+                message="Your scheduled learning sessions will appear here." 
+                icon={CalendarDays} 
+              />
+            </div>
           )}
 
         </main>

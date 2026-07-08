@@ -141,19 +141,19 @@ function Requests() {
     <>
       <Navbar />
 
-      <div className="flex min-h-screen bg-slate-100">
+      <div className="flex min-h-screen dark-bento-page">
         <Sidebar />
 
         <main className="flex-1 p-8">
 
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 gap-4">
-            <h1 className="text-3xl font-bold">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 gap-4 relative z-10">
+            <h1 className="text-3xl font-bold text-white">
               Skill Swap Requests
             </h1>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-4 py-2.5 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium text-gray-700 max-w-xs cursor-pointer"
+              className="px-4 py-2.5 bg-[#1E1A29] border border-[#2F293A] rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium text-gray-200 max-w-xs cursor-pointer"
             >
               <option value="all">All Requests</option>
               <option value="pending">Pending</option>
@@ -163,36 +163,37 @@ function Requests() {
           </div>
 
           {filteredRequests.length === 0 ? (
-            <EmptyState 
-              title="No Requests Found" 
-              message={requests.length === 0 ? "Your incoming and outgoing requests will appear here." : "No requests match this filter."} 
-              icon={Clock} 
-            />
+            <div className="relative z-10">
+              <EmptyState 
+                title="No Requests Found" 
+                message={requests.length === 0 ? "Your incoming and outgoing requests will appear here." : "No requests match this filter."} 
+                icon={Clock} 
+              />
+            </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-6 relative z-10">
 
               {filteredRequests.map((request) => (
                 <div
                   key={request._id}
-                  className="bg-white rounded-2xl shadow p-6"
+                  className="glow-card-wrapper bg-[#120F17] p-6 relative"
                 >
-
-                  <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6">
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6 relative z-10">
 
                     <div>
 
-                      <h2 className="text-xl font-bold">
+                      <h2 className="text-xl font-bold text-white">
                         {request.skill?.title}
                       </h2>
 
-                      <p className="text-gray-500 mt-2">
-                        From:
+                      <p className="text-gray-400 mt-2">
+                        <span className="text-gray-500">From:</span>
                         {" "}
                         {request.sender?.name}
                       </p>
 
-                      <p className="text-gray-500">
-                        To:
+                      <p className="text-gray-400">
+                        <span className="text-gray-500">To:</span>
                         {" "}
                         {request.receiver?.name}
                       </p>
@@ -201,12 +202,12 @@ function Requests() {
                         className={`inline-block mt-4 px-4 py-1 rounded-full text-sm font-medium
                           ${
                             request.status === "pending"
-                              ? "bg-yellow-100 text-yellow-700"
+                              ? "bg-yellow-900/30 text-yellow-500 border border-yellow-700/50"
                               : request.status === "accepted"
-                              ? "bg-green-100 text-green-700"
+                              ? "bg-green-900/30 text-green-400 border border-green-700/50"
                               : request.status === "rejected" || request.status === "cancelled"
-                              ? "bg-red-100 text-red-700"
-                              : "bg-gray-100 text-gray-700"
+                              ? "bg-red-900/30 text-red-400 border border-red-700/50"
+                              : "bg-gray-800 text-gray-400 border border-gray-700"
                           }`}
                       >
                         {request.status}
@@ -228,7 +229,7 @@ function Requests() {
 
                             <button
                               onClick={() => handleReject(request._id)}
-                              className="flex items-center gap-1.5 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm shadow-sm transition-all active:scale-95"
+                              className="flex items-center gap-1.5 bg-red-600/20 text-red-400 hover:bg-red-600/40 border border-red-500/30 px-4 py-2 rounded-lg text-sm shadow-sm transition-all active:scale-95"
                             >
                               <XCircle size={16} />
                               Reject
@@ -239,7 +240,7 @@ function Requests() {
                         {request.sender?._id === user?._id && (
                           <button
                             onClick={() => handleCancel(request._id)}
-                            className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm shadow-sm transition-all active:scale-95"
+                            className="bg-[#2F293A] hover:bg-[#3F374A] text-gray-300 px-4 py-2 rounded-lg text-sm shadow-sm transition-all active:scale-95"
                           >
                             Cancel
                           </button>
@@ -251,14 +252,14 @@ function Requests() {
                       <div className="flex flex-wrap gap-2">
                         <button
                           onClick={() => navigate(`/chat?userId=${request.sender?._id === user?._id ? request.receiver?._id : request.sender?._id}`)}
-                          className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm shadow-sm transition-all active:scale-95"
+                          className="flex items-center gap-1.5 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm shadow-sm transition-all active:scale-95"
                         >
                           <MessageCircle size={16} />
                           Start Chat
                         </button>
                         <button
                           onClick={() => handleEndSession(request._id)}
-                          className="flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm shadow-sm transition-all active:scale-95"
+                          className="flex items-center gap-1.5 bg-[#2F293A] hover:bg-[#3F374A] text-orange-400 border border-orange-500/30 px-4 py-2 rounded-lg text-sm shadow-sm transition-all active:scale-95"
                         >
                           <StopCircle size={16} />
                           End Session
@@ -270,7 +271,7 @@ function Requests() {
                       <div className="flex flex-wrap gap-2">
                         <button
                           onClick={() => handleDelete(request._id)}
-                          className="flex items-center gap-1.5 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm shadow-sm transition-all active:scale-95"
+                          className="flex items-center gap-1.5 bg-red-900/40 hover:bg-red-900/60 text-red-400 border border-red-500/30 px-4 py-2 rounded-lg text-sm shadow-sm transition-all active:scale-95"
                         >
                           <Trash2 size={16} />
                           Delete

@@ -75,26 +75,26 @@ function ReviewFormCard({ swapUser, existingReview, onSubmit }) {
     .slice(0, 2);
 
   return (
-    <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
+    <div className="glow-card-wrapper bg-[#120F17] hover:shadow-lg transition-all duration-300 overflow-hidden relative">
 
       {/* User header */}
-      <div className="bg-gradient-to-r from-indigo-600 to-violet-600 p-5">
+      <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-5 relative z-10">
         <div className="flex items-center gap-4">
           {swapUser.profileImage ? (
             <img
               src={swapUser.profileImage}
               alt={swapUser.name}
-              className="w-14 h-14 rounded-full object-cover border-2 border-white/40"
+              className="w-14 h-14 rounded-full object-cover border-2 border-[#120F17]"
             />
           ) : (
-            <div className="w-14 h-14 rounded-full bg-white/20 border-2 border-white/40 flex items-center justify-center text-white font-bold text-lg">
+            <div className="w-14 h-14 rounded-full bg-black/20 border-2 border-[#120F17] flex items-center justify-center text-white font-bold text-lg">
               {initials}
             </div>
           )}
           <div>
             <h3 className="text-white font-bold text-lg">{swapUser.name}</h3>
             {swapUser.skillsOffered?.length > 0 && (
-              <p className="text-indigo-100 text-sm mt-0.5">
+              <p className="text-indigo-200 text-sm mt-0.5">
                 Offers: {swapUser.skillsOffered.slice(0, 2).join(", ")}
                 {swapUser.skillsOffered.length > 2 ? " …" : ""}
               </p>
@@ -102,7 +102,7 @@ function ReviewFormCard({ swapUser, existingReview, onSubmit }) {
           </div>
 
           {submitted && (
-            <div className="ml-auto flex items-center gap-1.5 bg-green-500/20 text-green-100 text-xs px-3 py-1 rounded-full">
+            <div className="ml-auto flex items-center gap-1.5 bg-green-500/20 text-green-300 border border-green-500/30 text-xs px-3 py-1 rounded-full">
               <CheckCircle size={13} />
               Reviewed
             </div>
@@ -111,11 +111,11 @@ function ReviewFormCard({ swapUser, existingReview, onSubmit }) {
       </div>
 
       {/* Review form */}
-      <form onSubmit={handleSubmit} className="p-5 space-y-4">
+      <form onSubmit={handleSubmit} className="p-5 space-y-4 relative z-10">
 
         {/* Star rating */}
         <div>
-          <label className="text-sm font-semibold text-slate-600 block mb-2">
+          <label className="text-sm font-semibold text-gray-400 block mb-2">
             Your Rating
           </label>
           <StarInput value={rating} onChange={setRating} />
@@ -123,7 +123,7 @@ function ReviewFormCard({ swapUser, existingReview, onSubmit }) {
 
         {/* Comment */}
         <div>
-          <label className="text-sm font-semibold text-slate-600 block mb-2">
+          <label className="text-sm font-semibold text-gray-400 block mb-2">
             Your Review
           </label>
           <textarea
@@ -131,7 +131,7 @@ function ReviewFormCard({ swapUser, existingReview, onSubmit }) {
             onChange={(e) => setComment(e.target.value)}
             placeholder={`Share your experience with ${swapUser.name}…`}
             rows={3}
-            className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"
+            className="w-full bg-[#1E1A29] border border-[#2F293A] text-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none placeholder-gray-600"
           />
         </div>
 
@@ -140,8 +140,8 @@ function ReviewFormCard({ swapUser, existingReview, onSubmit }) {
           disabled={loading || rating === 0}
           className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all
             ${rating > 0 && !loading
-              ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-md"
-              : "bg-slate-100 text-slate-400 cursor-not-allowed"
+              ? "bg-purple-600 hover:bg-purple-700 text-white shadow-md"
+              : "bg-[#2F293A] text-gray-500 cursor-not-allowed"
             }`}
         >
           <Send size={15} />
@@ -163,41 +163,41 @@ function ReviewDisplayCard({ review, currentUserId, onDelete }) {
     .slice(0, 2);
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 flex gap-4">
+    <div className="glow-card-wrapper bg-[#120F17] rounded-2xl p-5 flex gap-4 relative">
 
       {/* Avatar */}
       {review.reviewer?.profileImage ? (
         <img
           src={review.reviewer.profileImage}
           alt={review.reviewer.name}
-          className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+          className="w-12 h-12 rounded-full object-cover flex-shrink-0 relative z-10"
         />
       ) : (
-        <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold flex-shrink-0">
+        <div className="w-12 h-12 rounded-full bg-purple-900/30 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold flex-shrink-0 relative z-10">
           {initials}
         </div>
       )}
 
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 relative z-10">
         <div className="flex items-start justify-between gap-2">
           <div>
-            <span className="font-semibold text-slate-800 text-sm">
+            <span className="font-semibold text-white text-sm">
               {review.reviewer?.name}
             </span>
-            <span className="text-slate-400 text-xs ml-2">→</span>
-            <span className="text-slate-600 text-sm ml-2">
+            <span className="text-gray-500 text-xs ml-2">→</span>
+            <span className="text-gray-400 text-sm ml-2">
               {review.reviewee?.name}
             </span>
           </div>
 
           <div className="flex items-center gap-3 flex-shrink-0">
-            <span className="text-xs text-slate-400">
+            <span className="text-xs text-gray-500">
               {new Date(review.createdAt).toLocaleDateString()}
             </span>
             {isOwner && (
               <button
                 onClick={() => onDelete(review._id)}
-                className="text-xs text-red-400 hover:text-red-600 transition-colors"
+                className="text-xs text-red-400 hover:text-red-300 transition-colors"
               >
                 Delete
               </button>
@@ -211,13 +211,13 @@ function ReviewDisplayCard({ review, currentUserId, onDelete }) {
             <Star
               key={s}
               size={14}
-              className={s <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-slate-200"}
+              className={s <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-700"}
             />
           ))}
         </div>
 
         {review.comment && (
-          <p className="text-slate-600 text-sm mt-2 leading-relaxed">
+          <p className="text-gray-300 text-sm mt-2 leading-relaxed">
             {review.comment}
           </p>
         )}
@@ -279,22 +279,22 @@ function Reviews() {
     <>
       <Navbar />
 
-      <div className="flex min-h-screen bg-slate-100">
+      <div className="flex min-h-screen dark-bento-page">
         <Sidebar />
 
         <main className="flex-1 p-8">
 
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-slate-800">Reviews</h1>
-            <p className="text-slate-500 mt-1">
+          <div className="mb-8 relative z-10">
+            <h1 className="text-3xl font-bold text-white">Reviews</h1>
+            <p className="text-gray-400 mt-1">
               Rate and review users you've swapped skills with
             </p>
           </div>
 
           {/* ── Write Reviews Section ── */}
-          <div className="mb-10">
-            <h2 className="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
+          <div className="mb-10 relative z-10">
+            <h2 className="text-lg font-semibold text-gray-200 mb-4 flex items-center gap-2">
               <Star size={18} className="text-yellow-500 fill-yellow-400" />
               Write a Review
             </h2>
@@ -321,11 +321,11 @@ function Reviews() {
 
           {/* ── My Submitted Reviews Section ── */}
           {myReviews.length > 0 && (
-            <div>
-              <h2 className="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
-                <MessageSquare size={18} className="text-indigo-500" />
+            <div className="relative z-10">
+              <h2 className="text-lg font-semibold text-gray-200 mb-4 flex items-center gap-2">
+                <MessageSquare size={18} className="text-purple-400" />
                 Reviews I've Written
-                <span className="bg-indigo-100 text-indigo-700 text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                <span className="bg-purple-900/30 border border-purple-500/30 text-purple-300 text-xs px-2.5 py-0.5 rounded-full font-semibold">
                   {myReviews.length}
                 </span>
               </h2>

@@ -84,42 +84,42 @@ function UserProfile() {
     <>
       <Navbar />
 
-      <div className="flex min-h-screen bg-slate-100">
+      <div className="flex min-h-screen dark-bento-page">
         <Sidebar />
 
         <main className="flex-1 p-8">
 
           {/* Profile Card */}
-          <div className="bg-white rounded-3xl shadow p-8">
+          <div className="glow-card-wrapper bg-[#120F17] p-8 relative">
 
-            <div className="flex flex-col lg:flex-row gap-8 items-center">
+            <div className="flex flex-col lg:flex-row gap-8 items-center relative z-10">
 
               <img
                 src={
                   user?.profileImage ||
                   `https://ui-avatars.com/api/?name=${encodeURIComponent(
                     user?.name || "User"
-                  )}`
+                  )}&background=120F17&color=fff`
                 }
                 alt={user?.name}
-                className="w-40 h-40 rounded-full object-cover border-4 border-blue-600"
+                className="w-40 h-40 rounded-full object-cover border-4 border-[#2F293A]"
               />
 
               <div className="flex-1">
 
-                <h1 className="text-4xl font-bold">
+                <h1 className="text-4xl font-bold text-white">
                   {user?.name}
                 </h1>
 
                 <div className="mt-4 space-y-2">
 
-                  <div className="flex items-center gap-2 text-gray-600">
+                  <div className="flex items-center gap-2 text-gray-400">
                     <Mail size={18} />
                     {user?.email}
                   </div>
 
                   {user?.location && (
-                    <div className="flex items-center gap-2 text-gray-600">
+                    <div className="flex items-center gap-2 text-gray-400">
                       <MapPin size={18} />
                       {user.location}
                     </div>
@@ -131,14 +131,14 @@ function UserProfile() {
                       size={20}
                     />
 
-                    <span className="font-semibold">
+                    <span className="font-semibold text-white">
                       {user?.rating || "0.0"}
                     </span>
                   </div>
 
                 </div>
 
-                <p className="mt-6 text-gray-700">
+                <p className="mt-6 text-gray-300">
                   {user?.bio || "No bio available."}
                 </p>
 
@@ -153,9 +153,9 @@ function UserProfile() {
                     }}
                     disabled={sending || requestStatus === 'pending'}
                     className={`mt-8 px-8 py-3 rounded-xl disabled:opacity-60 text-white font-semibold transition-all ${
-                       isFriendMode ? "bg-indigo-600 hover:bg-indigo-700 shadow-md"
-                       : requestStatus === "pending" ? "bg-amber-500 cursor-not-allowed opacity-90 shadow-md"
-                       : "bg-blue-600 hover:bg-blue-700 shadow-md"
+                       isFriendMode ? "bg-purple-600 hover:bg-purple-700 shadow-md"
+                       : requestStatus === "pending" ? "bg-amber-600 cursor-not-allowed opacity-90 shadow-md"
+                       : "bg-indigo-600 hover:bg-indigo-700 shadow-md"
                     }`}
                   >
                     {sending
@@ -175,58 +175,62 @@ function UserProfile() {
           </div>
 
           {/* Skills */}
-          <div className="grid lg:grid-cols-2 gap-8 mt-10">
+          <div className="grid lg:grid-cols-2 gap-8 mt-10 relative z-10">
 
-            <div className="bg-white rounded-2xl shadow p-6">
+            <div className="glow-card-wrapper bg-[#120F17] p-6 relative">
 
-              <h2 className="text-2xl font-bold mb-5">
-                Skills Offered
-              </h2>
+              <div className="relative z-10">
+                <h2 className="text-2xl font-bold mb-5 text-white">
+                  Skills Offered
+                </h2>
 
-              <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3">
 
-                {user?.skillsOffered?.length ? (
-                  user.skillsOffered.map((skill) => (
-                    <span
-                      key={skill}
-                      className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full"
-                    >
-                      {skill}
-                    </span>
-                  ))
-                ) : (
-                  <p className="text-gray-500">
-                    No skills listed.
-                  </p>
-                )}
+                  {user?.skillsOffered?.length ? (
+                    user.skillsOffered.map((skill) => (
+                      <span
+                        key={skill}
+                        className="bg-indigo-900/50 text-indigo-300 border border-indigo-500/30 px-4 py-2 rounded-full"
+                      >
+                        {skill}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">
+                      No skills listed.
+                    </p>
+                  )}
 
+                </div>
               </div>
 
             </div>
 
-            <div className="bg-white rounded-2xl shadow p-6">
+            <div className="glow-card-wrapper bg-[#120F17] p-6 relative">
 
-              <h2 className="text-2xl font-bold mb-5">
-                Skills Wanted
-              </h2>
+              <div className="relative z-10">
+                <h2 className="text-2xl font-bold mb-5 text-white">
+                  Skills Wanted
+                </h2>
 
-              <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3">
 
-                {user?.skillsWanted?.length ? (
-                  user.skillsWanted.map((skill) => (
-                    <span
-                      key={skill}
-                      className="bg-green-100 text-green-700 px-4 py-2 rounded-full"
-                    >
-                      {skill}
-                    </span>
-                  ))
-                ) : (
-                  <p className="text-gray-500">
-                    No skills listed.
-                  </p>
-                )}
+                  {user?.skillsWanted?.length ? (
+                    user.skillsWanted.map((skill) => (
+                      <span
+                        key={skill}
+                        className="bg-purple-900/50 text-purple-300 border border-purple-500/30 px-4 py-2 rounded-full"
+                      >
+                        {skill}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">
+                      No skills listed.
+                    </p>
+                  )}
 
+                </div>
               </div>
 
             </div>
@@ -234,9 +238,9 @@ function UserProfile() {
           </div>
 
           {/* Reviews */}
-          <section className="mt-12">
+          <section className="mt-12 relative z-10">
 
-            <h2 className="text-3xl font-bold mb-6">
+            <h2 className="text-3xl font-bold mb-6 text-white">
               Reviews
             </h2>
 
@@ -251,11 +255,13 @@ function UserProfile() {
                   />
                 ))
               ) : (
-                <EmptyState 
-                  title="No Reviews Yet" 
-                  message="This user hasn't received any reviews yet." 
-                  icon={Star} 
-                />
+                <div className="relative z-10">
+                  <EmptyState 
+                    title="No Reviews Yet" 
+                    message="This user hasn't received any reviews yet." 
+                    icon={Star} 
+                  />
+                </div>
               )}
 
             </div>
