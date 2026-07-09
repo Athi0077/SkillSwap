@@ -60,6 +60,12 @@ function Navbar() {
 
                 <NavLink to="/reviews" className={desktopLinkClass}>Reviews</NavLink>
 
+                <NavLink to="/leaderboard" className={desktopLinkClass}>Leaderboard</NavLink>
+
+                <NavLink to="/matches" className={desktopLinkClass}>Matches</NavLink>
+
+                <NavLink to="/credits" className={desktopLinkClass}>Credits</NavLink>
+
                 {/* <NavLink to="/search" className="flex items-center text-gray-600 hover:text-blue-600 transition-colors">
                   <Search size={20} />
                 </NavLink> */}
@@ -142,16 +148,20 @@ function Navbar() {
                   Reviews
                 </NavLink>
 
+                <NavLink to="/leaderboard" className={mobileLinkClass} onClick={closeMenu}>
+                  Leaderboard
+                </NavLink>
+
+                <NavLink to="/matches" className={mobileLinkClass} onClick={closeMenu}>
+                  Matches
+                </NavLink>
+
                 <NavLink to="/profile" className={mobileLinkClass} onClick={closeMenu}>
                   {user?.name || "Profile"}
                 </NavLink>
 
-                <NavLink 
-                  to="/credits" 
-                  className="col-span-3 bg-yellow-500 hover:bg-yellow-600 text-white py-2 mt-2 rounded-xl transition font-medium flex items-center justify-center gap-2" 
-                  onClick={closeMenu}
-                >
-                  <Coins size={18} /> Get Credits
+                <NavLink to="/credits" className={mobileLinkClass} onClick={closeMenu}>
+                  Credits
                 </NavLink>
                 
                 <button
