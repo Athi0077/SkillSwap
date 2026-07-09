@@ -73,27 +73,46 @@ function Leaderboard() {
                 <div
                   key={user._id}
                   onClick={() => navigate(`/user/${user._id}`)}
-                  className={`glow-card-wrapper p-6 flex items-center gap-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 ${getRankStyle(index)}`}
+                  className={`glow-card-wrapper p-4 md:p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 ${getRankStyle(index)}`}
                 >
-                  <div className="flex-shrink-0 w-12 flex justify-center">
-                    {getRankIcon(index)}
-                  </div>
+                  <div className="flex flex-col md:flex-row md:items-center w-full gap-4 md:gap-6">
+                    {/* Top Row: Icon, Avatar, Info */}
+                    <div className="flex items-center gap-3 md:gap-4 w-full md:w-auto flex-1">
+                      <div className="flex-shrink-0 w-8 md:w-12 flex justify-center">
+                        {getRankIcon(index)}
+                      </div>
 
-                  <img
-                    src={
-                      user.profileImage ||
-                      `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=3B82F6&color=fff`
-                    }
-                    alt={user.name}
-                    className={`w-16 h-16 rounded-full object-cover border-2 ${
-                      index === 0 ? "border-yellow-400" : index === 1 ? "border-gray-300" : index === 2 ? "border-amber-600" : "border-[#2F293A]"
-                    }`}
-                  />
+                      <img
+                        src={
+                          user.profileImage ||
+                          `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=3B82F6&color=fff`
+                        }
+                        alt={user.name}
+                        className={`w-12 h-12 md:w-16 md:h-16 rounded-full object-cover border-2 ${
+                          index === 0 ? "border-yellow-400" : index === 1 ? "border-gray-300" : index === 2 ? "border-amber-600" : "border-[#2F293A]"
+                        }`}
+                      />
 
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white">{user.name}</h3>
-                    <p className="text-purple-400 text-sm mb-1">{user.username ? `@${user.username}` : ''}</p>
-                    <div className="flex flex-wrap gap-2">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-lg md:text-xl font-bold text-white truncate">{user.name}</h3>
+                        <p className="text-purple-400 text-xs md:text-sm mb-1 truncate">{user.username ? `@${user.username}` : ''}</p>
+                        
+                        {/* Skills on Desktop */}
+                        <div className="hidden md:flex flex-wrap gap-2">
+                          {(user.skillsOffered || []).slice(0, 3).map((skill, i) => (
+                            <span key={i} className="text-xs bg-[#2F293A] text-gray-300 px-2 py-1 rounded-md">
+                              {skill}
+                            </span>
+                          ))}
+                          {user.skillsOffered?.length > 3 && (
+                            <span className="text-xs text-gray-500">+{user.skillsOffered.length - 3} more</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Skills on Mobile */}
+                    <div className="flex md:hidden flex-wrap gap-2 pl-11">
                       {(user.skillsOffered || []).slice(0, 3).map((skill, i) => (
                         <span key={i} className="text-xs bg-[#2F293A] text-gray-300 px-2 py-1 rounded-md">
                           {skill}
@@ -103,16 +122,16 @@ function Leaderboard() {
                         <span className="text-xs text-gray-500">+{user.skillsOffered.length - 3} more</span>
                       )}
                     </div>
-                  </div>
 
-                  <div className="flex flex-col items-end gap-2">
-                    <div className="flex items-center gap-2 bg-yellow-500/10 px-4 py-2 rounded-xl border border-yellow-500/20">
-                      <Star className="text-yellow-500" size={18} fill="currentColor" />
-                      <span className="font-bold text-yellow-500">{user.rating?.toFixed(1) || "0.0"}</span>
-                    </div>
-                    <div className="flex items-center gap-2 bg-indigo-500/10 px-4 py-2 rounded-xl border border-indigo-500/20">
-                      <TrendingUp className="text-indigo-400" size={18} />
-                      <span className="font-bold text-indigo-400">{user.credits || 0} Credits</span>
+                    <div className="flex flex-row md:flex-col items-center md:items-end gap-2 pl-11 md:pl-0 w-full md:w-auto md:ml-auto justify-start md:justify-end">
+                      <div className="flex items-center justify-center gap-2 bg-yellow-500/10 px-3 md:px-4 py-1.5 md:py-2 rounded-xl border border-yellow-500/20">
+                        <Star className="text-yellow-500" size={16} fill="currentColor" />
+                        <span className="font-bold text-yellow-500 text-sm md:text-base">{user.rating?.toFixed(1) || "0.0"}</span>
+                      </div>
+                      <div className="flex items-center justify-center gap-2 bg-indigo-500/10 px-3 md:px-4 py-1.5 md:py-2 rounded-xl border border-indigo-500/20">
+                        <TrendingUp className="text-indigo-400" size={16} />
+                        <span className="font-bold text-indigo-400 text-sm md:text-base">{user.credits || 0} Credits</span>
+                      </div>
                     </div>
                   </div>
                 </div>
