@@ -128,10 +128,6 @@ function Leaderboard() {
                         <Star className="text-yellow-500" size={16} fill="currentColor" />
                         <span className="font-bold text-yellow-500 text-sm md:text-base">{user.rating?.toFixed(1) || "0.0"}</span>
                       </div>
-                      <div className="flex items-center justify-center gap-2 bg-indigo-500/10 px-3 md:px-4 py-1.5 md:py-2 rounded-xl border border-indigo-500/20">
-                        <TrendingUp className="text-indigo-400" size={16} />
-                        <span className="font-bold text-indigo-400 text-sm md:text-base">{user.credits || 0} Credits</span>
-                      </div>
                     </div>
                   </div>
                 </div>

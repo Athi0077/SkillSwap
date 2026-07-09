@@ -164,11 +164,11 @@ const deductVideoCredits = async (req, res) => {
 // Get leaderboard
 const getLeaderboard = async (req, res) => {
   try {
-    // Sort users by credits descending, then by rating descending.
+    // Sort users by rating descending, then by credits descending.
     // Limit to top 50 users.
     const users = await User.find()
       .select("name username profileImage credits rating skillsOffered")
-      .sort({ credits: -1, rating: -1 })
+      .sort({ rating: -1, credits: -1 })
       .limit(50);
 
     res.json({
