@@ -105,12 +105,8 @@ function Chat() {
         }
         setConversations(chats);
         if (targetChat) selectChat(targetChat);
-        else if (chats.length) selectChat(chats[0]);
       } else {
         setConversations(chats);
-        if (chats.length) {
-          selectChat(chats[0]);
-        }
       }
     } catch (error) {
       console.error(error);
@@ -207,7 +203,7 @@ function Chat() {
               </div>
 
               {/* Chat Window */}
-              <div className={`lg:col-span-2 h-full ${selectedChat ? "block" : "hidden lg:block"}`}>
+              <div className={`lg:col-span-2 h-full min-h-0 ${selectedChat ? "block" : "hidden lg:block"}`}>
 
                 {selectedChat ? (
                   <ChatBox

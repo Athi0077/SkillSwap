@@ -58,10 +58,10 @@ function ChatBox({
   };
 
   return (
-    <div className="flex flex-col h-full bg-transparent relative z-10">
+    <div className="flex flex-col h-full bg-transparent relative z-10 min-h-0">
 
       {/* Header */}
-      <div className="flex items-center justify-between gap-4 p-4 border-b border-[#2F293A]">
+      <div className="sticky top-0 z-20 shrink-0 bg-[#120F17] flex items-center justify-between gap-4 p-4 border-b border-[#2F293A]">
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
@@ -154,7 +154,7 @@ function ChatBox({
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="border-t border-[#2F293A] p-4 flex gap-3">
+      <form onSubmit={handleSubmit} className="sticky bottom-0 z-20 shrink-0 bg-[#120F17] border-t border-[#2F293A] p-4 flex gap-3">
         <input
           type="text"
           placeholder="Type your message..."
