@@ -100,10 +100,7 @@ function Sidebar() {
               {user?.credits || 0}
             </span>
           </NavLink>
-        </div>
-
-
-
+          
           <button
             onClick={handleLogout}
             className="flex items-center gap-3 px-4 py-2 rounded-xl text-sm font-medium text-red-400 hover:bg-red-900/20 hover:text-red-300 transition-all"
