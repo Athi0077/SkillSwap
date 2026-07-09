@@ -35,7 +35,7 @@ function Sidebar() {
 
   return (
     <aside className="hidden md:block w-60 h-[calc(100vh-64px)] sticky top-16 self-start overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] glow-card-wrapper bg-[#120F17] !rounded-none no-top-glow no-left-glow no-bottom-glow border-r border-[#2F293A] shadow-sm">
-      <nav className="flex flex-col p-4 space-y-1 relative z-10 h-full">
+      <nav className="flex flex-col p-4 pb-8 space-y-1 relative z-10 min-h-full">
 
         <NavLink to="/dashboard" className={linkClass}>
           <LayoutDashboard size={20} />
@@ -92,7 +92,7 @@ function Sidebar() {
           <span>Reviews</span>
         </NavLink>
 
-        <div className="pt-4 mt-2 border-t border-[#2F293A]">
+        <div className="pt-4 mt-auto border-t border-[#2F293A] flex flex-col gap-1">
           <NavLink to="/credits" className={linkClass}>
             <Coins size={20} className="text-yellow-500" />
             <span className="flex-1">Credits</span>
@@ -104,13 +104,14 @@ function Sidebar() {
 
 
 
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-3 px-4 py-2 rounded-xl text-sm font-medium text-red-400 hover:bg-red-900/20 hover:text-red-300 transition-all"
-        >
-          <LogOut size={20} />
-          <span>Logout</span>
-        </button>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 px-4 py-2 rounded-xl text-sm font-medium text-red-400 hover:bg-red-900/20 hover:text-red-300 transition-all"
+          >
+            <LogOut size={20} />
+            <span>Logout</span>
+          </button>
+        </div>
       </nav>
     </aside>
   );
