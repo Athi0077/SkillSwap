@@ -40,6 +40,10 @@ function HubChat({ hubId, isMember }) {
     
     socketRef.current = io(socketUrl);
 
+    // Emit join immediately (will be buffered if not connected, or sent immediately if already connected)
+    socketRef.current.emit("join-hub-room", hubId);
+
+    // Also re-join if the socket reconnects
     socketRef.current.on("connect", () => {
       socketRef.current.emit("join-hub-room", hubId);
     });

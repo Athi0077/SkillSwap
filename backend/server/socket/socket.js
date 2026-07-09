@@ -51,7 +51,7 @@ module.exports = (io) => {
 
         // Ensure user is in the hub
         const hub = await Hub.findById(hubId);
-        if (!hub || !hub.members.includes(sender)) {
+        if (!hub || !hub.members.some(memberId => memberId.toString() === sender.toString())) {
           io.to(socket.id).emit("messageError", "You are not a member of this hub.");
           return;
         }
