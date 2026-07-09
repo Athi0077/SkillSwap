@@ -1,4 +1,6 @@
 const Message = require("../../models/Message");
+const HubMessage = require("../../models/HubMessage");
+const Hub = require("../../models/Hub");
 
 module.exports = (io) => {
   io.on("connection", (socket) => {
@@ -32,6 +34,40 @@ module.exports = (io) => {
 
       io.to(data.receiver).emit("receiveMessage", message);
       io.to(data.sender).emit("receiveMessage", message);
+    });
+
+    // ── Hub Chat ──────────────────────────────────────────
+    socket.on("join-hub-room", (hubId) => {
+      socket.join(`hub_${hubId}`);
+    });
+
+    socket.on("leave-hub-room", (hubId) => {
+      socket.leave(`hub_${hubId}`);
+    });
+
+    socket.on("send-hub-message", async (data) => {
+      try {
+        const { hubId, sender, message } = data;
+
+        // Ensure user is in the hub
+        const hub = await Hub.findById(hubId);
+        if (!hub || !hub.members.includes(sender)) {
+          io.to(socket.id).emit("messageError", "You are not a member of this hub.");
+          return;
+        }
+
+        const newHubMessage = await HubMessage.create({
+          hub: hubId,
+          sender: sender,
+          message: message,
+        });
+
+        const populatedMessage = await newHubMessage.populate("sender", "name username profileImage");
+
+        io.to(`hub_${hubId}`).emit("receive-hub-message", populatedMessage);
+      } catch (error) {
+        console.error("Hub Chat Error:", error);
+      }
     });
 
     // ── Video Call Signaling (WebRTC) ─────────────────────

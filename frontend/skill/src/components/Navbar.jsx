@@ -99,13 +99,20 @@ function Navbar() {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-white"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+          {/* Mobile Menu Buttons */}
+          <div className="md:hidden flex items-center gap-4 text-white">
+            {isAuthenticated && (
+              <NavLink to="/search" className="text-gray-400 hover:text-purple-400 transition-colors" onClick={closeMenu}>
+                <Search size={24} />
+              </NavLink>
+            )}
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="hover:text-purple-400 transition-colors"
+            >
+              {menuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -116,10 +123,6 @@ function Navbar() {
           <div className="grid grid-cols-3 gap-3 px-2 pb-2 text-center relative z-10">
             {isAuthenticated ? (
               <>
-                {/* search icon only */}
-                <NavLink to="/search" className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-gray-400 hover:text-purple-400" onClick={closeMenu}>
-                  <Search size={24} />
-                </NavLink>
 
                 <NavLink to="/dashboard" className={mobileLinkClass} onClick={closeMenu}>
                   Dashboard

@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Users, UserPlus, UserMinus, Globe } from "lucide-react";
+import { ArrowLeft, Users, UserPlus, UserMinus, Globe, MessageSquare } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { getHubById, joinHub, leaveHub } from "../services/hubService";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
+import HubChat from "../components/HubChat";
 
 function HubDetails() {
   const { id } = useParams();
@@ -16,6 +17,7 @@ function HubDetails() {
   const [hub, setHub] = useState(null);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("members"); // "members" | "chat"
 
   useEffect(() => {
     loadHub();
@@ -132,35 +134,68 @@ function HubDetails() {
             </div>
           </div>
 
-          {/* Members Grid */}
-          <div className="relative z-10">
-            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-              <Users size={24} className="text-purple-400" />
+          {/* Tabs UI */}
+          <div className="flex items-center gap-4 mb-6 relative z-10 border-b border-[#2F293A] pb-4">
+            <button
+              onClick={() => setActiveTab("members")}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all ${
+                activeTab === "members"
+                  ? "bg-purple-600/20 text-purple-400 border border-purple-500/30"
+                  : "text-gray-400 hover:text-white hover:bg-[#1A1625]"
+              }`}
+            >
+              <Users size={18} />
               Members
-            </h2>
+            </button>
+            <button
+              onClick={() => setActiveTab("chat")}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all ${
+                activeTab === "chat"
+                  ? "bg-purple-600/20 text-purple-400 border border-purple-500/30"
+                  : "text-gray-400 hover:text-white hover:bg-[#1A1625]"
+              }`}
+            >
+              <MessageSquare size={18} />
+              Chat Room
+            </button>
+          </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {hub.members?.map((member) => (
-                <div
-                  key={member._id}
-                  onClick={() => navigate(`/user/${member._id}`)}
-                  className="bg-[#120F17] border border-[#2F293A] rounded-2xl p-4 flex items-center gap-4 cursor-pointer hover:bg-[#1A1625] hover:border-purple-500/30 transition-all duration-300 group"
-                >
-                  <img
-                    src={
-                      member.profileImage ||
-                      `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=3B82F6&color=fff`
-                    }
-                    alt={member.name}
-                    className="w-12 h-12 rounded-full object-cover border border-[#2F293A] group-hover:border-purple-500/50 transition-colors"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-white truncate group-hover:text-purple-400 transition-colors">{member.name}</h3>
-                    <p className="text-xs text-gray-500 truncate">{member.username ? `@${member.username}` : "Member"}</p>
+          {/* Conditional Rendering based on Tab */}
+          <div className="relative z-10">
+            {activeTab === "members" ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                {hub.members?.length === 0 ? (
+                  <div className="col-span-full text-center text-gray-500 py-10 bg-[#120F17] rounded-2xl border border-[#2F293A]">
+                    No members have joined yet. Be the first!
                   </div>
-                </div>
-              ))}
-            </div>
+                ) : (
+                  hub.members?.map((member) => (
+                    <div
+                      key={member._id}
+                      onClick={() => navigate(`/user/${member._id}`)}
+                      className="bg-[#120F17] border border-[#2F293A] rounded-2xl p-4 flex items-center gap-4 cursor-pointer hover:bg-[#1A1625] hover:border-purple-500/30 transition-all duration-300 group"
+                    >
+                      <img
+                        src={
+                          member.profileImage ||
+                          `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=3B82F6&color=fff`
+                        }
+                        alt={member.name}
+                        className="w-12 h-12 rounded-full object-cover border border-[#2F293A] group-hover:border-purple-500/50 transition-colors"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-white truncate group-hover:text-purple-400 transition-colors">{member.name}</h3>
+                        <p className="text-xs text-gray-500 truncate">{member.username ? `@${member.username}` : "Member"}</p>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            ) : (
+              <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                <HubChat hubId={hub._id} isMember={isMember} />
+              </div>
+            )}
           </div>
         </main>
       </div>

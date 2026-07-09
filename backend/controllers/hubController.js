@@ -1,4 +1,5 @@
 const Hub = require("../models/Hub");
+const HubMessage = require("../models/HubMessage");
 
 // Create a new Hub
 const createHub = async (req, res) => {
@@ -150,10 +151,46 @@ const leaveHub = async (req, res) => {
   }
 };
 
+// Get Hub Messages
+const getHubMessages = async (req, res) => {
+  try {
+    const hub = await Hub.findById(req.params.id);
+
+    if (!hub) {
+      return res.status(404).json({
+        success: false,
+        message: "Hub not found",
+      });
+    }
+
+    if (!hub.members.includes(req.user._id)) {
+      return res.status(403).json({
+        success: false,
+        message: "You must be a member to view hub messages",
+      });
+    }
+
+    const messages = await HubMessage.find({ hub: req.params.id })
+      .populate("sender", "name username profileImage")
+      .sort({ createdAt: 1 });
+
+    res.json({
+      success: true,
+      messages,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createHub,
   getAllHubs,
   getHubById,
   joinHub,
   leaveHub,
+  getHubMessages,
 };

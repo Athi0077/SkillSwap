@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Users, Plus, Globe } from "lucide-react";
+import { Users, Plus, Globe, Search } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -14,6 +14,7 @@ function Hubs() {
   const [newHubName, setNewHubName] = useState("");
   const [newHubDescription, setNewHubDescription] = useState("");
   const [creating, setCreating] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   
   const navigate = useNavigate();
 
@@ -58,6 +59,10 @@ function Hubs() {
     }
   };
 
+  const filteredHubs = hubs.filter((hub) =>
+    hub.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <>
       <Navbar />
@@ -86,16 +91,29 @@ function Hubs() {
             </button>
           </div>
 
+          <div className="mb-8 relative z-10 max-w-md">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+              <input
+                type="text"
+                placeholder="Search hubs by name..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-[#120F17] border border-[#2F293A] text-white rounded-xl pl-12 pr-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+              />
+            </div>
+          </div>
+
           {loading ? (
             <LoadingSpinner message="Loading hubs..." />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
-              {hubs.length === 0 ? (
+              {filteredHubs.length === 0 ? (
                 <div className="col-span-full text-center text-gray-400 py-12">
-                  No Hubs found. Be the first to create one!
+                  No Hubs found matching your search.
                 </div>
               ) : (
-                hubs.map((hub) => (
+                filteredHubs.map((hub) => (
                   <div
                     key={hub._id}
                     onClick={() => navigate(`/hubs/${hub._id}`)}

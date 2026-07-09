@@ -35,3 +35,8 @@ export const leaveHub = async (id) => {
   const response = await axios.post(`${API_URL}/${id}/leave`, {}, getConfig());
   return response.data;
 };
+
+export const getHubMessages = async (id) => {
+  const response = await axios.get(`${API_URL}/${id}/messages`, getConfig());
+  return response.data;
+};

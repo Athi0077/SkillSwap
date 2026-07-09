@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { MapPin, Mail, Star } from "lucide-react";
 
 import Navbar from "../components/Navbar";
@@ -28,7 +28,7 @@ function UserProfile() {
   const [sending, setSending] = useState(false);
   const [requestStatus, setRequestStatus] = useState(null);
   const [isFriendMode, setIsFriendMode] = useState(false);
-  const navigate = require("react-router-dom").useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadUserProfile();
