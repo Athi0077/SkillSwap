@@ -63,6 +63,8 @@ function Navbar() {
                 <NavLink to="/leaderboard" className={desktopLinkClass}>Leaderboard</NavLink>
 
                 <NavLink to="/matches" className={desktopLinkClass}>Matches</NavLink>
+                
+                <NavLink to="/hubs" className={desktopLinkClass}>Hubs</NavLink>
 
                 <NavLink to="/credits" className={desktopLinkClass}>Credits</NavLink>
 
@@ -154,6 +156,10 @@ function Navbar() {
 
                 <NavLink to="/matches" className={mobileLinkClass} onClick={closeMenu}>
                   Matches
+                </NavLink>
+
+                <NavLink to="/hubs" className={mobileLinkClass} onClick={closeMenu}>
+                  Hubs
                 </NavLink>
 
                 <NavLink to="/profile" className={mobileLinkClass} onClick={closeMenu}>

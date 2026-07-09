@@ -12,6 +12,7 @@ import {
   Users,
   Coins,
   Trophy,
+  Globe,
 } from "lucide-react";
 
 import { NavLink, useNavigate } from "react-router-dom";
@@ -59,6 +60,11 @@ function Sidebar() {
         <NavLink to="/matches" className={linkClass}>
           <Handshake size={20} />
           <span>Matches</span>
+        </NavLink>
+
+        <NavLink to="/hubs" className={linkClass}>
+          <Globe size={20} />
+          <span>Skill Hubs</span>
         </NavLink>
 
         <NavLink to="/friends" className={linkClass}>

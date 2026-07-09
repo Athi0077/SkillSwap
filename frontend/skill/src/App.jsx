@@ -18,6 +18,8 @@ import SearchUsers from "./pages/SearchUsers";
 import VideoCall from "./pages/VideoCall";
 import Credits from "./pages/Credits";
 import Leaderboard from "./pages/Leaderboard";
+import Hubs from "./pages/Hubs";
+import HubDetails from "./pages/HubDetails";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ClickSpark from "./components/ClickSpark";
@@ -160,6 +162,24 @@ function App() {
         element={
           <ProtectedRoute>
             <Reviews />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/hubs"
+        element={
+          <ProtectedRoute>
+            <Hubs />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/hubs/:id"
+        element={
+          <ProtectedRoute>
+            <HubDetails />
           </ProtectedRoute>
         }
       />
