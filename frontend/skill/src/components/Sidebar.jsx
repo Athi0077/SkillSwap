@@ -109,7 +109,7 @@ function Sidebar() {
             <span>Logout</span>
           </button>
         </div>
-      </nav>
+      </nav> 
     </aside>
   );
 }
