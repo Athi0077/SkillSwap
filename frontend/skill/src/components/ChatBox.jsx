@@ -124,7 +124,7 @@ function ChatBox({
                     : "bg-[#1E1A29] text-gray-200 shadow rounded-bl-md border border-[#2F293A]"
                 }`}
               >
-                <p>{msg.message}</p>
+                <p className="break-words break-all">{msg.message}</p>
                 <p
                   className={`text-xs mt-2 ${
                     isMe ? "text-purple-200" : "text-gray-400"

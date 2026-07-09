@@ -150,12 +150,12 @@ function Chat() {
     <>
       <Navbar />
 
-      <div className="flex min-h-screen dark-bento-page">
+      <div className="flex h-[calc(100dvh-64px)] dark-bento-page overflow-hidden">
         <Sidebar />
 
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-2 sm:p-4 md:p-6 h-full flex flex-col overflow-hidden">
 
-          <div className="glow-card-wrapper bg-[#120F17] rounded-3xl overflow-hidden h-[85vh] border border-[#2F293A]">
+          <div className="glow-card-wrapper bg-[#120F17] rounded-2xl md:rounded-3xl overflow-hidden flex-1 border border-[#2F293A]">
 
             <div className="grid lg:grid-cols-3 h-full relative z-10">
 
