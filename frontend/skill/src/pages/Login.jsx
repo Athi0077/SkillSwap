@@ -52,15 +52,15 @@ function Login() {
     <>
       <Navbar />
 
-      <div className="min-h-[90vh] flex items-center justify-center bg-slate-100 px-4">
+      <div className="min-h-[90vh] flex items-center justify-center dark-bento-page px-4">
 
-        <div className="bg-white w-full max-w-md rounded-2xl shadow-xl p-8">
+        <div className="glow-card-wrapper bg-[#120F17] w-full max-w-md rounded-2xl shadow-xl p-8 relative z-10">
 
-          <h1 className="text-3xl font-bold text-center">
+          <h1 className="text-3xl font-bold text-center text-white">
             Welcome Back
           </h1>
 
-          <p className="text-center text-gray-500 mt-2">
+          <p className="text-center text-gray-400 mt-2">
             Login to your SkillSwap account
           </p>
 
@@ -69,12 +69,12 @@ function Login() {
             className="mt-8 space-y-5"
           >
             <div>
-              <label className="font-medium">Email</label>
+              <label className="font-medium text-gray-300">Email</label>
 
               <input
                 type="email"
                 {...register("email")}
-                className="w-full mt-2 border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full mt-2 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                 placeholder="Enter your email"
               />
 
@@ -86,14 +86,14 @@ function Login() {
             </div>
 
             <div>
-              <label className="font-medium">Password</label>
+              <label className="font-medium text-gray-300">Password</label>
 
               <div className="relative mt-2">
 
                 <input
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
-                  className="w-full border rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 pr-12 focus:outline-none focus:border-purple-500 transition-colors"
                   placeholder="Enter your password"
                 />
 
@@ -102,7 +102,7 @@ function Login() {
                   onClick={() =>
                     setShowPassword(!showPassword)
                   }
-                  className="absolute right-4 top-1/2 -translate-y-1/2"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
                 >
                   {showPassword ? (
                     <EyeOff size={20} />
@@ -121,14 +121,14 @@ function Login() {
             </div>
 
             {serverError && (
-              <div className="bg-red-100 text-red-600 p-3 rounded-lg">
+              <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-lg">
                 {serverError}
               </div>
             )}
 
             <button
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold flex justify-center items-center gap-2 transition disabled:opacity-60"
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl font-semibold flex justify-center items-center gap-2 transition disabled:opacity-60 shadow-md"
             >
               <LogIn size={20} />
 
@@ -136,11 +136,11 @@ function Login() {
             </button>
           </form>
 
-          <p className="text-center mt-6">
+          <p className="text-center mt-6 text-gray-400">
             Don't have an account?{" "}
             <Link
               to="/register"
-              className="text-blue-600 font-semibold"
+              className="text-purple-400 hover:text-purple-300 font-semibold transition-colors"
             >
               Register
             </Link>

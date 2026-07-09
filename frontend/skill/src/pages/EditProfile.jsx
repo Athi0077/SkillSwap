@@ -124,14 +124,14 @@ function EditProfile() {
     <>
       <Navbar />
 
-      <div className="flex min-h-screen bg-slate-100">
+      <div className="flex min-h-screen dark-bento-page">
         <Sidebar />
 
         <main className="flex-1 p-8">
 
-          <div className="max-w-3xl mx-auto bg-white rounded-3xl shadow p-8">
+          <div className="max-w-3xl mx-auto glow-card-wrapper bg-[#120F17] p-8 relative z-10">
 
-            <h1 className="text-3xl font-bold mb-8">
+            <h1 className="text-3xl font-bold mb-8 text-white">
               Edit Profile
             </h1>
 
@@ -141,13 +141,13 @@ function EditProfile() {
             >
 
               <div>
-                <label className="font-medium">
+                <label className="font-medium text-gray-300">
                   Name
                 </label>
 
                 <input
                   {...register("name")}
-                  className="w-full mt-2 border rounded-xl px-4 py-3"
+                  className="w-full mt-2 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                 />
 
                 <p className="text-red-500 text-sm mt-1">
@@ -156,13 +156,13 @@ function EditProfile() {
               </div>
 
               <div>
-                <label className="font-medium">
+                <label className="font-medium text-gray-300">
                   Username
                 </label>
 
                 <input
                   {...register("username")}
-                  className="w-full mt-2 border rounded-xl px-4 py-3"
+                  className="w-full mt-2 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                   placeholder="Username"
                 />
 
@@ -172,43 +172,44 @@ function EditProfile() {
               </div>
 
               <div>
-                <label className="font-medium">
+                <label className="font-medium text-gray-300">
                   Bio
                 </label>
 
                 <textarea
                   rows={4}
                   {...register("bio")}
-                  className="w-full mt-2 border rounded-xl px-4 py-3"
+                  className="w-full mt-2 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="font-medium">
+                <label className="font-medium text-gray-300">
                   Location
                 </label>
 
                 <input
                   {...register("location")}
-                  className="w-full mt-2 border rounded-xl px-4 py-3"
+                  className="w-full mt-2 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="font-medium">
+                <label className="font-medium text-gray-300">
                   Skills Offered
                 </label>
 
-                <div className="mt-2 grid grid-cols-2 gap-2 border rounded-xl p-3">
+                <div className="mt-2 grid grid-cols-2 gap-2 border border-[#2F293A] rounded-xl p-3 bg-[#1A1625]">
                   {skillOptions.map((skill) => (
                     <label
                       key={skill}
-                      className="flex items-center gap-2 text-sm"
+                      className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer hover:text-purple-400 transition-colors"
                     >
                       <input
                         type="checkbox"
                         checked={selectedOfferedSkills.includes(skill)}
                         onChange={() => toggleSkill("skillsOffered", skill)}
+                        className="accent-purple-500"
                       />
                       <span>{skill}</span>
                     </label>
@@ -217,20 +218,21 @@ function EditProfile() {
               </div>
 
               <div>
-                <label className="font-medium">
+                <label className="font-medium text-gray-300">
                   Skills Wanted
                 </label>
 
-                <div className="mt-2 grid grid-cols-2 gap-2 border rounded-xl p-3">
+                <div className="mt-2 grid grid-cols-2 gap-2 border border-[#2F293A] rounded-xl p-3 bg-[#1A1625]">
                   {skillOptions.map((skill) => (
                     <label
                       key={skill}
-                      className="flex items-center gap-2 text-sm"
+                      className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer hover:text-purple-400 transition-colors"
                     >
                       <input
                         type="checkbox"
                         checked={selectedWantedSkills.includes(skill)}
                         onChange={() => toggleSkill("skillsWanted", skill)}
+                        className="accent-purple-500"
                       />
                       <span>{skill}</span>
                     </label>
@@ -241,7 +243,7 @@ function EditProfile() {
               <button
                 type="submit"
                 disabled={saving}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl flex justify-center items-center gap-2 disabled:opacity-60"
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl flex justify-center items-center gap-2 disabled:opacity-60 transition-colors shadow-md mt-4"
               >
                 <Save size={20} />
 

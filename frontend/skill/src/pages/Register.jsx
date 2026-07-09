@@ -110,14 +110,14 @@ function Register() {
     <>
       <Navbar />
 
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4 py-10">
-        <div className="bg-white w-full max-w-2xl rounded-2xl shadow-xl p-8">
+      <div className="min-h-screen dark-bento-page flex items-center justify-center px-4 py-10">
+        <div className="glow-card-wrapper bg-[#120F17] w-full max-w-2xl rounded-2xl shadow-xl p-8 relative z-10">
 
-          <h1 className="text-3xl font-bold text-center">
+          <h1 className="text-3xl font-bold text-center text-white">
             Create Account
           </h1>
 
-          <p className="text-center text-gray-500 mt-2">
+          <p className="text-center text-gray-400 mt-2">
             Join SkillSwap and start learning today.
           </p>
 
@@ -126,49 +126,49 @@ function Register() {
             className="grid md:grid-cols-2 gap-5 mt-8"
           >
             <div>
-              <label>Name</label>
+              <label className="font-medium text-gray-300">Name</label>
               <input
                 {...register("name")}
-                className="w-full mt-2 border rounded-xl px-4 py-3"
+                className="w-full mt-2 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                 placeholder="Full Name"
               />
-              <p className="text-red-500 text-sm">
+              <p className="text-red-500 text-sm mt-1">
                 {errors.name?.message}
               </p>
             </div>
 
             <div>
-              <label>Username</label>
+              <label className="font-medium text-gray-300">Username</label>
               <input
                 {...register("username")}
-                className="w-full mt-2 border rounded-xl px-4 py-3"
+                className="w-full mt-2 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                 placeholder="Username"
               />
-              <p className="text-red-500 text-sm">
+              <p className="text-red-500 text-sm mt-1">
                 {errors.username?.message}
               </p>
             </div>
 
             <div>
-              <label>Email</label>
+              <label className="font-medium text-gray-300">Email</label>
               <input
                 {...register("email")}
-                className="w-full mt-2 border rounded-xl px-4 py-3"
+                className="w-full mt-2 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                 placeholder="Email Address"
               />
-              <p className="text-red-500 text-sm">
+              <p className="text-red-500 text-sm mt-1">
                 {errors.email?.message}
               </p>
             </div>
 
             <div>
-              <label>Password</label>
+              <label className="font-medium text-gray-300">Password</label>
 
               <div className="relative mt-2">
                 <input
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
-                  className="w-full border rounded-xl px-4 py-3 pr-12"
+                  className="w-full bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 pr-12 focus:outline-none focus:border-purple-500 transition-colors"
                 />
 
                 <button
@@ -176,7 +176,7 @@ function Register() {
                   onClick={() =>
                     setShowPassword(!showPassword)
                   }
-                  className="absolute right-4 top-1/2 -translate-y-1/2"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
                 >
                   {showPassword ? (
                     <EyeOff size={18} />
@@ -186,13 +186,13 @@ function Register() {
                 </button>
               </div>
 
-              <p className="text-red-500 text-sm">
+              <p className="text-red-500 text-sm mt-1">
                 {errors.password?.message}
               </p>
             </div>
 
             <div>
-              <label>Confirm Password</label>
+              <label className="font-medium text-gray-300">Confirm Password</label>
 
               <div className="relative mt-2">
                 <input
@@ -200,7 +200,7 @@ function Register() {
                     showConfirmPassword ? "text" : "password"
                   }
                   {...register("confirmPassword")}
-                  className="w-full border rounded-xl px-4 py-3 pr-12"
+                  className="w-full bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 pr-12 focus:outline-none focus:border-purple-500 transition-colors"
                 />
 
                 <button
@@ -210,7 +210,7 @@ function Register() {
                       !showConfirmPassword
                     )
                   }
-                  className="absolute right-4 top-1/2 -translate-y-1/2"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
                 >
                   {showConfirmPassword ? (
                     <EyeOff size={18} />
@@ -220,42 +220,43 @@ function Register() {
                 </button>
               </div>
 
-              <p className="text-red-500 text-sm">
+              <p className="text-red-500 text-sm mt-1">
                 {errors.confirmPassword?.message}
               </p>
             </div>
 
             <div className="md:col-span-2">
-              <label>Bio</label>
+              <label className="font-medium text-gray-300">Bio</label>
               <textarea
                 {...register("bio")}
                 rows="3"
-                className="w-full mt-2 border rounded-xl px-4 py-3"
+                className="w-full mt-2 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                 placeholder="Tell us about yourself..."
               />
             </div>
 
             <div>
-              <label>Location</label>
+              <label className="font-medium text-gray-300">Location</label>
               <input
                 {...register("location")}
-                className="w-full mt-2 border rounded-xl px-4 py-3"
+                className="w-full mt-2 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                 placeholder="City, Country"
               />
             </div>
 
             <div>
-              <label>Skills Offered</label>
-              <div className="mt-2 grid grid-cols-2 gap-2 border rounded-xl p-3">
+              <label className="font-medium text-gray-300">Skills Offered</label>
+              <div className="mt-2 grid grid-cols-2 gap-2 border border-[#2F293A] rounded-xl p-3 bg-[#1A1625]">
                 {skillOptions.map((skill) => (
                   <label
                     key={skill}
-                    className="flex items-center gap-2 text-sm"
+                    className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer hover:text-purple-400 transition-colors"
                   >
                     <input
                       type="checkbox"
                       checked={selectedOfferedSkills.includes(skill)}
                       onChange={() => toggleSkill("skillsOffered", skill)}
+                      className="accent-purple-500"
                     />
                     <span>{skill}</span>
                   </label>
@@ -264,17 +265,18 @@ function Register() {
             </div>
 
             <div className="md:col-span-2">
-              <label>Skills Wanted</label>
-              <div className="mt-2 grid grid-cols-2 gap-2 border rounded-xl p-3">
+              <label className="font-medium text-gray-300">Skills Wanted</label>
+              <div className="mt-2 grid grid-cols-2 gap-2 border border-[#2F293A] rounded-xl p-3 bg-[#1A1625]">
                 {skillOptions.map((skill) => (
                   <label
                     key={skill}
-                    className="flex items-center gap-2 text-sm"
+                    className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer hover:text-purple-400 transition-colors"
                   >
                     <input
                       type="checkbox"
                       checked={selectedWantedSkills.includes(skill)}
                       onChange={() => toggleSkill("skillsWanted", skill)}
+                      className="accent-purple-500"
                     />
                     <span>{skill}</span>
                   </label>
@@ -283,7 +285,7 @@ function Register() {
             </div>
 
             {serverError && (
-              <div className="md:col-span-2 bg-red-100 text-red-600 p-3 rounded-lg">
+              <div className="md:col-span-2 bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-lg">
                 {serverError}
               </div>
             )}
@@ -291,18 +293,18 @@ function Register() {
             <button
               type="submit"
               disabled={loading}
-              className="md:col-span-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold flex justify-center items-center gap-2 disabled:opacity-60"
+              className="md:col-span-2 bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl font-semibold flex justify-center items-center gap-2 disabled:opacity-60 shadow-md transition-colors mt-2"
             >
               <UserPlus size={20} />
               {loading ? "Creating Account..." : "Register"}
             </button>
           </form>
 
-          <p className="text-center mt-6">
+          <p className="text-center mt-6 text-gray-400">
             Already have an account?{" "}
             <Link
               to="/login"
-              className="text-blue-600 font-semibold"
+              className="text-purple-400 hover:text-purple-300 font-semibold transition-colors"
             >
               Login
             </Link>

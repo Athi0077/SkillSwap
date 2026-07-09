@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   MapPin,
   Mail,
@@ -23,6 +23,7 @@ import { getUserReviews } from "../services/reviewService";
 import { useAuth } from "../context/AuthContext";
 
 function Profile() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -110,12 +111,6 @@ function Profile() {
                     className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-xl transition-all shadow-md"
                   >
                     Edit Profile
-                  </button>
-                  <button
-                    onClick={() => {}}
-                    className="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all shadow-md"
-                  >
-                    Add Skills
                   </button>
                 </div>
                 
