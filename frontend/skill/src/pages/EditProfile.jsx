@@ -199,7 +199,7 @@ function EditProfile() {
                   Skills Offered
                 </label>
 
-                <div className="mt-2 grid grid-cols-2 gap-2 border border-[#2F293A] rounded-xl p-3 bg-[#1A1625]">
+                <div className="mt-2 grid grid-cols-2 gap-2 border border-[#2F293A] rounded-xl p-3 bg-[#1A1625] max-h-60 overflow-y-auto">
                   {skillOptions.map((skill) => (
                     <label
                       key={skill}
@@ -222,7 +222,7 @@ function EditProfile() {
                   Skills Wanted
                 </label>
 
-                <div className="mt-2 grid grid-cols-2 gap-2 border border-[#2F293A] rounded-xl p-3 bg-[#1A1625]">
+                <div className="mt-2 grid grid-cols-2 gap-2 border border-[#2F293A] rounded-xl p-3 bg-[#1A1625] max-h-60 overflow-y-auto">
                   {skillOptions.map((skill) => (
                     <label
                       key={skill}
