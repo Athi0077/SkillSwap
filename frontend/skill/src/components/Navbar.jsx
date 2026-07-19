@@ -28,18 +28,19 @@ function Navbar() {
 
   return (
     <nav className="glow-card-wrapper bg-[#120F17] !rounded-none no-top-glow no-left-glow no-right-glow border-b border-[#2F293A] shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-[1400px] w-full mx-auto px-3 md:px-4 relative z-10">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link
             to="/"
-            className="text-2xl font-bold text-purple-500"
+            className="flex items-center text-2xl font-bold text-purple-500"
           >
-            SkillSwap
+            <img src="/assets/logo.png" alt="SkillSwap Logo" className="w-20 h-20 object-contain scale-[1.3] -ml-4 -mb-4" />
+            <span className="-ml-2">SkillSwap</span>
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-3 lg:gap-5 text-sm xl:text-base whitespace-nowrap">
             {isAuthenticated ? (
               <>
                 <NavLink to="/search" className="flex items-center text-gray-400 hover:text-purple-400 transition-colors">

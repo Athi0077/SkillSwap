@@ -65,6 +65,21 @@ export const uploadProfileImage = async (formData) => {
   }
 };
 
+// Delete profile image
+export const deleteProfileImage = async () => {
+  try {
+    const { data } = await api.delete("/users/profile/image");
+    return data;
+  } catch (error) {
+    throw (
+      error.response?.data || {
+        success: false,
+        message: "Image deletion failed",
+      }
+    );
+  }
+};
+
 // Search users
 export const searchUsers = async (keyword = "") => {
   try {

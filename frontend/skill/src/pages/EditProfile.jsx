@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Save } from "lucide-react";
+import { Save, Camera, Trash2 } from "lucide-react";
 
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
@@ -14,6 +14,8 @@ import { toast } from "react-hot-toast";
 import {
   getMyProfile,
   updateProfile,
+  uploadProfileImage,
+  deleteProfileImage,
 } from "../services/userService";
 import { skillOptions } from "../constants/skillOptions";
 
@@ -31,6 +33,8 @@ function EditProfile() {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [profileImage, setProfileImage] = useState("");
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const {
     register,
@@ -69,6 +73,7 @@ function EditProfile() {
   const loadProfile = async () => {
     try {
       const res = await getMyProfile();
+      setProfileImage(res.user.profileImage || "");
 
       reset({
         name: res.user.name,
@@ -82,6 +87,40 @@ function EditProfile() {
       console.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploadingImage(true);
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const res = await uploadProfileImage(formData);
+      if (res.success) {
+        setProfileImage(res.user.profileImage);
+        toast.success("Profile image updated");
+      }
+    } catch (error) {
+      toast.error(error.message || "Failed to upload image");
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleImageDelete = async () => {
+    try {
+      setUploadingImage(true);
+      await deleteProfileImage();
+      setProfileImage("");
+      toast.success("Profile image removed");
+    } catch (error) {
+      toast.error(error.message || "Failed to remove image");
+    } finally {
+      setUploadingImage(false);
     }
   };
 
@@ -134,6 +173,48 @@ function EditProfile() {
             <h1 className="text-3xl font-bold mb-8 text-white">
               Edit Profile
             </h1>
+
+            <div className="flex flex-col sm:flex-row items-center gap-6 mb-8 bg-[#1A1625] p-6 rounded-2xl border border-[#2F293A]">
+              <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-[#2F293A] flex-shrink-0 bg-[#120F17]">
+                {uploadingImage ? (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                    <LoadingSpinner />
+                  </div>
+                ) : (
+                  <img
+                    src={profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(watch("name") || "User")}&background=3B82F6&color=fff`}
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </div>
+              
+              <div className="flex flex-col gap-3 w-full sm:w-auto">
+                <label className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl cursor-pointer transition-colors flex items-center justify-center gap-2 font-medium">
+                  <Camera size={18} />
+                  <span>Upload New Picture</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageUpload}
+                    disabled={uploadingImage}
+                  />
+                </label>
+                
+                {profileImage && (
+                  <button
+                    type="button"
+                    onClick={handleImageDelete}
+                    disabled={uploadingImage}
+                    className="bg-red-500/10 hover:bg-red-500/20 text-red-500 px-5 py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2 font-medium"
+                  >
+                    <Trash2 size={18} />
+                    <span>Remove Picture</span>
+                  </button>
+                )}
+              </div>
+            </div>
 
             <form
               onSubmit={handleSubmit(onSubmit)}

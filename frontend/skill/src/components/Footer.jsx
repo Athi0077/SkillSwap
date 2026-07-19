@@ -10,8 +10,9 @@ function Footer() {
 
           {/* Brand */}
           <div>
-            <h2 className="text-2xl font-bold text-white">
-              SkillSwap
+            <h2 className="flex items-center text-2xl font-bold text-white">
+              <img src="/assets/logo.png" alt="SkillSwap Logo" className="w-20 h-20 object-contain scale-[1.3] -ml-4" />
+              <span className="-ml-2">SkillSwap</span>
             </h2>
 
             <p className="mt-3 text-sm leading-6">

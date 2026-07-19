@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Skill = require("../models/Skills");
+const cloudinary = require("../utils/cloudinary");
 
 // Get all users
 const getAllUsers = async (req, res) => {
@@ -86,6 +87,69 @@ const updateProfile = async (req, res) => {
     res.json({
       success: true,
       message: "Profile updated successfully",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Upload profile image
+const uploadProfileImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: "No image file provided" });
+    }
+
+    // Upload to cloudinary using upload_stream
+    const result = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: "skill_swap_avatars", format: "jpg" },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      );
+      uploadStream.end(req.file.buffer);
+    });
+
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { profileImage: result.secure_url },
+      { new: true }
+    ).select("-password");
+
+    res.json({
+      success: true,
+      message: "Profile image uploaded successfully",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Delete profile image
+const deleteProfileImage = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    if (user.profileImage) {
+      // Optional: Extract public ID from URL and delete from cloudinary
+      // (Skipping cloudinary delete for simplicity, or we could parse the url)
+      user.profileImage = "";
+      await user.save();
+    }
+
+    res.json({
+      success: true,
+      message: "Profile image deleted successfully",
       user,
     });
   } catch (error) {
@@ -188,6 +252,8 @@ module.exports = {
   getUserById,
   getProfile,
   updateProfile,
+  uploadProfileImage,
+  deleteProfileImage,
   searchUsers,
   deductVideoCredits,
   getLeaderboard,

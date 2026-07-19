@@ -8,10 +8,12 @@ const LoadingSpinner = ({ message = "Loading...", fullScreen = false }) => {
 
   return (
     <div className={containerClasses}>
-      <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
-      {message && <p className="mt-4 text-gray-400 font-medium">{message}</p>}
+      <img src="/assets/logo.png" alt="SkillSwap Logo" className="w-48 h-48 object-contain animate-pulse mb-4 scale-[1.8]" />
+      <Loader2 className="w-10 h-10 text-purple-500 animate-spin mt-4" />
+      
+      {message && <p className="mt-4 text-gray-400 font-medium text-lg">{message}</p>}
     </div>
   );
-};
+}; 
 
 export default LoadingSpinner;
