@@ -10,7 +10,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import EmptyState from "../components/EmptyState";
 import UserCard from "../components/UserCard";
 
-import { searchUsers, getAllUsers } from "../services/userService";
+import { searchUsers } from "../services/userService";
 import { sendRequest } from "../services/requestService";
 import { getAcceptedSwapUsers } from "../services/reviewService";
 import { useAuth } from "../context/AuthContext";
@@ -47,7 +47,8 @@ function SearchUsers() {
       if (keyword.trim()) {
         performSearch(keyword);
       } else {
-        fetchAllUsers();
+        setUsers([]);
+        setHasSearched(false);
       }
     }, 500);
 
@@ -59,23 +60,6 @@ function SearchUsers() {
       setLoading(true);
       const res = await searchUsers(query);
       setUsers(res.users || []);
-      setHasSearched(true);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchAllUsers = async () => {
-    try {
-      setLoading(true);
-      const res = await getAllUsers();
-      let allUsers = res.users || [];
-      if (currentUser) {
-        allUsers = allUsers.filter(u => u._id !== currentUser._id);
-      }
-      setUsers(allUsers);
       setHasSearched(true);
     } catch (error) {
       console.error(error);

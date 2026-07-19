@@ -34,7 +34,7 @@ function Sidebar() {
     }`;
 
   return (
-    <aside className="hidden md:block w-60 h-[calc(100vh-64px)] sticky top-16 self-start overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] glow-card-wrapper bg-[#120F17] !rounded-none no-top-glow no-left-glow no-bottom-glow border-r border-[#2F293A] shadow-sm">
+    <aside className="hidden md:block w-60 h-[calc(105vh-64px)] sticky top-16 self-start overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] glow-card-wrapper bg-[#120F17] !rounded-none no-top-glow no-left-glow no-bottom-glow border-r border-[#2F293A] shadow-sm">
       <nav className="flex flex-col p-4 pb-8 space-y-1 relative z-10 min-h-full">
 
         <NavLink to="/dashboard" className={linkClass}>
@@ -109,6 +109,9 @@ function Sidebar() {
             <span>Logout</span>
           </button>
         </div>
+        
+        {/* Spacer to ensure scrollability at the bottom */}
+        <div className="h-12 flex-shrink-0"></div>
       </nav>
     </aside>
   );
