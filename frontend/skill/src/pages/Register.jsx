@@ -4,10 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, UserPlus } from "lucide-react";
+import { Eye, EyeOff, UserPlus, Camera } from "lucide-react";
 
 import Navbar from "../components/Navbar";
 import { registerUser } from "../services/authService";
+import { uploadProfileImage } from "../services/userService";
 import { useAuth } from "../context/AuthContext";
 import { skillOptions } from "../constants/skillOptions";
 
@@ -40,6 +41,8 @@ function Register() {
     useState(false);
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [profileImageFile, setProfileImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
 
   const {
     register,
@@ -70,6 +73,14 @@ function Register() {
     });
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfileImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   const onSubmit = async (values) => {
     try {
       setLoading(true);
@@ -98,6 +109,16 @@ function Register() {
 
       login(data.user, data.token);
 
+      if (profileImageFile) {
+        try {
+          const formData = new FormData();
+          formData.append("image", profileImageFile);
+          await uploadProfileImage(formData);
+        } catch (imgError) {
+          console.error("Failed to upload profile picture:", imgError);
+        }
+      }
+
       navigate("/dashboard");
     } catch (error) {
       setServerError(error.message || "Registration failed");
@@ -125,6 +146,25 @@ function Register() {
             onSubmit={handleSubmit(onSubmit)}
             className="grid md:grid-cols-2 gap-5 mt-8"
           >
+            <div className="md:col-span-2 flex flex-col items-center gap-4 mb-2">
+              <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-[#2F293A] bg-[#1A1625] flex-shrink-0 flex items-center justify-center">
+                {imagePreview ? (
+                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                ) : (
+                  <Camera size={32} className="text-gray-500" />
+                )}
+              </div>
+              <label className="bg-[#2F293A] hover:bg-purple-600/30 text-purple-400 hover:text-purple-300 px-4 py-2 rounded-xl cursor-pointer transition-colors text-sm font-medium">
+                Upload Profile Picture (Optional)
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+              </label>
+            </div>
+
             <div>
               <label className="font-medium text-gray-300">Name</label>
               <input
@@ -225,6 +265,15 @@ function Register() {
               </p>
             </div>
 
+            <div>
+              <label className="font-medium text-gray-300">Location</label>
+              <input
+                {...register("location")}
+                className="w-full mt-2 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                placeholder="City, Country"
+              />
+            </div>
+
             <div className="md:col-span-2">
               <label className="font-medium text-gray-300">Bio</label>
               <textarea
@@ -235,16 +284,8 @@ function Register() {
               />
             </div>
 
-            <div>
-              <label className="font-medium text-gray-300">Location</label>
-              <input
-                {...register("location")}
-                className="w-full mt-2 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
-                placeholder="City, Country"
-              />
-            </div>
 
-            <div>
+            <div className="md:col-span-2">
               <label className="font-medium text-gray-300">Skills Offered</label>
               <div className="mt-2 grid grid-cols-2 gap-2 border border-[#2F293A] rounded-xl p-3 bg-[#1A1625] max-h-60 overflow-y-auto">
                 {skillOptions.map((skill) => (
