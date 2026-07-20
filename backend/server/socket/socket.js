@@ -38,8 +38,10 @@ module.exports = (io) => {
         message: data.message,
       });
 
-      io.to(data.receiver).emit("receiveMessage", message);
-      io.to(data.sender).emit("receiveMessage", message);
+      const msgData = message.toJSON();
+
+      io.to(data.receiver).emit("receiveMessage", msgData);
+      io.to(data.sender).emit("receiveMessage", msgData);
     });
 
     socket.on("markMessagesAsRead", async ({ senderId, receiverId }) => {

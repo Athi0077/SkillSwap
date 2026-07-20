@@ -49,20 +49,22 @@ function Chat() {
       if (currentChat) {
         const otherUser = currentChat.participants.find(p => p._id !== user._id);
         
-        const senderId = newMessage.sender?._id || newMessage.sender;
-        const receiverId = newMessage.receiver?._id || newMessage.receiver;
+        const senderId = String(newMessage.sender?._id || newMessage.sender);
+        const receiverId = String(newMessage.receiver?._id || newMessage.receiver);
+        const currentUserId = String(user._id);
+        const otherUserId = String(otherUser._id);
 
         const isRelated = 
-          (senderId === user._id && receiverId === otherUser._id) ||
-          (senderId === otherUser._id && receiverId === user._id);
+          (senderId === currentUserId && receiverId === otherUserId) ||
+          (senderId === otherUserId && receiverId === currentUserId);
           
         if (isRelated) {
           setMessages((prev) => {
-            if (prev.find((m) => m._id === newMessage._id)) return prev;
+            if (prev.find((m) => String(m._id) === String(newMessage._id))) return prev;
             return [...prev, newMessage];
           });
 
-          if (receiverId === user._id) {
+          if (receiverId === currentUserId) {
             socketRef.current.emit("markMessagesAsRead", { senderId: otherUser._id, receiverId: user._id });
           }
         }
@@ -173,7 +175,7 @@ function Chat() {
     <>
       <Navbar />
 
-      <div className="flex h-[calc(120dvh-64px)] dark-bento-page">
+      <div className="flex h-[calc(100dvh-64px)] dark-bento-page">
         <Sidebar />
 
         <main className="flex-1 p-2 sm:p-4 md:p-6 h-full flex flex-col overflow-hidden">
