@@ -63,7 +63,7 @@ function ScheduleModal({ chatUser, onConfirm, onClose }) {
               placeholder="e.g. React basics, UI/UX review..."
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
-              className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-black"
             />
           </div>
 
@@ -79,7 +79,7 @@ function ScheduleModal({ chatUser, onConfirm, onClose }) {
               value={date}
               onChange={(e) => setDate(e.target.value)}
               required
-              className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-black"
             />
           </div>
 
@@ -94,7 +94,7 @@ function ScheduleModal({ chatUser, onConfirm, onClose }) {
               value={time}
               onChange={(e) => setTime(e.target.value)}
               required
-              className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-black"
             />
           </div>
 
