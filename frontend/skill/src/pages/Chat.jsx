@@ -29,6 +29,7 @@ function Chat() {
   const [conversations, setConversations] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
   const socketRef = useRef(null);
   const selectedChatRef = useRef(null);
@@ -48,18 +49,39 @@ function Chat() {
       if (currentChat) {
         const otherUser = currentChat.participants.find(p => p._id !== user._id);
         
+        const senderId = newMessage.sender?._id || newMessage.sender;
+        const receiverId = newMessage.receiver?._id || newMessage.receiver;
+
         const isRelated = 
-          (newMessage.sender === user._id && newMessage.receiver === otherUser._id) ||
-          (newMessage.sender === otherUser._id && newMessage.receiver === user._id);
+          (senderId === user._id && receiverId === otherUser._id) ||
+          (senderId === otherUser._id && receiverId === user._id);
           
         if (isRelated) {
           setMessages((prev) => {
             if (prev.find((m) => m._id === newMessage._id)) return prev;
             return [...prev, newMessage];
           });
+
+          if (receiverId === user._id) {
+            socketRef.current.emit("markMessagesAsRead", { senderId: otherUser._id, receiverId: user._id });
+          }
         }
       }
       loadChats(false);
+    });
+
+    socketRef.current.on("messagesRead", ({ receiverId }) => {
+      setMessages((prev) => 
+        prev.map(msg => 
+          (msg.receiver === receiverId && !msg.read) 
+            ? { ...msg, read: true } 
+            : msg
+        )
+      );
+    });
+
+    socketRef.current.on("onlineUsers", (users) => {
+      setOnlineUsers(users);
     });
 
     socketRef.current.on("messageError", (errorMsg) => {
@@ -121,6 +143,11 @@ function Chat() {
 
       const res = await getMessages(chat._id);
       setMessages(res.messages || []);
+
+      const otherUser = chat.participants.find(p => p._id !== user._id);
+      if (socketRef.current && otherUser) {
+        socketRef.current.emit("markMessagesAsRead", { senderId: otherUser._id, receiverId: user._id });
+      }
     } catch (error) {
       console.error(error);
     }
@@ -170,6 +197,8 @@ function Chat() {
                       chat.participants?.find(
                         (p) => p._id !== user._id
                       );
+                    
+                    const isOnline = onlineUsers.includes(otherUser?._id);
 
                     return (
                       <button
@@ -181,21 +210,36 @@ function Chat() {
                             : ""
                         }`}
                       >
-                        <div className="font-semibold text-white">
-                          {otherUser?.name}
+                        <div className="flex items-center justify-between">
+                          <div className="font-semibold text-white">
+                            {otherUser?.name}
+                          </div>
+                          {isOnline && (
+                            <div className="w-2.5 h-2.5 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+                          )}
                         </div>
 
-                        <p className="text-sm text-gray-400 truncate">
-                          {chat.lastMessage || "No messages yet"}
-                        </p>
+                        <div className="flex items-center justify-between mt-1">
+                          <p className="text-sm text-gray-400 truncate">
+                            {chat.lastMessage || "No messages yet"}
+                          </p>
+                          {chat.unreadCount > 0 && selectedChat?._id !== chat._id && (
+                            <div className="w-5 h-5 flex items-center justify-center bg-purple-600 text-white text-[10px] font-bold rounded-full ml-2 shrink-0 shadow-[0_0_10px_rgba(147,51,234,0.4)]">
+                              {chat.unreadCount > 99 ? "99+" : chat.unreadCount}
+                            </div>
+                          )}
+                        </div>
                       </button>
                     );
                   })
                 ) : (
-                  <div className="flex flex-col items-center justify-center h-full text-gray-400">
-                    <MessageCircle size={50} />
-                    <p className="mt-4">
-                      No conversations yet.
+                  <div className="flex flex-col items-center justify-center h-full text-gray-500 p-8 text-center">
+                    <div className="w-16 h-16 bg-[#1E1A29] rounded-full flex items-center justify-center mb-4 shadow-inner border border-[#2F293A]">
+                      <MessageCircle size={24} className="text-gray-500 opacity-60" />
+                    </div>
+                    <h3 className="text-base font-semibold text-gray-300 mb-2">No conversations</h3>
+                    <p className="text-xs text-gray-500">
+                      When you connect with someone, your chats will appear here.
                     </p>
                   </div>
                 )}
@@ -212,12 +256,23 @@ function Chat() {
                     chatUser={selectedChat.participants.find(
                       (p) => p._id !== user._id
                     )}
+                    isOnline={onlineUsers.includes(
+                      selectedChat.participants.find((p) => p._id !== user._id)?._id
+                    )}
                     onSendMessage={handleSendMessage}
                     onBack={() => setSelectedChat(null)}
                   />
                 ) : (
-                  <div className="flex items-center justify-center h-full text-gray-400">
-                    Select a conversation
+                  <div className="flex flex-col items-center justify-center h-full text-center p-8 relative overflow-hidden">
+                    {/* Decorative Background Elements */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-purple-600/5 blur-[100px] rounded-full pointer-events-none"></div>
+                    
+                    <div className="relative w-24 h-24 mb-6 flex items-center justify-center">
+                       <div className="absolute inset-0 bg-purple-500/10 blur-xl rounded-full animate-pulse"></div>
+                       <MessageCircle size={40} className="text-purple-400/70 relative z-10" />
+                    </div>
+                    <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-200 to-gray-500 text-transparent bg-clip-text mb-3">Your Messages</h2>
+                    <p className="text-gray-500 max-w-sm text-sm">Select a conversation from the sidebar to start chatting, or schedule a session with a tutor.</p>
                   </div>
                 )}
 

@@ -1,10 +1,10 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, UserPlus, Camera } from "lucide-react";
+import { Eye, EyeOff, UserPlus, Camera, Plus, Trash2 } from "lucide-react";
 
 import Navbar from "../components/Navbar";
 import { registerUser } from "../services/authService";
@@ -26,6 +26,12 @@ const registerSchema = z
     location: z.string().optional(),
     skillsOffered: z.union([z.string(), z.array(z.string())]).optional(),
     skillsWanted: z.union([z.string(), z.array(z.string())]).optional(),
+    socialLinks: z.array(
+      z.object({
+        platform: z.string(),
+        url: z.string().url("Must be a valid URL").or(z.literal("")),
+      })
+    ).optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -49,13 +55,20 @@ function Register() {
     handleSubmit,
     setValue,
     watch,
+    control,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       skillsOffered: [],
       skillsWanted: [],
+      socialLinks: [],
     },
+  });
+
+  const { fields: socialFields, append: appendSocial, remove: removeSocial } = useFieldArray({
+    control,
+    name: "socialLinks",
   });
 
   const selectedOfferedSkills = watch("skillsOffered") || [];
@@ -101,6 +114,7 @@ function Register() {
         ...values,
         skillsOffered: normalizeSkills(values.skillsOffered),
         skillsWanted: normalizeSkills(values.skillsWanted),
+        socialLinks: values.socialLinks?.filter((link) => link.url.trim() !== "") || [],
       };
 
       delete payload.confirmPassword;
@@ -322,6 +336,57 @@ function Register() {
                     <span>{skill}</span>
                   </label>
                 ))}
+              </div>
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="font-medium text-gray-300 block mb-2">Social Media Links (Optional)</label>
+              <div className="space-y-3">
+                {socialFields.map((field, index) => (
+                  <div key={field.id} className="flex flex-col md:flex-row gap-3 items-start">
+                    <select
+                      {...register(`socialLinks.${index}.platform`)}
+                      className="w-full md:w-1/3 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors appearance-none"
+                    >
+                      <option value="LinkedIn">LinkedIn</option>
+                      <option value="Twitter">Twitter</option>
+                      <option value="Instagram">Instagram</option>
+                      <option value="YouTube">YouTube</option>
+                      <option value="WhatsApp">WhatsApp</option>
+                      <option value="GitHub">GitHub</option>
+                    </select>
+                    
+                    <div className="flex-1 w-full relative">
+                      <input
+                        {...register(`socialLinks.${index}.url`)}
+                        placeholder="https://..."
+                        className="w-full bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                      />
+                      {errors.socialLinks?.[index]?.url && (
+                        <p className="text-red-500 text-xs mt-1 absolute -bottom-5">
+                          {errors.socialLinks[index].url.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => removeSocial(index)}
+                      className="p-3 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-xl transition-colors shrink-0"
+                      title="Remove Link"
+                    >
+                      <Trash2 size={20} />
+                    </button>
+                  </div>
+                ))}
+                
+                <button
+                  type="button"
+                  onClick={() => appendSocial({ platform: "LinkedIn", url: "" })}
+                  className="flex items-center gap-2 text-sm text-purple-400 hover:text-purple-300 font-medium transition-colors"
+                >
+                  <Plus size={16} /> Add Social Link
+                </button>
               </div>
             </div>
 

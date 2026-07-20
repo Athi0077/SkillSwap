@@ -33,10 +33,10 @@ function Navbar() {
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center text-2xl font-bold text-purple-500"
+            className="flex items-center text-2xl font-bold"
           >
             <img src="/assets/logo.png" alt="SkillSwap Logo" className="w-20 h-20 object-contain scale-[1.3] -ml-4 -mb-4" />
-            <span className="-ml-2">SkillSwap</span>
+            <span className="-ml-2 bg-gradient-to-r from-purple-400 via-pink-400 to-rose-400 text-transparent bg-clip-text font-extrabold tracking-tight">SkillSwap</span>
           </Link>
 
           {/* Desktop Menu */}
@@ -79,7 +79,7 @@ function Navbar() {
 
                 <button
                   onClick={handleLogout}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition font-medium"
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-md"
                 >
                   Logout
                 </button>
@@ -92,7 +92,7 @@ function Navbar() {
 
                 <NavLink
                   to="/register"
-                  className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition font-medium"
+                  className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-md"
                 >
                   Register
                 </NavLink>

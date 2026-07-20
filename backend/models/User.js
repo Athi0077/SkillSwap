@@ -61,6 +61,13 @@ const userSchema = new mongoose.Schema(
       default: "Weekends",
     },
 
+    socialLinks: [
+      {
+        platform: String,
+        url: String,
+      },
+    ],
+
     rating: {
       type: Number,
       default: 0,

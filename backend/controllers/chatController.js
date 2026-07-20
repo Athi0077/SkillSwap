@@ -69,8 +69,13 @@ const getConversations = async (req, res) => {
           _id: otherUserId,
           participants: [req.user, otherUser],
           lastMessage: msg.message,
-          updatedAt: msg.createdAt
+          updatedAt: msg.createdAt,
+          unreadCount: 0
         });
+      }
+
+      if (msg.receiver._id.toString() === req.user._id.toString() && !msg.read) {
+        conversationsMap.get(otherUserId).unreadCount += 1;
       }
     });
 

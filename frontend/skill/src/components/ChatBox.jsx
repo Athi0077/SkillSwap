@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Send, User, CalendarDays, CheckCircle, ArrowLeft } from "lucide-react";
+import { Send, User, CalendarDays, CheckCircle, ArrowLeft, Check, CheckCheck } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 import ScheduleModal from "./ScheduleModal";
@@ -10,6 +10,7 @@ function ChatBox({
   onSendMessage,
   currentUser,
   chatUser,
+  isOnline = false,
   onBack,
 }) {
   const [message, setMessage] = useState("");
@@ -21,6 +22,25 @@ function ChatBox({
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  const formatDateLabel = (dateString) => {
+    const date = new Date(dateString);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    if (date.toDateString() === today.toDateString()) {
+      return "Today";
+    } else if (date.toDateString() === yesterday.toDateString()) {
+      return "Yesterday";
+    } else {
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,7 +60,7 @@ function ChatBox({
 
       setShowScheduleModal(false);
 
-      // Show success toast inside chat
+      // Show success toast inside chat locally
       const dateLabel = new Date(scheduledAt).toLocaleString([], {
         weekday: "short",
         month: "short",
@@ -50,10 +70,11 @@ function ChatBox({
       });
       setScheduleSuccess(`Session scheduled for ${dateLabel} (${duration} min)`);
       setTimeout(() => setScheduleSuccess(null), 5000);
+
+      // Send a permanent message to the chat so the other person sees it
+      onSendMessage(`📅 I scheduled a session for ${dateLabel} (${duration} min). Check the Schedule page!`);
     } catch (error) {
       toast.error(error.message || "Failed to create schedule");
-    } finally {
-      setIsCreatingSchedule(false);
     }
   };
 
@@ -84,7 +105,9 @@ function ChatBox({
 
           <div>
             <h2 className="font-semibold text-lg text-white">{chatUser?.name}</h2>
-            <p className="text-sm text-green-400">Online</p>
+            <p className={`text-sm ${isOnline ? "text-green-400" : "text-gray-400"}`}>
+              {isOnline ? "Online" : "Offline"}
+            </p>
           </div>
         </div>
 
@@ -102,39 +125,63 @@ function ChatBox({
       <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-transparent">
 
         {messages.length === 0 && (
-          <div className="text-center text-gray-400 mt-10">
-            Start your conversation 👋
+          <div className="flex flex-col items-center justify-center h-full text-center p-8 mt-10">
+            <div className="w-16 h-16 bg-[#1E1A29]/80 rounded-full flex items-center justify-center mb-4 shadow-[0_0_15px_rgba(168,85,247,0.15)] border border-[#2F293A]">
+              <span className="text-3xl">👋</span>
+            </div>
+            <h3 className="text-lg font-semibold text-gray-300 mb-1">Start the conversation</h3>
+            <p className="text-sm text-gray-500 max-w-xs">
+              Say hi to {chatUser?.name || "your new friend"} and see where the skills take you!
+            </p>
           </div>
         )}
 
-        {messages.map((msg) => {
+        {messages.map((msg, index) => {
           const isMe =
             msg.sender === currentUser?._id ||
             msg.sender?._id === currentUser?._id;
 
+          const currentMsgDate = new Date(msg.createdAt).toDateString();
+          const prevMsgDate = index > 0 ? new Date(messages[index - 1].createdAt).toDateString() : null;
+          const showDateDivider = currentMsgDate !== prevMsgDate;
+
           return (
-            <div
-              key={msg._id}
-              className={`flex ${isMe ? "justify-end" : "justify-start"}`}
-            >
+            <div key={msg._id} className="flex flex-col">
+              {showDateDivider && (
+                <div className="flex justify-center my-4">
+                  <div className="bg-[#1E1A29]/80 backdrop-blur-md border border-[#2F293A] text-gray-300 text-xs font-semibold px-4 py-1.5 rounded-full shadow-sm">
+                    {formatDateLabel(msg.createdAt)}
+                  </div>
+                </div>
+              )}
+              
               <div
-                className={`max-w-[75%] px-4 py-3 rounded-2xl ${
-                  isMe
-                    ? "bg-purple-600 text-white rounded-br-md shadow-md"
-                    : "bg-[#1E1A29] text-gray-200 shadow rounded-bl-md border border-[#2F293A]"
-                }`}
+                className={`flex ${isMe ? "justify-end" : "justify-start"} mb-1`}
               >
-                <p className="break-words break-all">{msg.message}</p>
-                <p
-                  className={`text-xs mt-2 ${
-                    isMe ? "text-purple-200" : "text-gray-400"
+                <div
+                  className={`max-w-[75%] px-4 py-3 shadow-md ${
+                    isMe
+                      ? "bg-gradient-to-br from-purple-600 to-indigo-600 text-white rounded-2xl rounded-tr-sm"
+                      : "bg-[#1E1A29]/80 backdrop-blur-md text-gray-200 rounded-2xl rounded-tl-sm border border-[#2F293A]"
                   }`}
                 >
-                  {new Date(msg.createdAt).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </p>
+                  <p className="break-words break-all">{msg.message}</p>
+                  <div className={`flex items-center gap-1 mt-1.5 ${isMe ? "justify-end text-purple-200" : "text-gray-400"}`}>
+                    <p className="text-[10px]">
+                      {new Date(msg.createdAt).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                    {isMe && (
+                      msg.read ? (
+                        <CheckCheck size={14} className="text-blue-300" />
+                      ) : (
+                        <Check size={14} className="text-purple-300/70" />
+                      )
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           );
@@ -154,17 +201,17 @@ function ChatBox({
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="sticky bottom-0 z-20 shrink-0 bg-[#120F17] border-t border-[#2F293A] p-4 flex gap-3">
+      <form onSubmit={handleSubmit} className="sticky bottom-0 z-20 shrink-0 bg-[#120F17]/90 backdrop-blur-xl border-t border-[#2F293A] p-4 flex gap-3">
         <input
           type="text"
           placeholder="Type your message..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="flex-1 border border-[#2F293A] bg-[#0B090F] text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-gray-500"
+          className="flex-1 border border-[#2F293A] bg-[#0B090F]/50 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-gray-500 transition-all shadow-inner"
         />
         <button
           type="submit"
-          className="bg-purple-600 hover:bg-purple-700 text-white px-5 rounded-xl transition"
+          className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white px-5 rounded-xl transition-all duration-200 active:scale-95 hover:shadow-[0_4px_15px_rgba(168,85,247,0.4)]"
         >
           <Send size={20} />
         </button>

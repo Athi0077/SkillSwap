@@ -5,7 +5,7 @@ const generateToken = require("../utils/generateToken");
 // Signup
 const signup = async (req, res) => {
   try {
-    const { name, username, email, password, bio, location, skillsOffered, skillsWanted } = req.body;
+    const { name, username, email, password, bio, location, skillsOffered, skillsWanted, socialLinks } = req.body;
 
     const existingUser = await User.findOne({ email });
 
@@ -35,6 +35,7 @@ const signup = async (req, res) => {
       location,
       skillsOffered,
       skillsWanted,
+      socialLinks,
     });
 
     if (skillsOffered && skillsOffered.length > 0) {

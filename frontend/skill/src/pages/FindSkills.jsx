@@ -120,7 +120,7 @@ function FindSkills() {
 
           {/* Page Header */}
           <div className="mb-8 relative z-10">
-            <h1 className="text-3xl font-bold text-white">Find Skills</h1>
+            <h1 className="text-3xl font-extrabold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 text-transparent bg-clip-text">Find Skills</h1>
             <p className="text-gray-400 mt-1">
               Click a skill to instantly see tutors who offer it
             </p>
@@ -167,11 +167,11 @@ function FindSkills() {
                       key={name}
                       type="button"
                       onClick={() => toggleSkill(name)}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 text-sm font-medium transition-all duration-200 select-none
+                      className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 text-sm font-medium transition-all duration-200 select-none active:scale-95 hover:-translate-y-0.5
                         ${
                           isChecked
-                            ? "border-purple-500 bg-purple-600 text-white shadow-md scale-105"
-                            : "border-[#2F293A] bg-[#1E1A29] text-gray-400 hover:border-purple-500/50 hover:bg-purple-900/30 hover:text-purple-300"
+                            ? "border-purple-500 bg-purple-600 text-white shadow-[0_4px_15px_rgba(168,85,247,0.4)] scale-105"
+                            : "border-[#2F293A] bg-[#1E1A29] text-gray-400 hover:border-purple-500/50 hover:bg-purple-900/30 hover:text-purple-300 hover:shadow-md"
                         }`}
                     >
                       {isChecked && (
@@ -212,16 +212,19 @@ function FindSkills() {
 
           {/* Results */}
           {selectedSkills.length === 0 && !searchTerm.trim() ? (
-            <div className="glow-card-wrapper bg-[#120F17] p-14 text-center relative">
-              <div className="relative z-10">
-                <div className="w-20 h-20 bg-[#1E1A29] rounded-full flex items-center justify-center mx-auto mb-5">
-                  <Search size={32} className="text-purple-400" />
+            <div className="glow-card-wrapper bg-[#120F17] p-16 text-center relative mt-10">
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="relative w-24 h-24 flex items-center justify-center mb-6">
+                  <div className="absolute inset-0 bg-purple-500/20 blur-xl rounded-full animate-pulse"></div>
+                  <div className="w-20 h-20 bg-[#1E1A29] border border-purple-500/20 rounded-full flex items-center justify-center relative z-10 shadow-[0_0_20px_rgba(168,85,247,0.15)]">
+                    <Search size={36} className="text-purple-400" />
+                  </div>
                 </div>
-                <h2 className="text-xl font-semibold text-white">
-                  Search or click a skill above to find tutors
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-400 text-transparent bg-clip-text mb-3">
+                  Start your search
                 </h2>
-                <p className="text-gray-400 mt-2 text-sm">
-                  Results appear instantly as you search or select skills.
+                <p className="text-gray-400 max-w-md mx-auto">
+                  Select skills from the panel above or type in the search bar to instantly find tutors that match your criteria.
                 </p>
               </div>
             </div>
@@ -268,23 +271,26 @@ function FindSkills() {
             </div>
 
           ) : (
-            <div className="glow-card-wrapper bg-[#120F17] p-14 text-center relative">
-              <div className="relative z-10">
-                <div className="w-20 h-20 bg-[#1E1A29] rounded-full flex items-center justify-center mx-auto mb-5">
-                  <Users size={32} className="text-gray-500" />
+            <div className="glow-card-wrapper bg-[#120F17] p-16 text-center relative mt-10">
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="relative w-24 h-24 flex items-center justify-center mb-6">
+                  <div className="absolute inset-0 bg-gray-600/10 blur-xl rounded-full"></div>
+                  <div className="w-20 h-20 bg-[#1E1A29] border border-gray-700/50 rounded-full flex items-center justify-center relative z-10">
+                    <Users size={36} className="text-gray-500 opacity-80" />
+                  </div>
                 </div>
-                <h2 className="text-xl font-semibold text-white">
+                <h2 className="text-2xl font-bold text-gray-300 mb-3">
                   No tutors found
                 </h2>
-                <p className="text-gray-400 mt-2 text-sm">
-                  Nobody matches your current filters. Try different skills or search terms.
+                <p className="text-gray-500 max-w-sm mx-auto">
+                  Nobody matches your current filters. Try different skills or expanding your search terms.
                 </p>
                 <button
                   onClick={() => {
                     handleClear();
                     setSearchTerm("");
                   }}
-                  className="mt-5 bg-purple-600 hover:bg-purple-700 text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+                  className="mt-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white px-8 py-3 rounded-xl text-sm font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_25px_rgba(168,85,247,0.3)] active:scale-95"
                 >
                   Clear Filters
                 </button>

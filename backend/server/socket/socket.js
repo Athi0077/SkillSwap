@@ -2,12 +2,18 @@ const Message = require("../../models/Message");
 const HubMessage = require("../../models/HubMessage");
 const Hub = require("../../models/Hub");
 
+const onlineUsers = new Set();
+const socketUserMap = {};
+
 module.exports = (io) => {
   io.on("connection", (socket) => {
 
     // ── Chat ──────────────────────────────────────────────
     socket.on("join", (userId) => {
       socket.join(userId);
+      socketUserMap[socket.id] = userId;
+      onlineUsers.add(userId);
+      io.emit("onlineUsers", Array.from(onlineUsers));
     });
 
     socket.on("sendMessage", async (data) => {
@@ -34,6 +40,17 @@ module.exports = (io) => {
 
       io.to(data.receiver).emit("receiveMessage", message);
       io.to(data.sender).emit("receiveMessage", message);
+    });
+
+    socket.on("markMessagesAsRead", async ({ senderId, receiverId }) => {
+      // senderId is the person who sent the messages.
+      // receiverId is the person who just opened the chat and read them.
+      await Message.updateMany(
+        { sender: senderId, receiver: receiverId, read: false },
+        { $set: { read: true } }
+      );
+      // Notify the sender that their messages were read
+      io.to(senderId).emit("messagesRead", { receiverId });
     });
 
     // ── Hub Chat ──────────────────────────────────────────
@@ -100,7 +117,12 @@ module.exports = (io) => {
     });
 
     socket.on("disconnect", () => {
-      console.log("User Disconnected");
+      const userId = socketUserMap[socket.id];
+      if (userId) {
+        onlineUsers.delete(userId);
+        delete socketUserMap[socket.id];
+        io.emit("onlineUsers", Array.from(onlineUsers));
+      }
     });
 
   });

@@ -26,13 +26,13 @@ function ScheduleModal({ chatUser, onConfirm, onClose }) {
 
   return (
     /* Backdrop */
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-md">
 
       {/* Modal */}
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+      <div className="bg-[#120F17]/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.37)] w-full max-w-md mx-4 overflow-hidden">
 
         {/* Header */}
-        <div className="bg-gradient-to-r from-indigo-600 to-violet-600 p-5 text-white">
+        <div className="bg-gradient-to-r from-purple-600/80 to-indigo-600/80 p-5 text-white border-b border-white/10">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-lg font-bold">Schedule a Session</h2>
@@ -42,7 +42,7 @@ function ScheduleModal({ chatUser, onConfirm, onClose }) {
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition backdrop-blur-sm"
             >
               <X size={16} />
             </button>
@@ -54,8 +54,8 @@ function ScheduleModal({ chatUser, onConfirm, onClose }) {
 
           {/* Topic */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-semibold text-slate-600 mb-2">
-              <BookOpen size={15} className="text-indigo-500" />
+            <label className="flex items-center gap-2 text-sm font-semibold text-gray-300 mb-2">
+              <BookOpen size={15} className="text-purple-400" />
               Topic / Skill
             </label>
             <input
@@ -63,14 +63,14 @@ function ScheduleModal({ chatUser, onConfirm, onClose }) {
               placeholder="e.g. React basics, UI/UX review..."
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
-              className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-black"
+              className="w-full bg-[#0B090F]/50 border border-[#2F293A] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-500 backdrop-blur-sm transition-all"
             />
           </div>
 
           {/* Date */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-semibold text-slate-600 mb-2">
-              <CalendarDays size={15} className="text-indigo-500" />
+            <label className="flex items-center gap-2 text-sm font-semibold text-gray-300 mb-2">
+              <CalendarDays size={15} className="text-purple-400" />
               Date
             </label>
             <input
@@ -79,14 +79,14 @@ function ScheduleModal({ chatUser, onConfirm, onClose }) {
               value={date}
               onChange={(e) => setDate(e.target.value)}
               required
-              className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-black"
+              className="w-full bg-[#0B090F]/50 border border-[#2F293A] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 text-white backdrop-blur-sm transition-all"
             />
           </div>
 
           {/* Time */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-semibold text-slate-600 mb-2">
-              <Clock size={15} className="text-indigo-500" />
+            <label className="flex items-center gap-2 text-sm font-semibold text-gray-300 mb-2">
+              <Clock size={15} className="text-purple-400" />
               Time
             </label>
             <input
@@ -94,13 +94,13 @@ function ScheduleModal({ chatUser, onConfirm, onClose }) {
               value={time}
               onChange={(e) => setTime(e.target.value)}
               required
-              className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-black"
+              className="w-full bg-[#0B090F]/50 border border-[#2F293A] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 text-white backdrop-blur-sm transition-all"
             />
           </div>
 
           {/* Duration */}
           <div>
-            <label className="text-sm font-semibold text-slate-600 mb-2 block">
+            <label className="text-sm font-semibold text-gray-300 mb-2 block">
               Duration
             </label>
             <div className="flex gap-3">
@@ -109,10 +109,10 @@ function ScheduleModal({ chatUser, onConfirm, onClose }) {
                   key={d}
                   type="button"
                   onClick={() => setDuration(d)}
-                  className={`flex-1 py-2.5 rounded-xl text-sm font-medium border-2 transition-all
+                  className={`flex-1 py-2.5 rounded-xl text-sm font-medium border transition-all backdrop-blur-sm
                     ${duration === d
-                      ? "border-indigo-500 bg-indigo-600 text-white"
-                      : "border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300"
+                      ? "border-purple-500 bg-purple-600/80 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
+                      : "border-[#2F293A] bg-[#0B090F]/50 text-gray-400 hover:border-purple-500/50 hover:text-purple-300"
                     }`}
                 >
                   {d} min
@@ -126,17 +126,17 @@ function ScheduleModal({ chatUser, onConfirm, onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 text-sm font-medium transition"
+              className="flex-1 py-2.5 rounded-xl border border-[#2F293A] bg-[#1E1A29]/50 text-gray-300 hover:bg-[#2F293A] text-sm font-medium transition backdrop-blur-sm"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading || !date || !time}
-              className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all
+              className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all backdrop-blur-sm
                 ${!loading && date && time
-                  ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-md"
-                  : "bg-slate-200 text-slate-400 cursor-not-allowed"
+                  ? "bg-purple-600/90 hover:bg-purple-500 text-white shadow-[0_0_20px_rgba(168,85,247,0.3)]"
+                  : "bg-[#1E1A29]/50 text-gray-500 cursor-not-allowed border border-[#2F293A]"
                 }`}
             >
               {loading ? "Scheduling…" : "Confirm Session"}

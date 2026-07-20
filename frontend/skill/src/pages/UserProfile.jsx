@@ -1,7 +1,8 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { MapPin, Mail, Star } from "lucide-react";
+import { MapPin, Mail, Star, Share2 } from "lucide-react";
+import { FaLinkedin, FaTwitter, FaInstagram, FaYoutube, FaWhatsapp, FaGithub, FaGlobe } from "react-icons/fa";
 
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
@@ -29,6 +30,18 @@ function UserProfile() {
   const [requestStatus, setRequestStatus] = useState(null);
   const [isFriendMode, setIsFriendMode] = useState(false);
   const navigate = useNavigate();
+
+  const getSocialIcon = (platform) => {
+    switch (platform?.toLowerCase()) {
+      case "linkedin": return <FaLinkedin size={18} />;
+      case "twitter": return <FaTwitter size={18} />;
+      case "instagram": return <FaInstagram size={18} />;
+      case "youtube": return <FaYoutube size={18} />;
+      case "whatsapp": return <FaWhatsapp size={18} />;
+      case "github": return <FaGithub size={18} />;
+      default: return <FaGlobe size={18} />;
+    }
+  };
 
   useEffect(() => {
     loadUserProfile();
@@ -90,7 +103,7 @@ function UserProfile() {
       <div className="flex min-h-screen dark-bento-page">
         <Sidebar />
 
-        <main className="flex-1 p-8">
+        <main className="flex-1 p-4 md:p-8 max-w-full overflow-x-hidden">
 
           {/* Profile Card */}
           <div className="glow-card-wrapper bg-[#120F17] p-8 relative">
@@ -145,37 +158,81 @@ function UserProfile() {
                   {user?.bio || "No bio available."}
                 </p>
 
-                {currentUser?._id !== user?._id && (
-                  <button
-                    onClick={() => {
-                      if (isFriendMode) {
-                        navigate(`/chat?userId=${user._id}`);
-                      } else if (!requestStatus || requestStatus === 'cancelled' || requestStatus === 'rejected') {
-                        handleSwapRequest();
-                      }
-                    }}
-                    disabled={sending || requestStatus === 'pending'}
-                    className={`mt-8 px-8 py-3 rounded-xl disabled:opacity-60 text-white font-semibold transition-all ${
-                       isFriendMode ? "bg-purple-600 hover:bg-purple-700 shadow-md"
-                       : requestStatus === "pending" ? "bg-amber-600 cursor-not-allowed opacity-90 shadow-md"
-                       : "bg-indigo-600 hover:bg-indigo-700 shadow-md"
-                    }`}
-                  >
-                    {sending
-                      ? "Sending..."
-                      : isFriendMode
-                      ? "Message"
-                      : requestStatus === "pending"
-                      ? "Request Pending"
-                      : "Send Skill Swap Request"}
-                  </button>
-                )}
+                <div className="mt-8 flex flex-wrap items-center gap-6">
+                  {currentUser?._id !== user?._id && (
+                    <button
+                      onClick={() => {
+                        if (isFriendMode) {
+                          navigate(`/chat?userId=${user._id}`);
+                        } else if (!requestStatus || requestStatus === 'cancelled' || requestStatus === 'rejected') {
+                          handleSwapRequest();
+                        }
+                      }}
+                      disabled={sending || requestStatus === 'pending'}
+                      className={`px-8 py-3 rounded-xl disabled:opacity-60 text-white font-semibold transition-all ${
+                         isFriendMode ? "bg-purple-600 hover:bg-purple-700 shadow-md"
+                         : requestStatus === "pending" ? "bg-amber-600 cursor-not-allowed opacity-90 shadow-md"
+                         : "bg-indigo-600 hover:bg-indigo-700 shadow-md"
+                      }`}
+                    >
+                      {sending
+                        ? "Sending..."
+                        : isFriendMode
+                        ? "Message"
+                        : requestStatus === "pending"
+                        ? "Request Pending"
+                        : "Send Skill Swap Request"}
+                    </button>
+                  )}
+
+                  {user?.socialLinks?.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-3">
+                      {user.socialLinks.map((link, idx) => (
+                        <a
+                          key={idx}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-gray-400 hover:text-white transition-all bg-[#1A1625] border border-[#2F293A] hover:border-indigo-500 hover:bg-indigo-600 p-2.5 rounded-full hover:shadow-[0_0_15px_rgba(79,70,229,0.5)] hover:-translate-y-1"
+                          title={link.platform}
+                        >
+                          {getSocialIcon(link.platform)}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
                 
                 <AchievementBadge user={user} />
 
               </div>
 
             </div>
+
+            {/* Share Profile Button */}
+            <button
+              onClick={async () => {
+                const url = window.location.href;
+                if (navigator.share) {
+                  try {
+                    await navigator.share({
+                      title: "Skill Swap Profile",
+                      text: `Check out ${user?.name}'s profile on Skill Swap!`,
+                      url: url,
+                    });
+                  } catch (error) {
+                    console.log("Error sharing", error);
+                  }
+                } else {
+                  navigator.clipboard.writeText(url);
+                  toast.success("Profile link copied to clipboard!");
+                }
+              }}
+              className="absolute bottom-30 right-6 w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-gray-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:scale-105 z-20"
+              title="Share Profile"
+            >
+              <Share2 size={20} />
+            </button>
 
           </div>
 

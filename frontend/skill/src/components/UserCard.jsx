@@ -1,6 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Star, MapPin } from "lucide-react";
+import { FaLinkedin, FaTwitter, FaInstagram, FaYoutube, FaWhatsapp, FaGithub, FaGlobe } from "react-icons/fa";
 
 function UserCard({
   user,
@@ -8,8 +9,20 @@ function UserCard({
   requestStatus,
   isFriendMode,
 }) {
+  const getSocialIcon = (platform) => {
+    switch (platform?.toLowerCase()) {
+      case "linkedin": return <FaLinkedin size={16} />;
+      case "twitter": return <FaTwitter size={16} />;
+      case "instagram": return <FaInstagram size={16} />;
+      case "youtube": return <FaYoutube size={16} />;
+      case "whatsapp": return <FaWhatsapp size={16} />;
+      case "github": return <FaGithub size={16} />;
+      default: return <FaGlobe size={16} />;
+    }
+  };
+
   return (
-    <div className="glow-card-wrapper bg-[#120F17] hover:shadow-xl transition-all duration-300 overflow-hidden">
+    <div className="glow-card-wrapper bg-[#120F17] hover:shadow-[0_8px_30px_rgb(168,85,247,0.15)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden group">
 
       {/* Cover */}
       <div className="h-24 bg-gradient-to-r from-purple-600 to-indigo-600"></div>
@@ -99,12 +112,30 @@ function UserCard({
           </div>
         </div>
 
+        {/* Social Links */}
+        {user?.socialLinks?.length > 0 && (
+          <div className="mt-5 flex justify-center gap-3">
+            {user.socialLinks.map((link, idx) => (
+              <a
+                key={idx}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-all bg-[#1E1A29] hover:bg-purple-600 p-2 rounded-full hover:shadow-[0_0_10px_rgba(168,85,247,0.5)] hover:-translate-y-1"
+                title={link.platform}
+              >
+                {getSocialIcon(link.platform)}
+              </a>
+            ))}
+          </div>
+        )}
+
         {/* Buttons */}
         <div className="mt-6 flex gap-3">
 
           <Link
             to={`/user/${user._id}`}
-            className="flex-1 text-center bg-[#1E1A29] hover:bg-[#2F293A] text-white py-2 rounded-lg font-medium transition"
+            className="flex-1 text-center bg-[#1E1A29] hover:bg-[#2F293A] text-white py-2 rounded-lg font-medium transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-md"
           >
             View Profile
           </Link>
@@ -114,14 +145,14 @@ function UserCard({
               if (isFriendMode || !requestStatus) onRequest(user);
             }}
             disabled={!isFriendMode && !!requestStatus}
-            className={`flex-1 text-white py-2 rounded-lg font-medium transition ${
+            className={`flex-1 text-white py-2 rounded-lg font-medium transition-all duration-200 ${
               isFriendMode
-                ? "bg-indigo-600 hover:bg-indigo-700"
+                ? "bg-indigo-600 hover:bg-indigo-700 active:scale-95 hover:-translate-y-0.5 hover:shadow-md"
                 : requestStatus === "accepted"
                 ? "bg-green-600 cursor-not-allowed opacity-90"
                 : requestStatus === "pending"
                 ? "bg-amber-600 cursor-not-allowed opacity-90"
-                : "bg-purple-600 hover:bg-purple-700"
+                : "bg-purple-600 hover:bg-purple-700 active:scale-95 hover:-translate-y-0.5 hover:shadow-md"
             }`}
           >
             {isFriendMode
