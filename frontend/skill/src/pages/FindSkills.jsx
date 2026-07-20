@@ -15,6 +15,7 @@ import { sendRequest, getMyRequests } from "../services/requestService";
 import { useAuth } from "../context/AuthContext";
 
 function FindSkills() {
+
   const { user: currentUser } = useAuth();
   const navigate = useNavigate();
 
@@ -22,6 +23,7 @@ function FindSkills() {
   const [loading, setLoading] = useState(true);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [requests, setRequests] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -73,22 +75,37 @@ function FindSkills() {
     }
   };
 
-  // Live filter: users (excluding self) who offer ANY of the selected skills
+  // Live filter: users (excluding self) who match selected skills and/or search term
   const filteredUsers = useMemo(() => {
-    if (selectedSkills.length === 0) return [];
+    if (selectedSkills.length === 0 && !searchTerm.trim()) return [];
 
     return allUsers.filter((u) => {
       // Exclude logged-in user
       if (u._id === currentUser?._id) return false;
 
-      // Check if user offers at least one of the selected skills (case-insensitive)
-      return u.skillsOffered?.some((offered) =>
-        selectedSkills.some(
-          (sel) => sel.trim().toLowerCase() === offered.trim().toLowerCase()
-        )
-      );
+      let matchesSkill = true;
+      if (selectedSkills.length > 0) {
+        matchesSkill = u.skillsOffered?.some((offered) =>
+          selectedSkills.some(
+            (sel) => sel.trim().toLowerCase() === offered.trim().toLowerCase()
+          )
+        );
+      }
+
+      let matchesSearch = true;
+      if (searchTerm.trim()) {
+        const term = searchTerm.trim().toLowerCase();
+        
+        const hasMatchingSkill = u.skillsOffered?.some(skill => 
+          skill.toLowerCase().includes(term)
+        );
+
+        matchesSearch = hasMatchingSkill;
+      }
+
+      return matchesSkill && matchesSearch;
     });
-  }, [allUsers, selectedSkills, currentUser]);
+  }, [allUsers, selectedSkills, currentUser, searchTerm]);
 
   if (loading) return <LoadingSpinner fullScreen message="Loading tutors..." />;
 
@@ -107,6 +124,20 @@ function FindSkills() {
             <p className="text-gray-400 mt-1">
               Click a skill to instantly see tutors who offer it
             </p>
+          </div>
+
+          {/* searchbar  */}
+          <div>
+            <div className="relative">
+              <Search className="absolute left-4 top-6.5 -translate-y-1/2 text-gray-500" />
+              <input
+                type="text"
+                placeholder="Search by skill..."
+                className="w-full mb-5 pl-10 pr-4 py-3 rounded-lg bg-[#1E1A29] border border-[#2F293A] text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
           </div>
 
           {/* Skill Selector Panel */}
@@ -180,17 +211,17 @@ function FindSkills() {
           </div>
 
           {/* Results */}
-          {selectedSkills.length === 0 ? (
+          {selectedSkills.length === 0 && !searchTerm.trim() ? (
             <div className="glow-card-wrapper bg-[#120F17] p-14 text-center relative">
               <div className="relative z-10">
                 <div className="w-20 h-20 bg-[#1E1A29] rounded-full flex items-center justify-center mx-auto mb-5">
                   <Search size={32} className="text-purple-400" />
                 </div>
                 <h2 className="text-xl font-semibold text-white">
-                  Click a skill above to find tutors
+                  Search or click a skill above to find tutors
                 </h2>
                 <p className="text-gray-400 mt-2 text-sm">
-                  Results appear instantly as you select skills.
+                  Results appear instantly as you search or select skills.
                 </p>
               </div>
             </div>
@@ -203,10 +234,24 @@ function FindSkills() {
                   <span className="font-semibold text-white">
                     {filteredUsers.length}
                   </span>{" "}
-                  {filteredUsers.length === 1 ? "tutor" : "tutors"} offering{" "}
-                  <span className="font-semibold text-purple-400">
-                    {selectedSkills.join(", ")}
-                  </span>
+                  {filteredUsers.length === 1 ? "tutor" : "tutors"} found
+                  {selectedSkills.length > 0 && (
+                    <>
+                      {" "}offering{" "}
+                      <span className="font-semibold text-purple-400">
+                        {selectedSkills.join(", ")}
+                      </span>
+                    </>
+                  )}
+                  {searchTerm.trim() && (
+                    <>
+                      {" "}matching "
+                      <span className="font-semibold text-purple-400">
+                        {searchTerm.trim()}
+                      </span>
+                      "
+                    </>
+                  )}
                 </span>
               </div>
 
@@ -232,17 +277,16 @@ function FindSkills() {
                   No tutors found
                 </h2>
                 <p className="text-gray-400 mt-2 text-sm">
-                  Nobody is currently offering{" "}
-                  <span className="font-medium text-gray-200">
-                    {selectedSkills.join(", ")}
-                  </span>
-                  . Try a different skill.
+                  Nobody matches your current filters. Try different skills or search terms.
                 </p>
                 <button
-                  onClick={handleClear}
+                  onClick={() => {
+                    handleClear();
+                    setSearchTerm("");
+                  }}
                   className="mt-5 bg-purple-600 hover:bg-purple-700 text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition-colors"
                 >
-                  Clear Selection
+                  Clear Filters
                 </button>
               </div>
             </div>
