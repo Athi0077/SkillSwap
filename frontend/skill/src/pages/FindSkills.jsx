@@ -128,7 +128,7 @@ function FindSkills() {
               </div>
 
               {/* Skill Pills */}
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3 max-h-[250px] overflow-y-auto">
                 {skillOptions.map((name) => {
                   const isChecked = selectedSkills.includes(name);
                   return (
