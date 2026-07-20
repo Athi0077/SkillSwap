@@ -65,7 +65,7 @@ function ChatBox({
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
-            className="lg:hidden p-2 -ml-2 rounded-full hover:bg-[#1E1A29] text-gray-400 transition"
+            className="p-2 -ml-2 rounded-full hover:bg-[#1E1A29] text-gray-400 transition"
           >
             <ArrowLeft size={22} />
           </button>

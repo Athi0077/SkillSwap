@@ -146,7 +146,7 @@ function Chat() {
     <>
       <Navbar />
 
-      <div className="flex h-[calc(100dvh-64px)] dark-bento-page overflow-hidden">
+      <div className="flex h-[calc(120dvh-64px)] dark-bento-page">
         <Sidebar />
 
         <main className="flex-1 p-2 sm:p-4 md:p-6 h-full flex flex-col overflow-hidden">

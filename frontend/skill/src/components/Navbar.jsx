@@ -40,7 +40,7 @@ function Navbar() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-3 lg:gap-5 text-sm xl:text-base whitespace-nowrap">
+          <div className="hidden md:flex items-center gap-3 lg:gap-5 text-sm xl:text-base whitespace-nowrap overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {isAuthenticated ? (
               <>
                 <NavLink to="/search" className="flex items-center text-gray-400 hover:text-purple-400 transition-colors">
@@ -64,7 +64,7 @@ function Navbar() {
                 <NavLink to="/leaderboard" className={desktopLinkClass}>Leaderboard</NavLink>
 
                 <NavLink to="/matches" className={desktopLinkClass}>Matches</NavLink>
-                
+
                 <NavLink to="/hubs" className={desktopLinkClass}>Hubs</NavLink>
 
                 <NavLink to="/credits" className={desktopLinkClass}>Credits</NavLink>
@@ -173,7 +173,7 @@ function Navbar() {
                 <NavLink to="/credits" className={mobileLinkClass} onClick={closeMenu}>
                   Credits
                 </NavLink>
-                
+
                 <button
                   onClick={handleLogout}
                   className="col-span-3 bg-red-500 hover:bg-red-600 text-white py-2 mt-2 rounded-xl transition font-medium"
