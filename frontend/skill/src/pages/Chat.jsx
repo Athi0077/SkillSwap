@@ -30,6 +30,7 @@ function Chat() {
   const [selectedChat, setSelectedChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [typingUsers, setTypingUsers] = useState(new Set());
 
   const socketRef = useRef(null);
   const selectedChatRef = useRef(null);
@@ -84,6 +85,22 @@ function Chat() {
 
     socketRef.current.on("onlineUsers", (users) => {
       setOnlineUsers(users);
+    });
+
+    socketRef.current.on("userTyping", ({ senderId }) => {
+      setTypingUsers((prev) => {
+        const newSet = new Set(prev);
+        newSet.add(senderId);
+        return newSet;
+      });
+    });
+
+    socketRef.current.on("userStoppedTyping", ({ senderId }) => {
+      setTypingUsers((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(senderId);
+        return newSet;
+      });
     });
 
     socketRef.current.on("messageError", (errorMsg) => {
@@ -261,7 +278,22 @@ function Chat() {
                     isOnline={onlineUsers.includes(
                       selectedChat.participants.find((p) => p._id !== user._id)?._id
                     )}
+                    isTyping={typingUsers.has(
+                      selectedChat.participants.find((p) => p._id !== user._id)?._id
+                    )}
                     onSendMessage={handleSendMessage}
+                    onTyping={() => {
+                      if (socketRef.current) {
+                        const otherUser = selectedChat.participants.find(p => p._id !== user._id);
+                        socketRef.current.emit("typing", { senderId: user._id, receiverId: otherUser._id });
+                      }
+                    }}
+                    onStopTyping={() => {
+                      if (socketRef.current) {
+                        const otherUser = selectedChat.participants.find(p => p._id !== user._id);
+                        socketRef.current.emit("stopTyping", { senderId: user._id, receiverId: otherUser._id });
+                      }
+                    }}
                     onBack={() => setSelectedChat(null)}
                   />
                 ) : (

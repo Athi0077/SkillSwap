@@ -1,5 +1,5 @@
-
 import { Link } from "react-router-dom";
+import Tilt from "react-parallax-tilt";
 import { Star, MapPin } from "lucide-react";
 import { FaLinkedin, FaTwitter, FaInstagram, FaYoutube, FaWhatsapp, FaGithub, FaGlobe } from "react-icons/fa";
 
@@ -22,7 +22,18 @@ function UserCard({
   };
 
   return (
-    <div className="glow-card-wrapper bg-[#120F17] hover:shadow-[0_8px_30px_rgb(168,85,247,0.15)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden group">
+    <Tilt
+      tiltMaxAngleX={4}
+      tiltMaxAngleY={4}
+      glareEnable={true}
+      glareMaxOpacity={0.12}
+      glareColor="lightblue"
+      glarePosition="all"
+      transitionSpeed={1500}
+      scale={1.02}
+      className="h-full w-full rounded-2xl md:rounded-3xl"
+    >
+      <div className="glow-card-wrapper h-full bg-[#120F17] hover:shadow-[0_8px_30px_rgb(168,85,247,0.15)] transition-all duration-300 overflow-hidden group">
 
       {/* Cover */}
       <div className="h-24 bg-gradient-to-r from-purple-600 to-indigo-600"></div>
@@ -167,7 +178,8 @@ function UserCard({
         </div>
 
       </div>
-    </div>
+      </div>
+    </Tilt>
   );
 }
 

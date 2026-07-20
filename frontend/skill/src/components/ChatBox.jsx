@@ -11,12 +11,16 @@ function ChatBox({
   currentUser,
   chatUser,
   isOnline = false,
+  isTyping = false,
+  onTyping,
+  onStopTyping,
   onBack,
 }) {
   const [message, setMessage] = useState("");
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [scheduleSuccess, setScheduleSuccess] = useState(null);
   const messagesEndRef = useRef(null);
+  const typingTimeoutRef = useRef(null);
 
   // Auto-scroll to latest message
   useEffect(() => {
@@ -45,8 +49,23 @@ function ChatBox({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!message.trim()) return;
+    
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    if (onStopTyping) onStopTyping();
+    
     onSendMessage(message.trim());
     setMessage("");
+  };
+
+  const handleInputChange = (e) => {
+    setMessage(e.target.value);
+    
+    if (onTyping) onTyping();
+    
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    typingTimeoutRef.current = setTimeout(() => {
+      if (onStopTyping) onStopTyping();
+    }, 2000);
   };
 
   const handleScheduleConfirm = async ({ scheduledAt, duration, topic }) => {
@@ -106,7 +125,7 @@ function ChatBox({
           <div>
             <h2 className="font-semibold text-lg text-white">{chatUser?.name}</h2>
             <p className={`text-sm ${isOnline ? "text-green-400" : "text-gray-400"}`}>
-              {isOnline ? "Online" : "Offline"}
+              {isTyping ? "typing..." : (isOnline ? "Online" : "Offline")}
             </p>
           </div>
         </div>
@@ -197,6 +216,16 @@ function ChatBox({
           </div>
         )}
 
+        {isTyping && (
+          <div className="flex justify-start mb-2 animate-in fade-in duration-300">
+            <div className="bg-[#1E1A29]/80 backdrop-blur-md border border-[#2F293A] rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-1.5 shadow-md">
+              <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+              <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+              <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
+            </div>
+          </div>
+        )}
+
         <div ref={messagesEndRef} />
       </div>
 
@@ -206,7 +235,7 @@ function ChatBox({
           type="text"
           placeholder="Type your message..."
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={handleInputChange}
           className="flex-1 border border-[#2F293A] bg-[#0B090F]/50 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-gray-500 transition-all shadow-inner"
         />
         <button

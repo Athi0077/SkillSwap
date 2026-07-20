@@ -55,6 +55,14 @@ module.exports = (io) => {
       io.to(senderId).emit("messagesRead", { receiverId });
     });
 
+    socket.on("typing", ({ senderId, receiverId }) => {
+      io.to(receiverId).emit("userTyping", { senderId });
+    });
+
+    socket.on("stopTyping", ({ senderId, receiverId }) => {
+      io.to(receiverId).emit("userStoppedTyping", { senderId });
+    });
+
     // ── Hub Chat ──────────────────────────────────────────
     socket.on("join-hub-room", (hubId) => {
       socket.join(`hub_${hubId}`);
