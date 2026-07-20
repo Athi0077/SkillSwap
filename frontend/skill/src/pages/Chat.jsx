@@ -167,6 +167,10 @@ function Chat() {
       if (socketRef.current && otherUser) {
         socketRef.current.emit("markMessagesAsRead", { senderId: otherUser._id, receiverId: user._id });
       }
+
+      setConversations(prev => 
+        prev.map(c => c._id === chat._id ? { ...c, unreadCount: 0 } : c)
+      );
     } catch (error) {
       console.error(error);
     }
