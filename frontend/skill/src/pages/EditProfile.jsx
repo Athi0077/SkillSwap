@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Save, Camera, Trash2, Plus } from "lucide-react";
+import { Save, Camera, Trash2, Plus, X, Upload } from "lucide-react";
 
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
@@ -18,6 +18,15 @@ import {
   deleteProfileImage,
 } from "../services/userService";
 import { skillOptions } from "../constants/skillOptions";
+
+import dp1 from "../assets/dp1.png";
+import dp2 from "../assets/dp2.png";
+import dp3 from "../assets/dp3.png";
+import dp4 from "../assets/dp4.png";
+import dp5 from "../assets/dp5.png";
+import dp6 from "../assets/dp6.png";
+
+const defaultAvatars = [dp1, dp2, dp3, dp4, dp5, dp6];
 
 const profileSchema = z.object({
   name: z.string().min(3, "Name is required"),
@@ -42,6 +51,7 @@ function EditProfile() {
   const [saving, setSaving] = useState(false);
   const [profileImage, setProfileImage] = useState("");
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
 
   const {
     register,
@@ -127,6 +137,28 @@ function EditProfile() {
     }
   };
 
+  const handleDefaultPicUpload = async (picUrl) => {
+    try {
+      setUploadingImage(true);
+      const response = await fetch(picUrl);
+      const blob = await response.blob();
+      const file = new File([blob], "default_dp.png", { type: "image/png" });
+      
+      const formData = new FormData();
+      formData.append("image", file);
+      
+      const res = await uploadProfileImage(formData);
+      if (res.success) {
+        setProfileImage(res.user.profileImage);
+        toast.success("Profile image updated");
+      }
+    } catch (error) {
+      toast.error(error.message || "Failed to set default picture");
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const handleImageDelete = async () => {
     try {
       setUploadingImage(true);
@@ -192,32 +224,40 @@ function EditProfile() {
             </h1>
 
             <div className="flex flex-col sm:flex-row items-center gap-6 mb-8 bg-[#1A1625] p-6 rounded-2xl border border-[#2F293A]">
-              <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-[#2F293A] flex-shrink-0 bg-[#120F17]">
+              <button
+                type="button"
+                onClick={() => setShowAvatarModal(true)}
+                disabled={uploadingImage}
+                className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-[#2F293A] flex-shrink-0 bg-[#120F17] cursor-pointer group"
+              >
                 {uploadingImage ? (
                   <div className="absolute inset-0 flex items-center justify-center bg-black/50">
                     <LoadingSpinner />
                   </div>
                 ) : (
-                  <img
-                    src={profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(watch("name") || "User")}&background=3B82F6&color=fff`}
-                    alt="Profile"
-                    className="w-full h-full object-cover"
-                  />
+                  <>
+                    <img
+                      src={profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(watch("name") || "User")}&background=3B82F6&color=fff`}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <Camera size={32} className="text-white" />
+                    </div>
+                  </>
                 )}
-              </div>
+              </button>
               
               <div className="flex flex-col gap-3 w-full sm:w-auto">
-                <label className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl cursor-pointer transition-colors flex items-center justify-center gap-2 font-medium">
+                <button
+                  type="button"
+                  onClick={() => setShowAvatarModal(true)}
+                  disabled={uploadingImage}
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2 font-medium"
+                >
                   <Camera size={18} />
-                  <span>Upload New Picture</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleImageUpload}
-                    disabled={uploadingImage}
-                  />
-                </label>
+                  <span>Update Picture</span>
+                </button>
                 
                 {profileImage && (
                   <button
@@ -432,6 +472,61 @@ function EditProfile() {
 
         </main>
       </div>
+
+      {showAvatarModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-[#120F17] border border-[#2F293A] rounded-2xl w-full max-w-md p-6 relative shadow-2xl">
+            <button
+              type="button"
+              onClick={() => setShowAvatarModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors p-1"
+            >
+              <X size={24} />
+            </button>
+            
+            <h2 className="text-xl font-bold text-white mb-6">Choose a Profile Picture</h2>
+            
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              {defaultAvatars.map((pic, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => {
+                    handleDefaultPicUpload(pic);
+                    setShowAvatarModal(false);
+                  }}
+                  className={`w-full aspect-square rounded-full overflow-hidden border-2 transition-all hover:scale-105 hover:shadow-[0_0_15px_rgba(168,85,247,0.5)] ${profileImage === pic ? 'border-purple-500 scale-105 shadow-[0_0_15px_rgba(168,85,247,0.5)]' : 'border-[#2F293A]'}`}
+                >
+                  <img src={pic} alt={`Default ${i + 1}`} className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+            
+            <div className="relative mb-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-[#2F293A]"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-[#120F17] text-gray-400">or</span>
+              </div>
+            </div>
+            
+            <label className="w-full flex items-center justify-center gap-2 bg-[#1A1625] hover:bg-[#2F293A] border border-[#2F293A] text-white py-3 rounded-xl cursor-pointer transition-colors font-medium">
+              <Upload size={18} />
+              Upload from Device
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  handleImageUpload(e);
+                  setShowAvatarModal(false);
+                }}
+              />
+            </label>
+          </div>
+        </div>
+      )}
     </>
   );
 }
