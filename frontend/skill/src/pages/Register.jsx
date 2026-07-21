@@ -4,13 +4,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, UserPlus, Camera, Plus, Trash2 } from "lucide-react";
+import { Eye, EyeOff, UserPlus, Camera, Plus, Trash2, X, Upload } from "lucide-react";
 
 import Navbar from "../components/Navbar";
 import { registerUser } from "../services/authService";
 import { uploadProfileImage } from "../services/userService";
 import { useAuth } from "../context/AuthContext";
 import { skillOptions } from "../constants/skillOptions";
+
+import dp1 from "../assets/dp1.png";
+import dp2 from "../assets/dp2.png";
+import dp3 from "../assets/dp3.png";
+import dp4 from "../assets/dp4.png";
+import dp5 from "../assets/dp5.png";
+import dp6 from "../assets/dp6.png";
+
+const defaultAvatars = [dp1, dp2, dp3, dp4, dp5, dp6];
 
 const registerSchema = z
   .object({
@@ -24,6 +33,7 @@ const registerSchema = z
     confirmPassword: z.string(),
     bio: z.string().optional(),
     location: z.string().optional(),
+    gender: z.string().optional(),
     skillsOffered: z.union([z.string(), z.array(z.string())]).optional(),
     skillsWanted: z.union([z.string(), z.array(z.string())]).optional(),
     socialLinks: z.array(
@@ -47,6 +57,7 @@ function Register() {
     useState(false);
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [profileImageFile, setProfileImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
 
@@ -91,6 +102,18 @@ function Register() {
     if (file) {
       setProfileImageFile(file);
       setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleDefaultPicSelect = async (picUrl) => {
+    try {
+      setImagePreview(picUrl);
+      const response = await fetch(picUrl);
+      const blob = await response.blob();
+      const file = new File([blob], "default_dp.png", { type: "image/png" });
+      setProfileImageFile(file);
+    } catch (e) {
+      console.error("Failed to load default pic", e);
     }
   };
 
@@ -161,22 +184,27 @@ function Register() {
             className="grid md:grid-cols-2 gap-5 mt-8"
           >
             <div className="md:col-span-2 flex flex-col items-center gap-4 mb-2">
-              <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-[#2F293A] bg-[#1A1625] flex-shrink-0 flex items-center justify-center">
+              <button
+                type="button"
+                onClick={() => setShowAvatarModal(true)}
+                className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-[#2F293A] bg-[#1A1625] flex-shrink-0 flex items-center justify-center cursor-pointer hover:border-purple-500 transition-colors group"
+              >
                 {imagePreview ? (
                   <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
                 ) : (
-                  <Camera size={32} className="text-gray-500" />
+                  <Camera size={32} className="text-gray-500 group-hover:text-purple-400 transition-colors" />
                 )}
-              </div>
-              <label className="bg-[#2F293A] hover:bg-purple-600/30 text-purple-400 hover:text-purple-300 px-4 py-2 rounded-xl cursor-pointer transition-colors text-sm font-medium">
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <Camera size={24} className="text-white" />
+                </div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowAvatarModal(true)}
+                className="bg-[#2F293A] hover:bg-purple-600/30 text-purple-400 hover:text-purple-300 px-4 py-2 rounded-xl cursor-pointer transition-colors text-sm font-medium"
+              >
                 Upload Profile Picture (Optional)
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
-              </label>
+              </button>
             </div>
 
             <div>
@@ -286,6 +314,26 @@ function Register() {
                 className="w-full mt-2 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                 placeholder="City, Country"
               />
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="font-medium text-gray-300">Gender</label>
+              <div className="mt-2 flex flex-wrap gap-4 md:gap-6">
+                {["Male", "Female", "Other", "Not Mentioned"].map((g) => (
+                  <label
+                    key={g}
+                    className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer hover:text-purple-400 transition-colors"
+                  >
+                    <input
+                      type="radio"
+                      value={g}
+                      {...register("gender")}
+                      className="accent-purple-500"
+                    />
+                    <span>{g}</span>
+                  </label>
+                ))}
+              </div>
             </div>
 
             <div className="md:col-span-2">
@@ -417,6 +465,62 @@ function Register() {
           </p>
 
         </div>
+
+        {showAvatarModal && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="bg-[#120F17] border border-[#2F293A] rounded-2xl w-full max-w-md p-6 relative shadow-2xl">
+              <button
+                type="button"
+                onClick={() => setShowAvatarModal(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors p-1"
+              >
+                <X size={24} />
+              </button>
+              
+              <h2 className="text-xl font-bold text-white mb-6">Choose a Profile Picture</h2>
+              
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                {defaultAvatars.map((pic, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => {
+                      handleDefaultPicSelect(pic);
+                      setShowAvatarModal(false);
+                    }}
+                    className={`w-full aspect-square rounded-full overflow-hidden border-2 transition-all hover:scale-105 hover:shadow-[0_0_15px_rgba(168,85,247,0.5)] ${imagePreview === pic ? 'border-purple-500 scale-105 shadow-[0_0_15px_rgba(168,85,247,0.5)]' : 'border-[#2F293A]'}`}
+                  >
+                    <img src={pic} alt={`Default ${i + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+              
+              <div className="relative mb-6">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-[#2F293A]"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-[#120F17] text-gray-400">or</span>
+                </div>
+              </div>
+              
+              <label className="w-full flex items-center justify-center gap-2 bg-[#1A1625] hover:bg-[#2F293A] border border-[#2F293A] text-white py-3 rounded-xl cursor-pointer transition-colors font-medium">
+                <Upload size={18} />
+                Upload from Device
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    handleImageChange(e);
+                    setShowAvatarModal(false);
+                  }}
+                />
+              </label>
+            </div>
+          </div>
+        )}
+
       </div>
     </>
   );

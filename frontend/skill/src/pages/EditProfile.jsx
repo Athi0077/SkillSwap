@@ -24,6 +24,7 @@ const profileSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters").optional(),
   bio: z.string().optional(),
   location: z.string().optional(),
+  gender: z.string().optional(),
   skillsOffered: z.union([z.string(), z.array(z.string())]).optional(),
   skillsWanted: z.union([z.string(), z.array(z.string())]).optional(),
   socialLinks: z.array(
@@ -93,6 +94,7 @@ function EditProfile() {
         username: res.user.username || "",
         bio: res.user.bio || "",
         location: res.user.location || "",
+        gender: res.user.gender || "",
         skillsOffered: res.user.skillsOffered || [],
         skillsWanted: res.user.skillsWanted || [],
         socialLinks: res.user.socialLinks || [],
@@ -288,6 +290,29 @@ function EditProfile() {
                   {...register("location")}
                   className="w-full mt-2 bg-[#1A1625] border border-[#2F293A] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                 />
+              </div>
+
+              <div>
+                <label className="font-medium text-gray-300">
+                  Gender
+                </label>
+
+                <div className="mt-2 flex flex-wrap gap-4">
+                  {["Male", "Female", "Other", "Not Mentioned"].map((g) => (
+                    <label
+                      key={g}
+                      className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer hover:text-purple-400 transition-colors"
+                    >
+                      <input
+                        type="radio"
+                        value={g}
+                        {...register("gender")}
+                        className="accent-purple-500"
+                      />
+                      <span>{g}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
 
               <div>

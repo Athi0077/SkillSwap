@@ -56,6 +56,12 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
 
+    gender: {
+      type: String,
+      enum: ["Male", "Female", "Other", "Not Mentioned", ""],
+      default: "",
+    },
+
     availability: {
       type: String,
       default: "Weekends",

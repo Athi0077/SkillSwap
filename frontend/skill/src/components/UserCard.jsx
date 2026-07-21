@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Tilt from "react-parallax-tilt";
-import { Star, MapPin } from "lucide-react";
+import { Star, MapPin, User as UserIcon } from "lucide-react";
 import { FaLinkedin, FaTwitter, FaInstagram, FaYoutube, FaWhatsapp, FaGithub, FaGlobe } from "react-icons/fa";
 
 function UserCard({
@@ -73,6 +73,13 @@ function UserCard({
           <div className="flex justify-center items-center gap-2 mt-3 text-gray-400">
             <MapPin size={16} />
             <span>{user.location}</span>
+          </div>
+        )}
+
+        {user?.gender && user.gender !== "Not Mentioned" && (
+          <div className="flex justify-center items-center gap-2 mt-2 text-gray-400">
+            <UserIcon size={16} />
+            <span>{user.gender}</span>
           </div>
         )}
 
