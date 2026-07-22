@@ -52,17 +52,23 @@ function Login() {
     <>
       <Navbar />
 
-      <div className="min-h-[90vh] flex items-center justify-center dark-bento-page px-4">
-
-        <div className="glow-card-wrapper bg-[#120F17] w-full max-w-md rounded-2xl shadow-xl p-8 relative z-10">
-
-          <h1 className="text-3xl font-bold text-center text-white">
-            Welcome Back
-          </h1>
-
-          <p className="text-center text-gray-400 mt-2">
-            Login to your SkillSwap account
-          </p>
+      <div className="min-h-[90vh] flex dark-bento-page">
+        {/* Left Side: Form */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center px-6 lg:px-12 relative z-10 py-12">
+          <div className="w-full max-w-md">
+            
+            <div className="mb-10">
+              <Link to="/" className="flex items-center gap-2 mb-8">
+                <img src="/assets/logo.png" alt="Logo" className="w-10 h-10 object-contain" />
+                <span className="bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text font-bold text-xl">SkillSwap</span>
+              </Link>
+              <h1 className="text-4xl font-extrabold text-white mb-3">
+                Welcome Back
+              </h1>
+              <p className="text-gray-400 text-lg">
+                Log in to continue swapping skills.
+              </p>
+            </div>
 
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -128,7 +134,7 @@ function Login() {
 
             <button
               disabled={loading}
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl font-semibold flex justify-center items-center gap-2 transition disabled:opacity-60 shadow-md"
+              className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white py-3.5 rounded-xl font-bold flex justify-center items-center gap-2 transition-all duration-300 disabled:opacity-60 shadow-[0_0_20px_rgba(124,58,237,0.3)] hover:shadow-[0_0_25px_rgba(124,58,237,0.5)] hover:-translate-y-0.5 mt-8"
             >
               <LogIn size={20} />
 
@@ -146,6 +152,45 @@ function Login() {
             </Link>
           </p>
 
+          </div>
+        </div>
+
+        {/* Right Side: Animated/Graphic Area */}
+        <div className="hidden lg:flex w-1/2 relative bg-[#0B090F] overflow-hidden items-center justify-center border-l border-[#2F293A]">
+          {/* Abstract glowing blobs */}
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/30 rounded-full blur-[120px] animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-pink-600/10 rounded-full blur-[150px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+          
+          <div className="relative z-10 text-center max-w-lg px-8">
+            <div className="glass-panel p-8 rounded-3xl border border-white/5 shadow-2xl backdrop-blur-md bg-white/5 relative">
+              <div className="absolute -top-6 -left-6 text-6xl opacity-50">✨</div>
+              <h2 className="text-3xl font-bold text-white mb-4 leading-tight">
+                Unlock Your Potential Through Connection
+              </h2>
+              <p className="text-gray-300 text-lg leading-relaxed">
+                Join a community of passionate learners and experts. Teach what you know, learn what you don't.
+              </p>
+              
+              <div className="mt-8 flex justify-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30">
+                  <span className="text-xl">💻</span>
+                </div>
+                <div className="w-12 h-12 rounded-full bg-pink-500/20 flex items-center justify-center border border-pink-500/30">
+                  <span className="text-xl">🎸</span>
+                </div>
+                <div className="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30">
+                  <span className="text-xl">🎨</span>
+                </div>
+                <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/30">
+                  <span className="text-xl">🌍</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Decorative grid */}
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgc3Ryb2tlPSIjMjkyOTM1IiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIG9wYWNpdHk9IjAuMSI+PHBhdGggZD0iTTAgNjBoNjBNNjAgMGwwIDYwIi8+PC9nPjwvc3ZnPg==')] pointer-events-none"></div>
         </div>
 
       </div>

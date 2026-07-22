@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import LoadingSpinner from "../components/LoadingSpinner";
 import UserCard from "../components/UserCard";
+import MatchSwiper from "../components/MatchSwiper";
 import { toast } from "react-hot-toast";
 
 import { skillOptions } from "../constants/skillOptions";
@@ -24,6 +25,7 @@ function FindSkills() {
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [requests, setRequests] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [viewMode, setViewMode] = useState("swipe"); // 'grid' or 'swipe'
 
   useEffect(() => {
     fetchData();
@@ -231,43 +233,71 @@ function FindSkills() {
 
           ) : filteredUsers.length > 0 ? (
             <div className="relative z-10">
-              <div className="flex items-center gap-2 mb-5 text-gray-400 text-sm">
-                <Users size={16} />
-                <span>
-                  <span className="font-semibold text-white">
-                    {filteredUsers.length}
-                  </span>{" "}
-                  {filteredUsers.length === 1 ? "tutor" : "tutors"} found
-                  {selectedSkills.length > 0 && (
-                    <>
-                      {" "}offering{" "}
-                      <span className="font-semibold text-purple-400">
-                        {selectedSkills.join(", ")}
-                      </span>
-                    </>
-                  )}
-                  {searchTerm.trim() && (
-                    <>
-                      {" "}matching "
-                      <span className="font-semibold text-purple-400">
-                        {searchTerm.trim()}
-                      </span>
-                      "
-                    </>
-                  )}
-                </span>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-5">
+                <div className="flex items-center gap-2 text-gray-400 text-sm">
+                  <Users size={16} />
+                  <span>
+                    <span className="font-semibold text-white">
+                      {filteredUsers.length}
+                    </span>{" "}
+                    {filteredUsers.length === 1 ? "tutor" : "tutors"} found
+                    {selectedSkills.length > 0 && (
+                      <>
+                        {" "}offering{" "}
+                        <span className="font-semibold text-purple-400">
+                          {selectedSkills.join(", ")}
+                        </span>
+                      </>
+                    )}
+                    {searchTerm.trim() && (
+                      <>
+                        {" "}matching "
+                        <span className="font-semibold text-purple-400">
+                          {searchTerm.trim()}
+                        </span>
+                        "
+                      </>
+                    )}
+                  </span>
+                </div>
+
+                {/* View Mode Toggle */}
+                <div className="flex bg-[#120F17] p-1 rounded-lg border border-[#2F293A]">
+                   <button
+                     onClick={() => setViewMode('grid')}
+                     className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${viewMode === 'grid' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                   >
+                      Grid
+                   </button>
+                   <button
+                     onClick={() => setViewMode('swipe')}
+                     className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${viewMode === 'swipe' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                   >
+                      Swipe
+                   </button>
+                </div>
               </div>
 
-              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredUsers.map((u) => (
-                  <UserCard
-                    key={u._id}
-                    user={u}
-                    onRequest={handleRequest}
-                    requestStatus={getRequestStatus(u._id)}
+              {viewMode === 'grid' ? (
+                <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {filteredUsers.map((u) => (
+                    <UserCard
+                      key={u._id}
+                      user={u}
+                      onRequest={handleRequest}
+                      requestStatus={getRequestStatus(u._id)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="pt-4">
+                  <MatchSwiper 
+                    users={filteredUsers} 
+                    onRequest={handleRequest} 
+                    requestStatusGetter={getRequestStatus} 
                   />
-                ))}
-              </div>
+                </div>
+              )}
             </div>
 
           ) : (

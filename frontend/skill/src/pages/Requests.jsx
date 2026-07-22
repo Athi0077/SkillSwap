@@ -25,6 +25,7 @@ import {
   deleteRequest,
   completeRequest,
 } from "../services/requestService";
+import { fireConfetti } from "../utils/confetti";
 
 function Requests() {
   const [loading, setLoading] = useState(true);
@@ -78,6 +79,7 @@ function Requests() {
   const handleAccept = async (id) => {
     try {
       await acceptRequest(id);
+      fireConfetti();
       toast.success("Request accepted!");
       fetchRequests();
     } catch (error) {

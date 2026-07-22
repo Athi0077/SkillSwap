@@ -24,6 +24,7 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ClickSpark from "./components/ClickSpark";
 import MouseGlow from "./components/MouseGlow";
+import MobileDock from "./components/MobileDock";
 
 import { Toaster } from "react-hot-toast";
 
@@ -33,6 +34,7 @@ function App() {
       <MouseGlow />
       <ClickSpark />
       <Toaster position="top-right" />
+      <MobileDock />
       <Routes>
         {/* Public Routes */}
       <Route path="/" element={<Home />} />

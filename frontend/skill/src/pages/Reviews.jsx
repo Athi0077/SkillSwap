@@ -15,6 +15,8 @@ import {
   deleteReview,
 } from "../services/reviewService";
 
+import { fireConfetti } from "../utils/confetti";
+
 import { useAuth } from "../context/AuthContext";
 
 /* ── Star Rating Input ── */
@@ -59,6 +61,9 @@ function ReviewFormCard({ swapUser, existingReview, onSubmit }) {
     try {
       await onSubmit({ revieweeId: swapUser._id, rating, comment });
       setSubmitted(true);
+      if (rating === 5) {
+        fireConfetti();
+      }
       toast.success("Review submitted!");
     } catch (error) {
       toast.error(error.message || "Failed to submit review");

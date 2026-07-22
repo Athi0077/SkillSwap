@@ -168,16 +168,23 @@ function Register() {
     <>
       <Navbar />
 
-      <div className="min-h-screen dark-bento-page flex items-center justify-center px-4 py-10">
-        <div className="glow-card-wrapper bg-[#120F17] w-full max-w-2xl rounded-2xl shadow-xl p-8 relative z-10">
+      <div className="min-h-screen flex dark-bento-page">
+        {/* Left Side: Form */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center px-6 lg:px-12 relative z-10 py-12 lg:py-24 overflow-y-auto">
+          <div className="w-full max-w-2xl">
 
-          <h1 className="text-3xl font-bold text-center text-white">
-            Create Account
-          </h1>
-
-          <p className="text-center text-gray-400 mt-2">
-            Join SkillSwap and start learning today.
-          </p>
+            <div className="mb-10 text-center lg:text-left">
+              <Link to="/" className="inline-flex lg:flex items-center gap-2 mb-6 lg:mb-8">
+                <img src="/assets/logo.png" alt="Logo" className="w-10 h-10 object-contain" />
+                <span className="bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text font-bold text-xl">SkillSwap</span>
+              </Link>
+              <h1 className="text-3xl lg:text-4xl font-extrabold text-white mb-3">
+                Create Account
+              </h1>
+              <p className="text-gray-400 text-lg">
+                Join SkillSwap and start learning today.
+              </p>
+            </div>
 
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -447,7 +454,7 @@ function Register() {
             <button
               type="submit"
               disabled={loading}
-              className="md:col-span-2 bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl font-semibold flex justify-center items-center gap-2 disabled:opacity-60 shadow-md transition-colors mt-2"
+              className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white py-3.5 rounded-xl font-bold flex justify-center items-center gap-2 transition-all duration-300 disabled:opacity-60 shadow-[0_0_20px_rgba(124,58,237,0.3)] hover:shadow-[0_0_25px_rgba(124,58,237,0.5)] hover:-translate-y-0.5 mt-8"
             >
               <UserPlus size={20} />
               {loading ? "Creating Account..." : "Register"}
@@ -517,9 +524,51 @@ function Register() {
                   }}
                 />
               </label>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Right Side: Animated/Graphic Area */}
+        <div className="hidden lg:flex w-1/2 fixed right-0 top-0 bottom-0 bg-[#0B090F] overflow-hidden items-center justify-center border-l border-[#2F293A]">
+          {/* Abstract glowing blobs */}
+          <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-pink-600/20 rounded-full blur-[120px] animate-pulse"></div>
+          <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-purple-600/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }}></div>
+          
+          <div className="relative z-10 text-center max-w-lg px-8">
+            <div className="glass-panel p-8 rounded-3xl border border-white/5 shadow-2xl backdrop-blur-md bg-white/5 relative">
+              <div className="absolute -top-6 -right-6 text-6xl opacity-50">🚀</div>
+              <h2 className="text-3xl font-bold text-white mb-4 leading-tight">
+                Swap Skills. Grow Together.
+              </h2>
+              <p className="text-gray-300 text-lg leading-relaxed">
+                SkillSwap is the ultimate platform for finding mentors, offering your expertise, and leveling up your career.
+              </p>
+              
+              <div className="mt-8 grid grid-cols-2 gap-4">
+                <div className="bg-[#1A1625]/50 border border-purple-500/30 p-4 rounded-xl backdrop-blur-sm">
+                  <div className="text-2xl mb-2">🤝</div>
+                  <div className="text-white font-medium">Connect</div>
+                </div>
+                <div className="bg-[#1A1625]/50 border border-pink-500/30 p-4 rounded-xl backdrop-blur-sm">
+                  <div className="text-2xl mb-2">🧠</div>
+                  <div className="text-white font-medium">Learn</div>
+                </div>
+                <div className="bg-[#1A1625]/50 border border-indigo-500/30 p-4 rounded-xl backdrop-blur-sm">
+                  <div className="text-2xl mb-2">🎓</div>
+                  <div className="text-white font-medium">Teach</div>
+                </div>
+                <div className="bg-[#1A1625]/50 border border-blue-500/30 p-4 rounded-xl backdrop-blur-sm">
+                  <div className="text-2xl mb-2">🏆</div>
+                  <div className="text-white font-medium">Achieve</div>
+                </div>
+              </div>
             </div>
           </div>
-        )}
+          
+          {/* Decorative grid */}
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgc3Ryb2tlPSIjMjkyOTM1IiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIG9wYWNpdHk9IjAuMSI+PHBhdGggZD0iTTAgNjBoNjBNNjAgMGwwIDYwIi8+PC9nPjwvc3ZnPg==')] pointer-events-none"></div>
+        </div>
 
       </div>
     </>

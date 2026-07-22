@@ -7,6 +7,7 @@ import Sidebar from "../components/Sidebar";
 import LoadingSpinner from "../components/LoadingSpinner";
 import EmptyState from "../components/EmptyState";
 import UserCard from "../components/UserCard";
+import MatchSwiper from "../components/MatchSwiper";
 import { toast } from "react-hot-toast";
 
 import { useAuth } from "../context/AuthContext";
@@ -20,6 +21,7 @@ function Matches() {
   const [loading, setLoading] = useState(true);
   const [matches, setMatches] = useState([]);
   const [requests, setRequests] = useState([]);
+  const [viewMode, setViewMode] = useState("swipe"); // 'grid' or 'swipe'
 
   useEffect(() => {
     fetchMatches();
@@ -104,15 +106,45 @@ function Matches() {
               />
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 relative z-10">
-              {matches.map((matchUser) => (
-                <UserCard 
-                  key={matchUser._id} 
-                  user={matchUser} 
-                  onRequest={handleSwapRequest}
-                  requestStatus={getRequestStatus(matchUser._id)}
-                />
-              ))}
+            <div className="relative z-10">
+              {/* View Mode Toggle */}
+              <div className="flex justify-end mb-6">
+                <div className="flex bg-[#120F17] p-1 rounded-lg border border-[#2F293A]">
+                   <button
+                     onClick={() => setViewMode('grid')}
+                     className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${viewMode === 'grid' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                   >
+                      Grid
+                   </button>
+                   <button
+                     onClick={() => setViewMode('swipe')}
+                     className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${viewMode === 'swipe' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                   >
+                      Swipe
+                   </button>
+                </div>
+              </div>
+
+              {viewMode === 'grid' ? (
+                <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {matches.map((matchUser) => (
+                    <UserCard 
+                      key={matchUser._id} 
+                      user={matchUser} 
+                      onRequest={handleSwapRequest}
+                      requestStatus={getRequestStatus(matchUser._id)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="pt-4">
+                  <MatchSwiper 
+                    users={matches} 
+                    onRequest={handleSwapRequest} 
+                    requestStatusGetter={getRequestStatus} 
+                  />
+                </div>
+              )}
             </div>
           )}
         </main>
