@@ -102,7 +102,7 @@ function UserProfile() {
       <Navbar />
 
       <div className="flex min-h-screen dark-bento-page">
-        <Sidebar />
+        {/* <Sidebar /> */}
 
         <main className="flex-1 p-4 md:p-8 max-w-full overflow-x-hidden">
 
@@ -245,7 +245,7 @@ function UserProfile() {
                   Portfolio Showcase
                 </h2>
               </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                 {user.achievements.map((ach, idx) => (
                   <ProjectCard 
                     key={idx} 
