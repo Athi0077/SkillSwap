@@ -73,8 +73,15 @@ function Navbar() {
                   <Search size={20} />
                 </NavLink> */}
 
-                <NavLink to="/profile" className={desktopLinkClass}>
-                  {user?.name || "Profile"}
+                <NavLink 
+                  to="/profile" 
+                  className={({ isActive }) => `flex items-center justify-center rounded-full border-2 transition-all p-0.5 ${isActive ? 'border-purple-500' : 'border-transparent hover:border-purple-400'}`}
+                >
+                  <img
+                    src={user?.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=3B82F6&color=fff`}
+                    alt={user?.name || "Profile"}
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
                 </NavLink>
 
                 <button
@@ -167,7 +174,14 @@ function Navbar() {
                 </NavLink>
 
                 <NavLink to="/profile" className={mobileLinkClass} onClick={closeMenu}>
-                  {user?.name || "Profile"}
+                  <div className="flex items-center justify-center gap-2">
+                    <img
+                      src={user?.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=3B82F6&color=fff`}
+                      alt="Profile"
+                      className="w-5 h-5 rounded-full object-cover"
+                    />
+                    <span>Profile</span>
+                  </div>
                 </NavLink>
 
                 <NavLink to="/credits" className={mobileLinkClass} onClick={closeMenu}>

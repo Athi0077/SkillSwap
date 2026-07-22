@@ -9,6 +9,8 @@ import {
   ArrowRight,
   ChevronDown,
   ChevronUp,
+  Trophy,
+  ExternalLink,
 } from "lucide-react";
 
 const levelColors = {
@@ -74,6 +76,12 @@ function UserSkillCard({ user, skills, onRequest }) {
                 <Clock size={12} />
                 {user?.availability || "Flexible"}
               </span>
+              {user?.gender && user.gender !== "Not Mentioned" && (
+                <span className="flex items-center gap-1 text-blue-100 text-xs">
+                  <User size={12} />
+                  {user.gender}
+                </span>
+              )}
             </div>
           </div>
 
@@ -149,6 +157,32 @@ function UserSkillCard({ user, skills, onRequest }) {
           </button>
         )}
       </div>
+
+
+
+      {/* Achievements / Projects */}
+      {user?.achievements?.length > 0 && (
+        <div className="px-4 pb-4">
+          <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <Trophy size={14} className="text-yellow-500" /> Projects
+          </h4>
+          <div className="flex flex-wrap gap-2">
+            {user.achievements.map((ach, idx) => (
+              <a
+                key={idx}
+                href={ach.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-purple-100 text-purple-700 border border-purple-200 px-2 py-1 rounded-md text-[11px] flex items-center gap-1 hover:bg-purple-200 transition-colors"
+                title={ach.title}
+              >
+                <span className="truncate max-w-[100px] font-medium">{ach.title}</span>
+                <ExternalLink size={10} />
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <div className="px-4 pb-4">

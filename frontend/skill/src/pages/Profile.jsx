@@ -9,6 +9,8 @@ import {
   Award,
   Edit,
   Share2,
+  Plus,
+  X,
 } from "lucide-react";
 import { FaLinkedin, FaTwitter, FaInstagram, FaYoutube, FaWhatsapp, FaGithub, FaGlobe } from "react-icons/fa";
 
@@ -19,16 +21,23 @@ import ReviewCard from "../components/ReviewCard";
 import Lanyard from "../components/Lanyard";
 import AchievementBadge from "../components/AchievementBadge";
 import SkillAnalytics from "../components/SkillAnalytics";
+import ProjectCard from "../components/ProjectCard";
 
-import { getMyProfile } from "../services/userService";
+import { getMyProfile, updateProfile } from "../services/userService";
 import { getUserReviews } from "../services/reviewService";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "react-hot-toast";
 
 function Profile() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [reviews, setReviews] = useState([]);
+  
+  const [showAchievementModal, setShowAchievementModal] = useState(false);
+  const [newAchievement, setNewAchievement] = useState({ title: "", link: "", description: "", techStack: "" });
+  const [savingAchievement, setSavingAchievement] = useState(false);
+  const [editingProjectIndex, setEditingProjectIndex] = useState(null);
 
   const getSocialIcon = (platform) => {
     switch (platform?.toLowerCase()) {
@@ -61,6 +70,72 @@ function Profile() {
       console.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAddAchievement = async (e) => {
+    e.preventDefault();
+    if (!newAchievement.title || !newAchievement.link) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+    
+    try {
+      setSavingAchievement(true);
+      let updatedAchievements = [...(user.achievements || [])];
+      
+      const formattedProject = {
+        title: newAchievement.title,
+        link: newAchievement.link,
+        description: newAchievement.description,
+        techStack: typeof newAchievement.techStack === 'string' 
+          ? newAchievement.techStack.split(",").map(t => t.trim()).filter(t => t) 
+          : newAchievement.techStack
+      };
+      
+      if (editingProjectIndex !== null) {
+        updatedAchievements[editingProjectIndex] = formattedProject;
+      } else {
+        updatedAchievements.push(formattedProject);
+      }
+      
+      const res = await updateProfile({ achievements: updatedAchievements });
+      if (res.success) {
+        setUser(res.user);
+        toast.success(editingProjectIndex !== null ? "Project updated!" : "Project added!");
+        setShowAchievementModal(false);
+        setNewAchievement({ title: "", link: "", description: "", techStack: "" });
+        setEditingProjectIndex(null);
+      }
+    } catch (error) {
+      toast.error(error.message || "Failed to save project");
+    } finally {
+      setSavingAchievement(false);
+    }
+  };
+
+  const handleEditProject = (index) => {
+    const project = user.achievements[index];
+    setNewAchievement({
+      ...project,
+      techStack: Array.isArray(project.techStack) ? project.techStack.join(", ") : project.techStack
+    });
+    setEditingProjectIndex(index);
+    setShowAchievementModal(true);
+  };
+
+  const handleDeleteProject = async (index) => {
+    if (!window.confirm("Are you sure you want to delete this project?")) return;
+    
+    try {
+      const updatedAchievements = user.achievements.filter((_, i) => i !== index);
+      const res = await updateProfile({ achievements: updatedAchievements });
+      if (res.success) {
+        setUser(res.user);
+        toast.success("Project deleted!");
+      }
+    } catch (error) {
+      toast.error(error.message || "Failed to delete project");
     }
   };
 
@@ -154,7 +229,49 @@ function Profile() {
                   </div>
                 </div>
               </div>
+            </div>
 
+            {/* Portfolio Showcase */}
+            <div className="mt-12 relative z-10 w-full">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                  Portfolio Showcase
+                </h2>
+                <button
+                  onClick={() => {
+                    setEditingProjectIndex(null);
+                    setNewAchievement({ title: "", link: "", description: "", techStack: "" });
+                    setShowAchievementModal(true);
+                  }}
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                >
+                  <Plus size={16} /> Add Project
+                </button>
+              </div>
+
+              {user?.achievements?.length > 0 ? (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {user.achievements.map((ach, idx) => (
+                    <ProjectCard 
+                      key={idx} 
+                      project={ach} 
+                      isOwner={true} 
+                      onEdit={() => handleEditProject(idx)}
+                      onDelete={() => handleDeleteProject(idx)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12 bg-[#1A1625] border border-[#2F293A] rounded-2xl border-dashed">
+                  <div className="w-16 h-16 bg-[#2F293A] rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Plus size={24} className="text-gray-400" />
+                  </div>
+                  <h3 className="text-lg font-medium text-white mb-2">No projects yet</h3>
+                  <p className="text-gray-400 max-w-sm mx-auto">
+                    Showcase your work! Add projects you've built to make your profile stand out.
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Share Profile Button */}
@@ -221,6 +338,8 @@ function Profile() {
               </div>
             </div>
           </div>
+
+
 
           {/* 3D Lanyard ID Card */}
           <div className="mt-8 relative z-10 w-full flex justify-center bg-[#120F17] rounded-3xl overflow-hidden border border-[#2F293A] shadow-lg">
@@ -320,6 +439,86 @@ function Profile() {
 
         </main>
       </div>
+
+      {/* Achievement Modal */}
+      {showAchievementModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-[#120F17] border border-[#2F293A] rounded-2xl w-full max-w-md p-6 relative shadow-2xl">
+            <button
+              type="button"
+              onClick={() => setShowAchievementModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors p-1"
+            >
+              <X size={24} />
+            </button>
+            
+            <h2 className="text-xl font-bold text-white mb-6">Add Project</h2>
+            
+            <form onSubmit={handleAddAchievement} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Project Title
+                </label>
+                <input
+                  type="text"
+                  value={newAchievement.title}
+                  onChange={(e) => setNewAchievement({ ...newAchievement, title: e.target.value })}
+                  className="w-full bg-[#1A1625] border border-[#2F293A] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                  placeholder="e.g. SkillSwap Platform"
+                  required
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Project URL
+                </label>
+                <input
+                  type="url"
+                  value={newAchievement.link}
+                  onChange={(e) => setNewAchievement({ ...newAchievement, link: e.target.value })}
+                  className="w-full bg-[#1A1625] border border-[#2F293A] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                  placeholder="e.g. https://github.com/..."
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Short Description
+                </label>
+                <textarea
+                  value={newAchievement.description}
+                  onChange={(e) => setNewAchievement({ ...newAchievement, description: e.target.value })}
+                  className="w-full bg-[#1A1625] border border-[#2F293A] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors resize-none h-24"
+                  placeholder="Briefly describe what this project does..."
+                ></textarea>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Tech Stack (comma-separated)
+                </label>
+                <input
+                  type="text"
+                  value={newAchievement.techStack}
+                  onChange={(e) => setNewAchievement({ ...newAchievement, techStack: e.target.value })}
+                  className="w-full bg-[#1A1625] border border-[#2F293A] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                  placeholder="e.g. React, Node.js, MongoDB"
+                />
+              </div>
+              
+              <button
+                type="submit"
+                disabled={savingAchievement}
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl transition-colors mt-6 disabled:opacity-50"
+              >
+                {savingAchievement ? "Saving..." : "Save Project"}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -63,6 +63,7 @@ export default function AchievementBadge({ user }) {
         <Trophy className="text-yellow-500" size={20} />
         Achievements
       </h3>
+      
       <div className="flex flex-wrap gap-4">
         {earnedBadges.map((badge) => (
           <div
@@ -78,6 +79,7 @@ export default function AchievementBadge({ user }) {
             </div>
           </div>
         ))}
+
       </div>
     </div>
   );

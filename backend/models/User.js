@@ -74,6 +74,15 @@ const userSchema = new mongoose.Schema(
       },
     ],
 
+    achievements: [
+      {
+        title: String,
+        link: String,
+        description: String,
+        techStack: [String],
+      },
+    ],
+
     rating: {
       type: Number,
       default: 0,

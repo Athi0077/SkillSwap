@@ -12,6 +12,7 @@ import ReviewCard from "../components/ReviewCard";
 import Lanyard from "../components/Lanyard";
 import AchievementBadge from "../components/AchievementBadge";
 import SkillAnalytics from "../components/SkillAnalytics";
+import ProjectCard from "../components/ProjectCard";
 import { toast } from "react-hot-toast";
 
 import { getUserById } from "../services/userService";
@@ -236,8 +237,28 @@ function UserProfile() {
 
           </div>
 
+          {/* Portfolio Showcase */}
+          {user?.achievements?.length > 0 && (
+            <div className="mt-12 relative z-10 w-full">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                  Portfolio Showcase
+                </h2>
+              </div>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {user.achievements.map((ach, idx) => (
+                  <ProjectCard 
+                    key={idx} 
+                    project={ach} 
+                    isOwner={false} 
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* 3D Lanyard ID Card */}
-          <div className="mt-8 relative z-10 w-full flex justify-center bg-[#120F17] rounded-3xl overflow-hidden border border-[#2F293A] shadow-lg">
+          <div className="mt-12 relative z-10 w-full flex justify-center bg-[#120F17] rounded-3xl overflow-hidden border border-[#2F293A] shadow-lg">
             <Lanyard
               position={[0, 0, 24]}
               gravity={[0, -40, 0]}

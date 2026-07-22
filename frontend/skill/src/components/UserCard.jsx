@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Tilt from "react-parallax-tilt";
-import { Star, MapPin, User as UserIcon } from "lucide-react";
+import { Star, MapPin, User as UserIcon, Trophy, ExternalLink } from "lucide-react";
 import { FaLinkedin, FaTwitter, FaInstagram, FaYoutube, FaWhatsapp, FaGithub, FaGlobe } from "react-icons/fa";
 
 function UserCard({
@@ -94,6 +94,8 @@ function UserCard({
           </span>
         </div>
 
+
+
         {/* Skills Offered */}
         <div className="mt-5 text-left">
           <h3 className="font-semibold mb-2 text-gray-200">
@@ -129,6 +131,32 @@ function UserCard({
             ))}
           </div>
         </div>
+
+
+
+        {/* Achievements / Projects */}
+        {user?.achievements?.length > 0 && (
+          <div className="mt-5 text-left">
+            <h3 className="font-semibold mb-2 text-gray-200 flex items-center gap-1.5">
+              <Trophy size={16} className="text-yellow-500" /> Projects
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {user.achievements.map((ach, idx) => (
+                <a
+                  key={idx}
+                  href={ach.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-purple-900/50 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs flex items-center gap-1.5 hover:bg-purple-900/80 transition-colors"
+                  title={ach.title}
+                >
+                  <span className="truncate max-w-[120px]">{ach.title}</span>
+                  <ExternalLink size={10} />
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Social Links */}
         {user?.socialLinks?.length > 0 && (
