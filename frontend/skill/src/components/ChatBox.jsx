@@ -230,7 +230,7 @@ function ChatBox({
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="sticky bottom-0 z-20 shrink-0 bg-[#120F17]/90 backdrop-blur-xl border-t border-[#2F293A] p-4 max-md:pb-24 flex gap-3">
+      <form onSubmit={handleSubmit} className="sticky bottom-0 z-20 shrink-0 bg-[#120F17]/90 backdrop-blur-xl border-t border-[#2F293A] p-4 flex gap-3">
         <input
           type="text"
           placeholder="Type your message..."

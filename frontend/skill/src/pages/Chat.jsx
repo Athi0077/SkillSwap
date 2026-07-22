@@ -22,7 +22,7 @@ import { useAuth } from "../context/AuthContext";
 
 function Chat() {
   const { user } = useAuth();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const targetUserId = searchParams.get("userId");
 
   const [loading, setLoading] = useState(true);
@@ -159,6 +159,7 @@ function Chat() {
   const selectChat = async (chat) => {
     try {
       setSelectedChat(chat);
+      setSearchParams({ userId: chat._id }, { replace: true });
 
       const res = await getMessages(chat._id);
       setMessages(res.messages || []);
@@ -298,7 +299,10 @@ function Chat() {
                         socketRef.current.emit("stopTyping", { senderId: user._id, receiverId: otherUser._id });
                       }
                     }}
-                    onBack={() => setSelectedChat(null)}
+                    onBack={() => {
+                      setSelectedChat(null);
+                      setSearchParams({}, { replace: true });
+                    }}
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center h-full text-center p-8 relative overflow-hidden">

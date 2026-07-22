@@ -1,11 +1,18 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useSearchParams } from "react-router-dom";
 import { Home, Search, MessageCircle, User } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 export default function MobileDock() {
   const { user, isAuthenticated } = useAuth();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
 
   if (!isAuthenticated) return null;
+
+  // Hide the dock when inside an active chat session
+  if (location.pathname === "/chat" && searchParams.get("userId")) {
+    return null;
+  }
 
   const dockLinkClass = ({ isActive }) =>
     `flex flex-col items-center justify-center w-14 h-14 rounded-2xl transition-all duration-300 ${
