@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Tilt from "react-parallax-tilt";
 import { Star, MapPin, User as UserIcon, Trophy, ExternalLink } from "lucide-react";
 import { FaLinkedin, FaTwitter, FaInstagram, FaYoutube, FaWhatsapp, FaGithub, FaGlobe } from "react-icons/fa";
-import ColorThief from "colorthief";
+import { getColorSync } from "colorthief";
 import { useState, useRef } from "react";
 
 function UserCard({
@@ -16,10 +16,10 @@ function UserCard({
 
   const handleImageLoad = () => {
     try {
-      const colorThief = new ColorThief();
-      const color = colorThief.getColor(imgRef.current);
+      const color = getColorSync(imgRef.current);
       if (color) {
-        setDominantColor(`${color[0]}, ${color[1]}, ${color[2]}`);
+        const rgb = color.rgb();
+        setDominantColor(`${rgb.r}, ${rgb.g}, ${rgb.b}`);
       }
     } catch (e) {
       // Ignore cross-origin errors for external images if they occur
