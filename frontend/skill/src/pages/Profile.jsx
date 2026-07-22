@@ -20,7 +20,6 @@ import Loader from "../components/Loader";
 import ReviewCard from "../components/ReviewCard";
 import Lanyard from "../components/Lanyard";
 import AchievementBadge from "../components/AchievementBadge";
-import AchievementModal from "../components/AchievementModal";
 import MagneticButton from "../components/MagneticButton";
 import SkillAnalytics from "../components/SkillAnalytics";
 import ProjectCard from "../components/ProjectCard";
