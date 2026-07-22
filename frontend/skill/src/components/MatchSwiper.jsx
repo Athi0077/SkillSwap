@@ -80,7 +80,7 @@ const MatchSwiper = ({ users, onRequest, requestStatusGetter }) => {
     <div className="flex flex-col items-center justify-center w-full max-w-sm mx-auto mt-4">
       
       {/* Cards Container */}
-      <div className="relative w-full h-[450px] mb-8">
+      <div className="relative w-full h-[65vh] sm:h-[500px] mb-8 max-h-[600px]">
         {users.map((user, index) => (
           <TinderCard
             ref={childRefs[index]}
@@ -124,15 +124,36 @@ const MatchSwiper = ({ users, onRequest, requestStatusGetter }) => {
                  <p className="text-gray-400 text-sm mb-3">@{user.username}</p>
 
                  {/* Skills preview */}
-                 <div className="flex flex-wrap gap-2 mb-2">
-                    {user.skillsOffered?.slice(0, 3).map(skill => (
-                      <span key={skill} className="bg-purple-900/40 border border-purple-500/30 text-purple-300 px-2 py-1 rounded-md text-xs font-medium">
-                        {skill}
-                      </span>
-                    ))}
-                    {(user.skillsOffered?.length || 0) > 3 && (
-                      <span className="text-xs text-gray-500 self-center">+{user.skillsOffered.length - 3} more</span>
-                    )}
+                 <div className="flex flex-col gap-3">
+                   <div>
+                     <p className="text-xs text-gray-400 mb-1 uppercase tracking-wider">Offers</p>
+                     <div className="flex flex-wrap gap-2">
+                        {user.skillsOffered?.slice(0, 3).map(skill => (
+                          <span key={`offered-${skill}`} className="bg-purple-900/40 border border-purple-500/30 text-purple-300 px-2 py-1 rounded-md text-xs font-medium">
+                            {skill}
+                          </span>
+                        ))}
+                        {(user.skillsOffered?.length || 0) > 3 && (
+                          <span className="text-xs text-gray-500 self-center">+{user.skillsOffered.length - 3}</span>
+                        )}
+                     </div>
+                   </div>
+                   
+                   {(user.skillsWanted?.length > 0) && (
+                     <div>
+                       <p className="text-xs text-gray-400 mb-1 uppercase tracking-wider">Wants</p>
+                       <div className="flex flex-wrap gap-2">
+                          {user.skillsWanted?.slice(0, 3).map(skill => (
+                            <span key={`wanted-${skill}`} className="bg-blue-900/40 border border-blue-500/30 text-blue-300 px-2 py-1 rounded-md text-xs font-medium">
+                              {skill}
+                            </span>
+                          ))}
+                          {(user.skillsWanted?.length || 0) > 3 && (
+                            <span className="text-xs text-gray-500 self-center">+{user.skillsWanted.length - 3}</span>
+                          )}
+                       </div>
+                     </div>
+                   )}
                  </div>
               </div>
 
