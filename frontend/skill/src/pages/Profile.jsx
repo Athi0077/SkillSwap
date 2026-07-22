@@ -20,6 +20,8 @@ import Loader from "../components/Loader";
 import ReviewCard from "../components/ReviewCard";
 import Lanyard from "../components/Lanyard";
 import AchievementBadge from "../components/AchievementBadge";
+import AchievementModal from "../components/AchievementModal";
+import MagneticButton from "../components/MagneticButton";
 import SkillAnalytics from "../components/SkillAnalytics";
 import ProjectCard from "../components/ProjectCard";
 
@@ -237,7 +239,7 @@ function Profile() {
                 <h2 className="text-2xl font-bold text-white flex items-center gap-2">
                   Portfolio Showcase
                 </h2>
-                <button
+                <MagneticButton
                   onClick={() => {
                     setEditingProjectIndex(null);
                     setNewAchievement({ title: "", link: "", description: "", techStack: "" });
@@ -246,7 +248,7 @@ function Profile() {
                   className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2"
                 >
                   <Plus size={16} /> Add Project
-                </button>
+                </MagneticButton>
               </div>
 
               {user?.achievements?.length > 0 ? (

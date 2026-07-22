@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 
 import ScheduleModal from "./ScheduleModal";
 import { createSchedule } from "../services/scheduleService";
+import MagneticButton from "./MagneticButton";
 
 function ChatBox({
   messages = [],
@@ -238,12 +239,12 @@ function ChatBox({
           onChange={handleInputChange}
           className="flex-1 border border-[#2F293A] bg-[#0B090F]/50 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-gray-500 transition-all shadow-inner"
         />
-        <button
+        <MagneticButton
           type="submit"
-          className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white px-5 rounded-xl transition-all duration-200 active:scale-95 hover:shadow-[0_4px_15px_rgba(168,85,247,0.4)]"
+          className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white px-5 rounded-xl transition-all duration-200 hover:shadow-[0_4px_15px_rgba(168,85,247,0.4)] h-[46px] flex items-center justify-center"
         >
           <Send size={20} />
-        </button>
+        </MagneticButton>
       </form>
 
       {/* Schedule Modal */}

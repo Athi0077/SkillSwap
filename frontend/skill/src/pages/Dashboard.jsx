@@ -11,7 +11,7 @@ import {
 
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import LoadingSpinner from "../components/LoadingSpinner";
+import DashboardSkeleton from "../components/DashboardSkeleton";
 import EmptyState from "../components/EmptyState";
 import UserCard from "../components/UserCard";
 import { toast } from "react-hot-toast";
@@ -72,7 +72,7 @@ function Dashboard() {
   };
 
   if (loading) {
-    return <LoadingSpinner fullScreen message="Loading dashboard..." />;
+    return <DashboardSkeleton />;
   }
 
   const activeSessions = sessions.filter(

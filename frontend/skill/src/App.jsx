@@ -1,4 +1,6 @@
-import { Routes, Route } from "react-router-dom"; // trigger HMR
+import { Routes, Route, useLocation } from "react-router-dom"; // trigger HMR
+import { AnimatePresence } from "framer-motion";
+import PageTransition from "./components/PageTransition";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -29,175 +31,179 @@ import MobileDock from "./components/MobileDock";
 import { Toaster } from "react-hot-toast";
 
 function App() {
+  const location = useLocation();
+
   return (
     <>
       <MouseGlow />
       <ClickSpark />
       <Toaster position="top-right" />
       <MobileDock />
-      <Routes>
-        {/* Public Routes */}
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          {/* Public Routes */}
+        <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+        <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
+        <Route path="/register" element={<PageTransition><Register /></PageTransition>} />
 
-      {/* Protected Routes */}
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      />
+        {/* Protected Routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <PageTransition><Dashboard /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/profile"
-        element={
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <PageTransition><Profile /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/profile/edit"
-        element={
-          <ProtectedRoute>
-            <EditProfile />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/profile/edit"
+          element={
+            <ProtectedRoute>
+              <PageTransition><EditProfile /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/find-skills"
-        element={
-          <ProtectedRoute>
-            <FindSkills />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/find-skills"
+          element={
+            <ProtectedRoute>
+              <PageTransition><FindSkills /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/matches"
-        element={
-          <ProtectedRoute>
-            <Matches />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/matches"
+          element={
+            <ProtectedRoute>
+              <PageTransition><Matches /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/user/:id"
-        element={
-          <ProtectedRoute>
-            <UserProfile />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/user/:id"
+          element={
+            <ProtectedRoute>
+              <PageTransition><UserProfile /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/requests"
-        element={
-          <ProtectedRoute>
-            <Requests />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/requests"
+          element={
+            <ProtectedRoute>
+              <PageTransition><Requests /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/chat"
-        element={
-          <ProtectedRoute>
-            <Chat />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <PageTransition><Chat /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/friends"
-        element={
-          <ProtectedRoute>
-            <SwapFriends />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/friends"
+          element={
+            <ProtectedRoute>
+              <PageTransition><SwapFriends /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/search"
-        element={
-          <ProtectedRoute>
-            <SearchUsers />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/search"
+          element={
+            <ProtectedRoute>
+              <PageTransition><SearchUsers /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/schedule"
-        element={
-          <ProtectedRoute>
-            <Schedule />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/schedule"
+          element={
+            <ProtectedRoute>
+              <PageTransition><Schedule /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/credits"
-        element={
-          <ProtectedRoute>
-            <Credits />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/credits"
+          element={
+            <ProtectedRoute>
+              <PageTransition><Credits /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/leaderboard"
-        element={
-          <ProtectedRoute>
-            <Leaderboard />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/leaderboard"
+          element={
+            <ProtectedRoute>
+              <PageTransition><Leaderboard /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/reviews"
-        element={
-          <ProtectedRoute>
-            <Reviews />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/reviews"
+          element={
+            <ProtectedRoute>
+              <PageTransition><Reviews /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/hubs"
-        element={
-          <ProtectedRoute>
-            <Hubs />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/hubs"
+          element={
+            <ProtectedRoute>
+              <PageTransition><Hubs /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/hubs/:id"
-        element={
-          <ProtectedRoute>
-            <HubDetails />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/hubs/:id"
+          element={
+            <ProtectedRoute>
+              <PageTransition><HubDetails /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/video-call/:sessionId"
-        element={
-          <ProtectedRoute>
-            <VideoCall />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/video-call/:sessionId"
+          element={
+            <ProtectedRoute>
+              <PageTransition><VideoCall /></PageTransition>
+            </ProtectedRoute>
+          }
+        />
 
-      {/* 404 */}
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+        {/* 404 */}
+        <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+      </Routes>
+    </AnimatePresence>
     </>
   );
 }

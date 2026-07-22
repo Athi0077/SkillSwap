@@ -18,6 +18,8 @@
     "@tailwindcss/vite": "^4.3.2",
     "axios": "^1.18.1",
     "canvas-confetti": "^1.9.4",
+    "colorthief": "^3.4.0",
+    "framer-motion": "^12.42.2",
     "gsap": "^3.15.0",
     "lucide-react": "^1.23.0",
     "meshline": "^3.3.1",

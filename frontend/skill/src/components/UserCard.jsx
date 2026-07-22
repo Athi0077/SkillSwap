@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import Tilt from "react-parallax-tilt";
 import { Star, MapPin, User as UserIcon, Trophy, ExternalLink } from "lucide-react";
 import { FaLinkedin, FaTwitter, FaInstagram, FaYoutube, FaWhatsapp, FaGithub, FaGlobe } from "react-icons/fa";
+import ColorThief from "colorthief";
+import { useState, useRef } from "react";
 
 function UserCard({
   user,
@@ -9,6 +11,20 @@ function UserCard({
   requestStatus,
   isFriendMode,
 }) {
+  const [dominantColor, setDominantColor] = useState("132, 0, 255");
+  const imgRef = useRef(null);
+
+  const handleImageLoad = () => {
+    try {
+      const colorThief = new ColorThief();
+      const color = colorThief.getColor(imgRef.current);
+      if (color) {
+        setDominantColor(`${color[0]}, ${color[1]}, ${color[2]}`);
+      }
+    } catch (e) {
+      // Ignore cross-origin errors for external images if they occur
+    }
+  };
   const getSocialIcon = (platform) => {
     switch (platform?.toLowerCase()) {
       case "linkedin": return <FaLinkedin size={16} />;
@@ -33,14 +49,23 @@ function UserCard({
       scale={1.02}
       className="h-full w-full rounded-2xl md:rounded-3xl"
     >
-      <div className="glow-card-wrapper h-full bg-[#120F17] hover:shadow-[0_8px_30px_rgb(168,85,247,0.15)] transition-all duration-300 overflow-hidden group">
+      <div 
+        className="glow-card-wrapper h-full bg-[#120F17] hover:shadow-[0_8px_30px_rgba(var(--glow-color),0.15)] transition-all duration-300 overflow-hidden group"
+        style={{ '--glow-color': dominantColor }}
+      >
 
       {/* Cover */}
-      <div className="h-24 bg-gradient-to-r from-purple-600 to-indigo-600"></div>
+      <div 
+        className="h-24 opacity-80" 
+        style={{ background: `linear-gradient(to right, rgba(${dominantColor}, 0.5), rgba(${dominantColor}, 1))` }}
+      ></div>
 
       {/* Avatar */}
       <div className="flex justify-center -mt-12">
         <img
+          ref={imgRef}
+          onLoad={handleImageLoad}
+          crossOrigin="anonymous"
           src={
             user?.profileImage ||
             `https://ui-avatars.com/api/?name=${encodeURIComponent(
