@@ -68,7 +68,7 @@ function Hubs() {
       <Navbar />
 
       <div className="flex min-h-screen dark-bento-page">
-        <Sidebar />
+        {/* <Sidebar /> */}
 
         <main className="flex-1 p-4 md:p-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 relative z-10">

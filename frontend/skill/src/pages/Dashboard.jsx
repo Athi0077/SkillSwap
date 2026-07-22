@@ -109,7 +109,7 @@ function Dashboard() {
 
       <div className="flex dark-bento-page min-h-screen">
 
-        <Sidebar />
+        {/* <Sidebar /> */}
 
         <main className="flex-1 p-4 md:p-8 max-h-screen overflow-y-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">

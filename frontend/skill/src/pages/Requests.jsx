@@ -144,7 +144,7 @@ function Requests() {
       <Navbar />
 
       <div className="flex min-h-screen dark-bento-page">
-        <Sidebar />
+        {/* <Sidebar /> */}
 
         <main className="flex-1 p-8">
 

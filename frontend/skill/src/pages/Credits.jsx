@@ -48,7 +48,7 @@ function Credits() {
     <>
       <Navbar />
       <div className="flex min-h-screen dark-bento-page">
-        <Sidebar />
+        {/* <Sidebar /> */}
         <main className="flex-1 p-8">
           
           <div className="glow-card-wrapper bg-[#120F17] p-8 mb-8 relative">

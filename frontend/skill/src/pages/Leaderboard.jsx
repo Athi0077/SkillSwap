@@ -52,7 +52,7 @@ function Leaderboard() {
       <Navbar />
 
       <div className="flex min-h-screen dark-bento-page">
-        <Sidebar />
+        {/* <Sidebar /> */}
 
         <main className="flex-1 p-8">
           <div className="flex items-center gap-4 mb-8 relative z-10">

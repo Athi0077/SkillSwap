@@ -94,7 +94,7 @@ function SearchUsers() {
       <Navbar />
 
       <div className="flex min-h-screen dark-bento-page">
-        <Sidebar />
+        {/* <Sidebar /> */}
 
         <main className="flex-1 p-8">
           <div className="mb-8 relative z-10">
