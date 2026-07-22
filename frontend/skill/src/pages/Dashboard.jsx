@@ -276,7 +276,7 @@ function Dashboard() {
                 <div className="flex flex-col gap-5">
                   {recommendedUsers
                     .filter((u) => u._id !== user?._id)
-                    .slice(0, 4)
+                    .slice(0, 3)
                     .map((item) => (
                       <UserCard
                         key={item._id}
